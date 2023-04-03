@@ -1,4 +1,4 @@
-package com.example.vilki_palki;
+package lab.space.vilki_palki;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

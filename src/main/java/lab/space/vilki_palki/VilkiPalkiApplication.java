@@ -1,4 +1,4 @@
-package com.example.vilki_palki;
+package lab.space.vilki_palki;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
