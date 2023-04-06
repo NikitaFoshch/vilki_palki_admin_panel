@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{admin-panel/fragments/head :: head}"></head>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+
+  <!-- Navbar -->
+  <th:block th:insert="~{admin-panel/fragments/navbar :: navbar}"></th:block>
+
+  <!-- /.navbar -->
+  <!-- Main Sidebar Container -->
+  <aside class="main-sidebar sidebar-dark vilki-mod elevation-4">
+    <!-- Brand Logo -->
+    <a href="/admin/statistics" class="brand-link ml-2">
+      <img src="/img/img_1.png" alt="AdminLTE Logo" class="brand-image elevation-3 brand-image-xl">
+      <span class="brand-text font-weight-light text-light text-lg ml-2"> ВИЛКИ-ПАЛКИ</span>
+    </a>
+
+    <!-- Sidebar -->
+    <th:block th:insert="~{admin-panel/fragments/sidebar :: sidebar}"></th:block>
+    <!-- /.sidebar -->
+  </aside>
+
+  <div class="content-wrapper">
+    <div class="content">
+      <div class="container-fluid pt-4">
+      </div>
+    </div>
+  </div>
+</div>
+<th:block th:insert="~{admin-panel/fragments/js :: js}"></th:block>
+</body>
+</html>
