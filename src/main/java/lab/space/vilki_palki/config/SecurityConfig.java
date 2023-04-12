@@ -17,17 +17,21 @@ public class SecurityConfig {
                 .csrf()
                 .disable()
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/css/**","/img/**","/js/**").permitAll()
-                        .anyRequest().permitAll()
+                        .requestMatchers("/css/**", "/img/**", "/js/**").permitAll()
+                        .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
-                        .loginPage("/login")
+                        .loginPage("/admin/login")
                         .defaultSuccessUrl("/", true)
                         .permitAll()
                 )
                 .rememberMe()
                 .and()
-                .logout().logoutSuccessUrl("/login?logout").permitAll()
+                .logout(form -> form
+                        .logoutSuccessUrl("/login?logout")
+                        .deleteCookies("JSESSIONID")
+                        .permitAll()
+                )
         ;
         return http.build();
     }

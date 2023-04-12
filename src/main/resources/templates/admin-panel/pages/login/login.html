@@ -10,21 +10,33 @@
         <div class="row pb-3">
             <img src="/img/img.png" class="mx-auto">
         </div>
-        <div class="row pt-5">
-            <div class="col-2 mx-auto">
-                <div class="input-group ">
-                    <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="Username">
-                </div>
-                <div class="input-group mb-3">
-                    <input type="password" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="Password">
+        <form method="POST" th:action="@{/admin/login}">
+            <div class="row pt-5">
+                <div class="col-2 mx-auto">
+                    <div class="input-group ">
+                        <input type="email"
+                               class="form-control"
+                               name="username"
+                               placeholder="Email"
+                               aria-label="Email"
+                               aria-describedby="Email">
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="password"
+                               class="form-control"
+                               name="password"
+                               placeholder="Password"
+                               aria-label="Password"
+                               aria-describedby="Password">
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="row pt-3">
-            <div class="col-2 mx-auto">
-                <button type="button" class="btn btn-warning col-12">Sign In</button>
+            <div class="row pt-3">
+                <div class="col-2 mx-auto">
+                    <button type="submit" class="btn btn-warning col-12">Sign In</button>
+                </div>
             </div>
-        </div>
+        </form>
     </div>
 </div>
 </body>

@@ -1,4 +1,4 @@
-package lab.space.vilki_palki.model.common;
+package lab.space.vilki_palki.entity.common;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

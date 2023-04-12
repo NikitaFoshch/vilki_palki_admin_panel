@@ -1,13 +1,14 @@
-package lab.space.vilki_palki.model;
+package lab.space.vilki_palki.entity;
 
 import jakarta.persistence.*;
-import lab.space.vilki_palki.model.common.MappedEntity;
+import lab.space.vilki_palki.entity.common.MappedEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -50,7 +51,7 @@ public class User extends MappedEntity implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override

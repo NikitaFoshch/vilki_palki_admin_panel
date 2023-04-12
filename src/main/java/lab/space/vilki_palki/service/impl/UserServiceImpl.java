@@ -1,7 +1,7 @@
 package lab.space.vilki_palki.service.impl;
 
 import jakarta.persistence.EntityNotFoundException;
-import lab.space.vilki_palki.model.User;
+import lab.space.vilki_palki.entity.User;
 import lab.space.vilki_palki.repository.UserRepository;
 import lab.space.vilki_palki.service.UserService;
 import lombok.RequiredArgsConstructor;

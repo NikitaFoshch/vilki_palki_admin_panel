@@ -1,6 +1,6 @@
 package lab.space.vilki_palki.repository;
 
-import lab.space.vilki_palki.model.User;
+import lab.space.vilki_palki.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

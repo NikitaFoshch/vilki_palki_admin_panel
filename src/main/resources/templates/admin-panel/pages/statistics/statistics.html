@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="~{admin-panel/fragments/head :: head}"></head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -24,10 +25,12 @@
   <div class="content-wrapper">
     <div class="content">
       <div class="container-fluid pt-4">
+
       </div>
     </div>
   </div>
 </div>
+<th:block th:insert="~{admin-panel/fragments/footer :: logout-modal}"></th:block>
 <th:block th:insert="~{admin-panel/fragments/js :: js}"></th:block>
 </body>
 </html>

@@ -1,6 +1,6 @@
 package lab.space.vilki_palki.repository;
 
-import lab.space.vilki_palki.model.Category;
+import lab.space.vilki_palki.entity.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

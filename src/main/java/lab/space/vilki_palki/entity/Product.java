@@ -1,7 +1,7 @@
-package lab.space.vilki_palki.model;
+package lab.space.vilki_palki.entity;
 
 import jakarta.persistence.*;
-import lab.space.vilki_palki.model.common.MappedEntity;
+import lab.space.vilki_palki.entity.common.MappedEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
