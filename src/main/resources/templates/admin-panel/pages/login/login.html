@@ -10,9 +10,12 @@
         <div class="row pb-3">
             <img src="/img/img.png" class="mx-auto">
         </div>
-        <form method="POST" th:action="@{/admin/login}">
+        <form method="POST" th:action="@{/login}">
             <div class="row pt-5">
                 <div class="col-2 mx-auto">
+                    <div class="row" th:if="@{/}">
+
+                    </div>
                     <div class="input-group ">
                         <input type="email"
                                class="form-control"
@@ -29,6 +32,17 @@
                                aria-label="Password"
                                aria-describedby="Password">
                     </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="custom-control custom-checkbox mx-auto">
+                    <input class="custom-control-input"
+                           type="checkbox"
+                           id="remember-me"
+                           name="remember-me"
+                           value="option1">
+                    <label for="remember-me"
+                           class="custom-control-label text-light">Remember me</label>
                 </div>
             </div>
             <div class="row pt-3">

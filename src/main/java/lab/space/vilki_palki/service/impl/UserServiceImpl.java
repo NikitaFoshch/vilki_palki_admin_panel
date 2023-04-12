@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +25,23 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public User getUserByEmail(String email) {
         return userRepository.findByEmail(email)
                 .orElseThrow(()-> new EntityNotFoundException("User not found with email - " + email));
+    }
+
+    @Override
+    public List<User> getAllUser() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public User getUserById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(()-> new EntityNotFoundException("User not found with id - " + id));
+    }
+
+    @Override
+    public void deleteUserById(Long id) {
+        User user = getUserById(id);
+        userRepository.delete(user);
     }
 
     @Override
