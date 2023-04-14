@@ -29,16 +29,6 @@
             <div class="card">
               <div class="card-header vilki-mod">
                 <h3 class="card-title text-light">Bordered Table</h3>
-                <div class="card-tools">
-                  <div class="input-group input-group-sm" style="width: 150px;">
-                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-                    <div class="input-group-append">
-                      <button type="submit" class="btn btn-default">
-                        <i class="fas fa-search"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
               </div>
               <!-- /.card-header -->
               <div class="card-body" th:object="${users}">
@@ -49,10 +39,10 @@
                     <th>Email</th>
                     <th>Полное имя</th>
                     <th>Дата рождения</th>
-                    <th>Пол</th>
+                    <th>Facebook Id</th>
                     <th>Телефон</th>
                     <th>Сумма заказов</th>
-                    <th>Действия</th>
+                    <th style="width: 190px">Действия</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -61,10 +51,17 @@
                     <td th:text="${user.email}"></td>
                     <td th:text="${user.name}"></td>
                     <td th:text="${user.birthday}"></td>
-                    <td th:text="${user.cardNumber}"></td>
+                    <td th:text="${user.facebookId}"></td>
                     <td th:text="${user.phone}"></td>
                     <td th:text="${user.id}"></td>
-                    <td></td>
+                    <td>
+                      <a th:href="${'/users/user-edit/' + user.id}" class="btn pb-0 pt-0 btn-secondary">
+                        Детали
+                      </a>
+                      <a class="btn pb-0 pt-0 btn-danger" th:attr="data-id=${user.id}" data-toggle="modal" data-target="#confirm-delete">
+                        Удалить
+                      </a>
+                    </td>
                   </tr>
                   <tr th:if="${#lists.isEmpty(users)}">
                     <td class="text-center" colspan="8">No data...</td>
@@ -90,11 +87,33 @@
             </div>
           </div>
         </div>
+        <div class="modal fade" id="confirm-delete">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-danger">
+              <div class="modal-header">
+                <h4 class="modal-title">Delete Entity</h4>
+              </div>
+              <div class="modal-body">
+                <p>Вы уверены, что хотите удалить?</p>
+              </div>
+              <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Нет</button>
+                <a id="delete-button" type="button" class="btn btn-outline-dark">Да</a>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </div>
 <th:block th:insert="~{admin-panel/fragments/footer :: logout-modal}"></th:block>
 <th:block th:insert="~{admin-panel/fragments/js :: js}"></th:block>
+<script>
+  $('#confirm-delete').on('show.bs.modal', function(e) {
+    let id = $(e.relatedTarget).data('id');
+    $('#delete-button').attr('href', '/users/delete-user/' + id);
+  });
+</script>
 </body>
 </html>

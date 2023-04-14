@@ -16,7 +16,7 @@ import java.util.List;
 @Table(name = "users")
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class User extends MappedEntity implements UserDetails {
+public class User extends MappedEntity{
 
     @Column(length = 100)
     private String name;
@@ -49,33 +49,4 @@ public class User extends MappedEntity implements UserDetails {
     @JoinColumn(name = "user_id")
     private List<ShoppingCart> shoppingCarts;
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return new ArrayList<>();
-    }
-
-    @Override
-    public String getUsername() {
-        return email;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 }

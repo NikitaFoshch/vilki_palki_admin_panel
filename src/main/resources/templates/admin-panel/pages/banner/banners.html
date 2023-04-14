@@ -24,11 +24,86 @@
   <div class="content-wrapper">
     <div class="content">
       <div class="container-fluid pt-4">
+        <div class="row">
+          <div class="col-md-4"></div>
+          <div class="col-md-4"></div>
+          <div class=" col-md-auto pl-5 ml-5 text-right">
+            <button type="button" class="btn btn-block btn-warning" data-toggle="modal" data-target="#save-banner">
+              <i class="fa-solid fa-plus pr-2"></i>
+              Добавить баннер
+            </button>
+          </div>
+        </div>
+        <div class="row pt-5">
+          <div class="col-md-3 col-form-label" th:each="banner:${banners}">
+            <a class="delete" th:href="${'/banners/banner-delete/' + banner.id}">
+              <i class="fa-regular fa-circle-xmark fa-xl"></i>
+            </a>
+            <a type="button" class="text-gray-dark" data-toggle="modal" data-target="#update-banner" th:data-banner="${banner}">
+              <div class="row">
+                <div class="col-md-12 text-center pr-4 pl-4">
+                  <img th:src="*{banner.image == null} ? ${'/img/no-image.jpg'}
+                                    : *{'/files/' + banner.image}"
+                       class="product-image w-100" height="300"  alt="Banner Image">
+                </div>
+              </div>
+              <div class="row pt-2">
+                <div class="col-md-12 form-group text-center" th:text="${banner.name}"></div>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div class="modal fade" id="save-banner">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-warning">
+              <form th:method="POST" th:action="${'/banners/banner-save'}" enctype="multipart/form-data">
+              <div class="modal-header">
+                <h4 class="modal-title">Add Banner</h4>
+              </div>
+              <div class="modal-body">
+                <div class="row">
+                  <div class="col-6">
+                    <div class="row">
+                      <div class="form-group">
+                        <label for="title">Title</label>
+                        <input type="text" class="form-control" id="title" placeholder="Enter title" name="title">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="row">
+                      <div class="form-group">
+                        <label for="image">Image</label>
+                        <div class="custom-file">
+                          <label class="custom-file-label" for="image"></label>
+                          <input type="file" class="custom-file-input" id="image"
+                                 name="image" accept="image/jpeg, image/png">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Отменить</button>
+                <button type="submit" class="btn btn-outline-dark">Добавить</button>
+              </div>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </div>
 <th:block th:insert="~{admin-panel/fragments/footer :: logout-modal}"></th:block>
 <th:block th:insert="~{admin-panel/fragments/js :: js}"></th:block>
+<script src="/js/select2/select2.full.js"></script>
+<script src="/js/bs-file-input/bs-custom-file-input.min.js"></script>
+<script>
+  $(function () {
+    bsCustomFileInput.init();
+  });
+</script>
 </body>
 </html>

@@ -12,6 +12,8 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class Banner extends MappedEntity {
+    @Column(length = 50)
+    private String name;
     @Column(length = 150)
     private String image;
 }

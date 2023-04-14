@@ -5,7 +5,6 @@ import lab.space.vilki_palki.entity.User;
 import java.util.List;
 
 public interface UserService {
-    User getUserByEmail(String email);
     List<User> getAllUser();
     User getUserById(Long id);
     void deleteUserById(Long id);
