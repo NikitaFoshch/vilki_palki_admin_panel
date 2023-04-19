@@ -1,163 +1,155 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head th:replace="~{admin-panel/fragments/head :: head}"></head>
-<body class="hold-transition sidebar-mini">
-<div class="wrapper">
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin-panel/fragments/index}">
 
-  <!-- Navbar -->
-  <th:block th:insert="~{admin-panel/fragments/navbar :: navbar}"></th:block>
+<head>
+  <title>Orders</title>
+</head>
 
-  <!-- /.navbar -->
-  <!-- Main Sidebar Container -->
-  <aside class="main-sidebar sidebar-dark vilki-mod elevation-4">
-    <!-- Brand Logo -->
-    <a href="/admin/statistics" class="brand-link ml-2">
-      <img src="/img/img_1.png" alt="AdminLTE Logo" class="brand-image elevation-3 brand-image-xl">
-      <span class="brand-text font-weight-light text-light text-lg ml-2"> ВИЛКИ-ПАЛКИ</span>
-    </a>
+<th:block layout:fragment="content">
 
-    <!-- Sidebar -->
-    <th:block th:insert="~{admin-panel/fragments/sidebar :: sidebar}"></th:block>
-    <!-- /.sidebar -->
-  </aside>
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header vilki-mod">
+          <h3 class="card-title text-light">Bordered Table</h3>
+          <div class="card-tools">
+            <div class="input-group input-group-sm" style="width: 150px;">
+              <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
 
-  <div class="content-wrapper">
-    <div class="content">
-      <div class="container-fluid pt-4">
-        <div class="row">
-          <div class="col-12">
-            <div class="card">
-              <div class="card-header vilki-mod">
-                <h3 class="card-title text-light">Bordered Table</h3>
-                <div class="card-tools">
-                  <div class="input-group input-group-sm" style="width: 150px;">
-                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-
-                    <div class="input-group-append">
-                      <button type="submit" class="btn btn-default">
-                        <i class="fas fa-search"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- /.card-header -->
-              <div class="card-body">
-                <table class="table table-bordered">
-                  <thead>
-                  <tr>
-                    <th style="width: 10px">#</th>
-                    <th>Номер</th>
-                    <th>Список</th>
-                    <th>Дата</th>
-                    <th>Статус</th>
-                    <th>Адрес</th>
-                    <th>Сумма</th>
-                    <th>Действия</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                  </tbody>
-                </table>
-              </div>
-              <!-- /.card-body -->
-              <div class="card-footer clearfix vilki-mod">
-                <div class="row">
-                  <div class="col-5"></div>
-                  <div class="col-4">
-                    <ul class="pagination pagination-sm m-auto">
-                      <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                      <li class="page-item"><a class="page-link" href="#">1</a></li>
-                      <li class="page-item"><a class="page-link" href="#">2</a></li>
-                      <li class="page-item"><a class="page-link" href="#">3</a></li>
-                      <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                    </ul>
-                  </div>
-                </div>
+              <div class="input-group-append">
+                <button type="submit" class="btn btn-default">
+                  <i class="fas fa-search"></i>
+                </button>
               </div>
             </div>
           </div>
         </div>
-        <div class="row">
-          <div class="col-12">
-            <div class="card">
-              <div class="card-header vilki-mod">
-                <h3 class="card-title text-light">Bordered Table</h3>
-                <div class="card-tools">
-                  <div class="input-group input-group-sm" style="width: 150px;">
-                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-
-                    <div class="input-group-append">
-                      <button type="submit" class="btn btn-default">
-                        <i class="fas fa-search"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- /.card-header -->
-              <div class="card-body">
-                <table class="table table-bordered">
-                  <thead>
-                  <tr>
-                    <th style="width: 10px">#</th>
-                    <th>Номер</th>
-                    <th>Список</th>
-                    <th>Дата</th>
-                    <th>Статус</th>
-                    <th>Адрес</th>
-                    <th>Сумма</th>
-                    <th>Действия</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                  </tbody>
-                </table>
-              </div>
-              <!-- /.card-body -->
-              <div class="card-footer clearfix vilki-mod">
-                <div class="row">
-                  <div class="col-5"></div>
-                  <div class="col-4">
-                    <ul class="pagination pagination-sm m-auto">
-                      <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                      <li class="page-item"><a class="page-link" href="#">1</a></li>
-                      <li class="page-item"><a class="page-link" href="#">2</a></li>
-                      <li class="page-item"><a class="page-link" href="#">3</a></li>
-                      <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+          <table class="table table-bordered">
+            <thead>
+            <tr>
+              <th style="width: 10px">#</th>
+              <th>Номер</th>
+              <th>Список</th>
+              <th>Дата</th>
+              <th>Статус</th>
+              <th>Адрес</th>
+              <th>Сумма</th>
+              <th>Действия</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- /.card-body -->
+        <div class="card-footer clearfix vilki-mod">
+          <div class="row">
+            <div class="col-5"></div>
+            <div class="col-4">
+              <ul class="pagination pagination-sm m-auto">
+                <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
+              </ul>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-<th:block th:insert="~{admin-panel/fragments/footer :: logout-modal}"></th:block>
-<th:block th:insert="~{admin-panel/fragments/js :: js}"></th:block>
-</body>
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header vilki-mod">
+          <h3 class="card-title text-light">Bordered Table</h3>
+          <div class="card-tools">
+            <div class="input-group input-group-sm" style="width: 150px;">
+              <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+              <div class="input-group-append">
+                <button type="submit" class="btn btn-default">
+                  <i class="fas fa-search"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+          <table class="table table-bordered">
+            <thead>
+            <tr>
+              <th style="width: 10px">#</th>
+              <th>Номер</th>
+              <th>Список</th>
+              <th>Дата</th>
+              <th>Статус</th>
+              <th>Адрес</th>
+              <th>Сумма</th>
+              <th>Действия</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- /.card-body -->
+        <div class="card-footer clearfix vilki-mod">
+          <div class="row">
+            <div class="col-5"></div>
+            <div class="col-4">
+              <ul class="pagination pagination-sm m-auto">
+                <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</th:block>
+
+<!-- Extra Modals -->
+<th:block layout:fragment="extra-modals">
+
+  <!-- put extra modals here for only this page -->
+
+</th:block>
+
+<th:block layout:fragment="extra-js">
+
+  <!-- put JS here for only this page -->
+
+</th:block>
+
 </html>

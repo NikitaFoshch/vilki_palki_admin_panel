@@ -1,6 +1,8 @@
 package lab.space.vilki_palki.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lab.space.vilki_palki.entity.common.MappedEntity;
 import lombok.Data;
@@ -13,7 +15,7 @@ import java.time.Instant;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class Order extends MappedEntity {
-    private int orderCode;
+    private String orderCode;
     private Instant birthday;
     private int price;
     private DeliveryStatus deliveryStatus;
@@ -23,10 +25,13 @@ public class Order extends MappedEntity {
     private int common_kit;
     private boolean cardPay;
     private boolean cashPay;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
+
+    public enum DeliveryStatus {
+        IN_PROCESS,
+        DONE
+    }
 
 }
 
-enum DeliveryStatus {
-    IN_PROCESS,
-    DONE
-}

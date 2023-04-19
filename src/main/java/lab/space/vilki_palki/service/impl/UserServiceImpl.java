@@ -2,6 +2,8 @@ package lab.space.vilki_palki.service.impl;
 
 import jakarta.persistence.EntityNotFoundException;
 import lab.space.vilki_palki.entity.User;
+import lab.space.vilki_palki.mapper.UserMapper;
+import lab.space.vilki_palki.model.UserResponse;
 import lab.space.vilki_palki.repository.UserRepository;
 import lab.space.vilki_palki.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -21,10 +23,13 @@ import java.util.List;
 public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
     @Override
-    public List<User> getAllUser() {
-        return userRepository.findAll(Sort.by(Sort.Direction.DESC, "createAt"));
+    public List<UserResponse> getAllUsers() {
+        return userMapper
+                .toListDto(userRepository
+                        .findAll(Sort.by(Sort.Direction.DESC, "createAt")));
     }
 
     @Override

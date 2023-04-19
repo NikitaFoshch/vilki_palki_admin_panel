@@ -36,17 +36,17 @@ public class User extends MappedEntity{
     private int bonusPoints;
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "user_id")
-    private List<Order> orders;
+    private List<Order> orders = new ArrayList<>();
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "user_id")
-    private List<Address> addresses;
+    private List<Address> addresses = new ArrayList<>();
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "likes",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "product_id"))
-    private List<Product> products;
+    private List<Product> products = new ArrayList<>();
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "user_id")
-    private List<ShoppingCart> shoppingCarts;
+    private List<ShoppingCart> shoppingCarts = new ArrayList<>();
 
 }

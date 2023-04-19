@@ -1,34 +1,28 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{admin-panel/fragments/head :: head}"></head>
-<body class="hold-transition sidebar-mini">
-<div class="wrapper">
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin-panel/fragments/index}">
 
-  <!-- Navbar -->
-  <th:block th:insert="~{admin-panel/fragments/navbar :: navbar}"></th:block>
+<head>
+  <title>Structures</title>
+</head>
 
-  <!-- /.navbar -->
-  <!-- Main Sidebar Container -->
-  <aside class="main-sidebar sidebar-dark vilki-mod elevation-4">
-    <!-- Brand Logo -->
-    <a href="/admin/statistics" class="brand-link ml-2">
-      <img src="/img/img_1.png" alt="AdminLTE Logo" class="brand-image elevation-3 brand-image-xl">
-      <span class="brand-text font-weight-light text-light text-lg ml-2"> ВИЛКИ-ПАЛКИ</span>
-    </a>
+<th:block layout:fragment="content">
 
-    <!-- Sidebar -->
-    <th:block th:insert="~{admin-panel/fragments/sidebar :: sidebar}"></th:block>
-    <!-- /.sidebar -->
-  </aside>
+  <!-- this page content -->
 
-  <div class="content-wrapper">
-    <div class="content">
-      <div class="container-fluid pt-4">
-      </div>
-    </div>
-  </div>
-</div>
-<th:block th:insert="~{admin-panel/fragments/footer :: logout-modal}"></th:block>
-<th:block th:insert="~{admin-panel/fragments/js :: js}"></th:block>
-</body>
+</th:block>
+
+<!-- Extra Modals -->
+<th:block layout:fragment="extra-modals">
+
+  <!-- put extra modals here for only this page -->
+
+</th:block>
+
+<th:block layout:fragment="extra-js">
+
+  <!-- put JS here for only this page -->
+
+</th:block>
+
 </html>

@@ -1,10 +1,20 @@
-<th:block th:fragment="js">
-    <!-- jQuery -->
-    <script src="/js/jquery/jquery.min.js"></script>
-    <!-- Bootstrap 4 -->
-    <script src="/js/bootstrap/bootstrap.bundle.min.js"></script>
-    <!-- AdminLTE App -->
-    <script src="/js/adminlte/adminlte.min.js"></script>
-    <script src="/js/sweetalert2/sweetalert2.min.js"></script>
-    <script src="/js/toaster/toastr.min.js"></script>
-</th:block>
+<!-- jQuery -->
+<script src="/js/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="/js/bootstrap/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/js/adminlte/adminlte.min.js"></script>
+<script src="/js/sweetalert2/sweetalert2.min.js"></script>
+<script>
+    //  Activating sidebar tab
+    $(function () {
+        var url = window.location;
+        $('ul.nav-sidebar a').filter(function () {
+            if (this.href) return this.href === url || url.href.indexOf(this.href) === 0;
+        }).addClass('active');
+        // for the treeview
+        $('ul.nav-treeview a').filter(function () {
+            if (this.href) return this.href === url || url.href.indexOf(this.href) === 0;
+        }).parentsUntil(".nav-sidebar > .nav-treeview").addClass('menu-open').prev('a').addClass('active');
+    });
+</script>

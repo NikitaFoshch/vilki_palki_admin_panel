@@ -3,29 +3,31 @@
       layout:decorate="~{admin-panel/fragments/index}">
 
 <head>
-    <title>Users</title>
+    <title>User Details</title>
 </head>
 
 <th:block layout:fragment="content">
+    <input type="number" th:object="${user}" th:field="${user.id}" id="user-id" hidden>
 
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-header vilki-mod">
-                    <h3 class="card-title text-light">Users Table</h3>
+                    <h3 class="card-title text-light">Address Table</h3>
                 </div>
-                <!-- /.card-header -->
                 <div class="card-body">
-                    <table class="table table-bordered" id="users-table">
+
+                    <table class="table table-bordered" id="address-table">
                         <thead>
                         <tr>
                             <th style="width: 10px">#</th>
-                            <th>Email</th>
-                            <th>Полное имя</th>
-                            <th>Дата рождения</th>
-                            <th>Facebook Id</th>
-                            <th>Телефон</th>
-                            <th>Сумма заказов</th>
+                            <th>Улица</th>
+                            <th>Дом</th>
+                            <th>Квартира</th>
+                            <th>Парадная</th>
+                            <th>Код</th>
+                            <th>Этаж</th>
+                            <th>Примечание</th>
                             <th style="width: 190px">Действия</th>
                         </tr>
                         </thead>
@@ -33,7 +35,6 @@
                         </tbody>
                     </table>
                 </div>
-                <!-- /.card-body -->
                 <div class="card-footer clearfix vilki-mod">
                     <div class="row">
                         <div class="col-5"></div>
@@ -55,18 +56,20 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header vilki-mod">
-                    <h3 class="card-title text-light">Admins Table</h3>
+                    <h3 class="card-title text-light">Orders Table</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <table class="table table-bordered" id="admins-table">
+                    <table class="table table-bordered" id="orders-table">
                         <thead>
                         <tr>
                             <th style="width: 10px">#</th>
-                            <th>Email</th>
-                            <th>Имя</th>
-                            <th>Фамилия</th>
-                            <th>Security level</th>
+                            <th>Номер</th>
+                            <th>Список</th>
+                            <th>Дата</th>
+                            <th>Статус</th>
+                            <th>Адрес</th>
+                            <th>Сумма</th>
                             <th style="width: 190px">Действия</th>
                         </tr>
                         </thead>
@@ -98,7 +101,7 @@
 <!-- Extra Modals -->
 <th:block layout:fragment="extra-modals">
 
-    <div class="modal fade" id="confirm-user-delete">
+    <div class="modal fade" id="confirm-order-delete">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content bg-danger">
                 <div class="modal-header">
@@ -109,13 +112,13 @@
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Нет</button>
-                    <a id="delete-user-button" type="button" class="btn btn-outline-dark">Да</a>
+                    <a id="delete-order-button" type="button" class="btn btn-outline-dark">Да</a>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="modal fade" id="confirm-admin-delete">
+    <div class="modal fade" id="confirm-address-delete">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content bg-danger">
                 <div class="modal-header">
@@ -126,7 +129,7 @@
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Нет</button>
-                    <a id="delete-admin-button" type="button" class="btn btn-outline-dark">Да</a>
+                    <a id="delete-address-button" type="button" class="btn btn-outline-dark">Да</a>
                 </div>
             </div>
         </div>
@@ -138,69 +141,74 @@
 
     <script>
         $(document).ready(function () {
-            getAllUsers();
-            getAllAdmins();
+            let id = $("#user-id").val();
+            getAllOrders(id);
+            getAllAddress(id);
         });
 
-        $('#confirm-user-delete').on('show.bs.modal', function (e) {
+        $('#confirm-order-delete').on('show.bs.modal', function (e) {
             let id = $(e.relatedTarget).data('id');
-            $('#delete-user-button').attr('href', '/users/delete-user/' + id);
+            $('#delete-order-button').attr('href', '/orders/delete-order/' + id);
         });
-        $('#confirm-admin-delete').on('show.bs.modal', function (e) {
+
+        $('#confirm-address-delete').on('show.bs.modal', function (e) {
             let id = $(e.relatedTarget).data('id');
-            $('#delete-admin-button').attr('href', '/users/delete-admin/' + id);
+            $('#delete-address-button').attr('href', '/orders/delete-address/' + id);
         });
 
         //  Get All Users
-        function getAllUsers() {
+        function getAllOrders(id) {
             $.ajax({
                 method: "GET",
-                url: "/users/get-all-users",
+                url: '/users/get-all-orders-by-user-id',
+                data: {id: id},
                 contentType: 'application/json'
-            }).done(function (users) {
-                console.info(users);
-                const TABLE_BODY = createTable('#users-table', 1, 2, 0);
-                $.each(users, function (index, user) {
-                    const $view = '' +
-                        '<a href="/users/user-details/' + user?.id + '" class="btn pb-0 pt-0 btn-secondary">Детали</a>';
+            }).done(function (orders) {
+                console.info(orders);
+                const TABLE_BODY = createTable('#orders-table', 1, 2, 0);
+                $.each(orders, function (index, order) {
                     const $delete = '' +
                         '<a class="btn pb-0 pt-0 btn-danger" ' +
-                        'data-id="' + user?.id + '" data-toggle="modal" data-target="#confirm-user-delete">Удалить</a>';
+                        'data-id="' + order?.id + '" data-toggle="modal" data-target="#confirm-order-delete">Удалить</a>';
                     $(TABLE_BODY).append(
                         '<tr>' +
-                        '    <td>' + user?.id + '</td>' +
-                        '    <td>' + user?.email + '</td>' +
-                        '    <td>' + user?.name + '</td>' +
-                        '    <td>' + (user?.birthday ? user?.birthday : '—') + '</td>' +
-                        '    <td>' + (user?.facebookId ? user?.facebookId : '—') + '</td>' +
-                        '    <td>' + (user?.phoneNumber ? user?.phoneNumber : '—') + '</td>' +
-                        '    <td>' + (user?.sumOrders ? user?.sumOrders : '—') + '</td>' +
-                        '    <td>' + $view + $delete + '</td>' +
+                        '    <td>' + order?.id + '</td>' +
+                        '    <td>' + order?.orderCode + '</td>' +
+                        '    <td>' + order.productsList + '</td>' +
+                        '    <td>' + order.date + '</td>' +
+                        '    <td>' + order.deliveryStatus + '</td>' +
+                        '    <td>' + order.address + '</td>' +
+                        '    <td>' + order.price + '</td>' +
+                        '    <td>' + $delete + '</td>' +
                         '</tr>'
                     );
                 });
             });
         }
 
-        function getAllAdmins() {
+        function getAllAddress(id) {
             $.ajax({
                 method: "GET",
-                url: "/users/get-all-admins",
+                url: "/users/get-all-address-by-user-id",
+                data: {id: id},
                 contentType: 'application/json'
-            }).done(function (admins) {
-                console.info(admins);
-                const TABLE_BODY = createTable('#admins-table', 1, 2, 0);
-                $.each(admins, function (index, admin) {
+            }).done(function (addresses) {
+                console.info(addresses);
+                const TABLE_BODY = createTable('#address-table', 1, 2, 0);
+                $.each(addresses, function (index, address) {
                     const $delete = '' +
                         '<a class="btn pb-0 pt-0 btn-danger" ' +
-                        'data-id="' + admin?.id + '" data-toggle="modal" data-target="#confirm-admin-delete">Удалить</a>';
+                        'data-id="' + address?.id + '" data-toggle="modal" data-target="#confirm-address-delete">Удалить</a>';
                     $(TABLE_BODY).append(
                         '<tr>' +
-                        '    <td>' + admin?.id + '</td>' +
-                        '    <td>' + admin?.email + '</td>' +
-                        '    <td>' + admin?.firstname + '</td>' +
-                        '    <td>' + admin?.lastname + '</td>' +
-                        '    <td>' + admin?.securityLevel + '</td>' +
+                        '    <td>' + address?.id + '</td>' +
+                        '    <td>' + address?.street + '</td>' +
+                        '    <td>' + address?.numberHouse + '</td>' +
+                        '    <td>' + address?.apartment + '</td>' +
+                        '    <td>' + address?.frontDoor + '</td>' +
+                        '    <td>' + address?.doorCode + '</td>' +
+                        '    <td>' + address?.floor + '</td>' +
+                        '    <td>' + address?.notes + '</td>' +
                         '    <td>' + $delete + '</td>' +
                         '</tr>'
                     );

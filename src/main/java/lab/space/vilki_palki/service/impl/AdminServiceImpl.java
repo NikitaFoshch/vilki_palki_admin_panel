@@ -3,6 +3,8 @@ package lab.space.vilki_palki.service.impl;
 import jakarta.persistence.EntityNotFoundException;
 import lab.space.vilki_palki.entity.Admin;
 import lab.space.vilki_palki.entity.User;
+import lab.space.vilki_palki.mapper.AdminMapper;
+import lab.space.vilki_palki.model.AdminResponse;
 import lab.space.vilki_palki.repository.AdminRepository;
 import lab.space.vilki_palki.service.AdminService;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,7 @@ import java.util.List;
 @Slf4j
 public class AdminServiceImpl implements AdminService, UserDetailsService {
     private final AdminRepository adminRepository;
+    private final AdminMapper adminMapper;
 
     @Override
     public Admin getAdminByEmail(String email) {
@@ -30,9 +33,11 @@ public class AdminServiceImpl implements AdminService, UserDetailsService {
     }
 
     @Override
-    public List<Admin> getAllAdmin() {
+    public List<AdminResponse> getAllAdmins() {
         log.info("---------------Get All Admins Order By createAt---------------");
-        return adminRepository.findAll(Sort.by(Sort.Direction.DESC,"createAt"));
+        return adminMapper
+                .toListDto(adminRepository
+                        .findAll(Sort.by(Sort.Direction.DESC,"createAt")));
     }
 
     @Override
@@ -43,7 +48,7 @@ public class AdminServiceImpl implements AdminService, UserDetailsService {
     }
 
     @Override
-    public void deleteUserById(Long id) {
+    public void deleteAdminById(Long id) {
         log.info("---------------Delete Admin By Id" + id + "---------------");
         Admin admin = getAdminById(id);
         adminRepository.delete(admin);

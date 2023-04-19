@@ -1,8 +1,6 @@
 package lab.space.vilki_palki.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lab.space.vilki_palki.entity.common.MappedEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -26,5 +24,7 @@ public class Address extends MappedEntity {
     private Integer floor;
     @Column(length = 500)
     private String notes;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
 
 }
