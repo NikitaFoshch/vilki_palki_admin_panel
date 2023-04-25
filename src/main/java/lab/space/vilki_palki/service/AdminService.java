@@ -1,14 +1,16 @@
 package lab.space.vilki_palki.service;
 
 import lab.space.vilki_palki.entity.Admin;
-import lab.space.vilki_palki.entity.User;
-import lab.space.vilki_palki.model.AdminResponse;
-
-import java.util.List;
+import lab.space.vilki_palki.model.AdminRequest;
+import lab.space.vilki_palki.model.AdminResponseByPage;
 
 public interface AdminService {
+    Integer getCountByAllAdmins();
     Admin getAdminByEmail(String email);
-    List<AdminResponse> getAllAdmins();
+
+    AdminResponseByPage getAdminsResponseByPage(AdminRequest adminRequest);
+
     Admin getAdminById(Long id);
+
     void deleteAdminById(Long id);
 }

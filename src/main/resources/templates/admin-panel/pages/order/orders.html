@@ -12,11 +12,11 @@
     <div class="col-12">
       <div class="card">
         <div class="card-header vilki-mod">
-          <h3 class="card-title text-light">Bordered Table</h3>
+          <h3 class="card-title text-light">Active Orders Table</h3>
           <div class="card-tools">
-            <div class="input-group input-group-sm" style="width: 150px;">
-              <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-
+            <div class="input-group input-group-sm" style="width: 250px;">
+              <input type="text" oninput="filterNameInput(this)" id="orders-active-table-search" class="form-control float-right"
+                     placeholder="Search">
               <div class="input-group-append">
                 <button type="submit" class="btn btn-default">
                   <i class="fas fa-search"></i>
@@ -25,9 +25,8 @@
             </div>
           </div>
         </div>
-        <!-- /.card-header -->
         <div class="card-body">
-          <table class="table table-bordered">
+          <table class="table table-bordered" id="active-orders">
             <thead>
             <tr>
               <th style="width: 10px">#</th>
@@ -41,32 +40,11 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
             </tbody>
           </table>
         </div>
-        <!-- /.card-body -->
         <div class="card-footer clearfix vilki-mod">
           <div class="row">
-            <div class="col-5"></div>
-            <div class="col-4">
-              <ul class="pagination pagination-sm m-auto">
-                <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-              </ul>
-            </div>
           </div>
         </div>
       </div>
@@ -76,11 +54,11 @@
     <div class="col-12">
       <div class="card">
         <div class="card-header vilki-mod">
-          <h3 class="card-title text-light">Bordered Table</h3>
+          <h3 class="card-title text-light">Complete Orders Table</h3>
           <div class="card-tools">
-            <div class="input-group input-group-sm" style="width: 150px;">
-              <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-
+            <div class="input-group input-group-sm" style="width: 250px;">
+              <input type="text" oninput="filterNameInput(this)" id="orders-complete-table-search" class="form-control float-right"
+                     placeholder="Search">
               <div class="input-group-append">
                 <button type="submit" class="btn btn-default">
                   <i class="fas fa-search"></i>
@@ -89,9 +67,8 @@
             </div>
           </div>
         </div>
-        <!-- /.card-header -->
         <div class="card-body">
-          <table class="table table-bordered">
+          <table class="table table-bordered" id="complete-orders">
             <thead>
             <tr>
               <th style="width: 10px">#</th>
@@ -105,32 +82,11 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
             </tbody>
           </table>
         </div>
-        <!-- /.card-body -->
         <div class="card-footer clearfix vilki-mod">
           <div class="row">
-            <div class="col-5"></div>
-            <div class="col-4">
-              <ul class="pagination pagination-sm m-auto">
-                <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-              </ul>
-            </div>
           </div>
         </div>
       </div>
@@ -142,13 +98,276 @@
 <!-- Extra Modals -->
 <th:block layout:fragment="extra-modals">
 
-  <!-- put extra modals here for only this page -->
+  <div class="modal fade" id="confirm-order-delete">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content bg-danger">
+        <div class="modal-header">
+          <h4 class="modal-title">Delete Entity</h4>
+        </div>
+        <div class="modal-body">
+          <p>Вы уверены, что хотите удалить?</p>
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Нет</button>
+          <a id="delete-order-button" type="button" class="btn btn-outline-dark">Да</a>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </th:block>
 
 <th:block layout:fragment="extra-js">
 
-  <!-- put JS here for only this page -->
+  <script>
+
+    const defaultItemCount = 5;
+    let orderActiveRequest = {};
+    orderActiveRequest.pageIndex = 0;
+    let orderCompleteRequest = {};
+    orderCompleteRequest.pageIndex = 0;
+    let filterTimeout;
+
+    $(document).ready(function () {
+      getAllActiveOrders();
+      getAllCompleteOrders();
+    });
+
+    $('#confirm-order-delete').on('show.bs.modal', function (e) {
+      let id = $(e.relatedTarget).data('id');
+      $('#delete-order-button').attr('href', '/orders/delete-order/' + id);
+    });
+
+    //  Get All Users
+    function getAllActiveOrders() {
+      $.ajax({
+        method: "POST",
+        url: '/orders/get-active-orders',
+        contentType: 'application/json',
+        data: JSON.stringify(orderActiveRequest),
+        beforeSend: function (){
+          console.log(orderActiveRequest)
+        }
+      }).done(function (orderResponse) {
+        console.info(orderResponse);
+        const TABLE_BODY = createTable('#active-orders', orderResponse?.itemsCount, orderResponse?.pagesCount, orderActiveRequest?.pageIndex);
+        $.each(orderResponse?.data, function (index, order) {
+          const $delete = '' +
+                  '<a class="btn pb-0 pt-0 btn-danger" ' +
+                  'data-id="' + order?.id + '" data-toggle="modal" data-target="#confirm-order-delete">Удалить</a>';
+          $(TABLE_BODY).append(
+                  '<tr>' +
+                  '    <td>' + ((index + 1) + (orderActiveRequest.pageIndex * defaultItemCount)) + '</td>' +
+                  '    <td>' + (order?.orderCode ? order?.orderCode : '-') + '</td>' +
+                  '    <td>' + (order?.productsList ? order?.productsList : '-') + '</td>' +
+                  '    <td>' + (order?.date ? order?.date : '-') + '</td>' +
+                  '    <td>' + (order?.deliveryStatus ? order?.deliveryStatus : '-') + '</td>' +
+                  '    <td>' + (order?.address ? order?.address : '-') + '</td>' +
+                  '    <td>' + (order?.price ? order?.price : '-') + '</td>' +
+                  '    <td>' + $delete + '</td>' +
+                  '</tr>'
+          );
+        });
+      });
+    }
+    function getAllCompleteOrders() {
+      $.ajax({
+        method: "POST",
+        url: '/orders/get-complete-orders',
+        contentType: 'application/json',
+        data: JSON.stringify(orderCompleteRequest),
+        beforeSend: function (){
+          console.log(orderCompleteRequest)
+        }
+      }).done(function (orderResponse) {
+        console.info(orderResponse);
+        const TABLE_BODY = createTable('#complete-orders', orderResponse?.itemsCount, orderResponse?.pagesCount, orderCompleteRequest?.pageIndex);
+        $.each(orderResponse?.data, function (index, order) {
+          const $delete = '' +
+                  '<a class="btn pb-0 pt-0 btn-danger" ' +
+                  'data-id="' + order?.id + '" data-toggle="modal" data-target="#confirm-order-delete">Удалить</a>';
+          $(TABLE_BODY).append(
+                  '<tr>' +
+                  '    <td>' + ((index + 1) + (orderActiveRequest.pageIndex * defaultItemCount)) + '</td>' +
+                  '    <td>' + (order?.orderCode ? order?.orderCode : '-') + '</td>' +
+                  '    <td>' + (order?.productsList ? order?.productsList : '-') + '</td>' +
+                  '    <td>' + (order?.date ? order?.date : '-') + '</td>' +
+                  '    <td>' + (order?.deliveryStatus ? order?.deliveryStatus : '-') + '</td>' +
+                  '    <td>' + (order?.address ? order?.address : '-') + '</td>' +
+                  '    <td>' + (order?.price ? order?.price : '-') + '</td>' +
+                  '    <td>' + $delete + '</td>' +
+                  '</tr>'
+          );
+        });
+      });
+    }
+
+    //  Drawing table
+    function createTable(tableSelector, itemsCount, pagesCount, pageIndex) {
+      const TABLE_DIV = $(tableSelector);
+      const TABLE_HEAD = $(TABLE_DIV).find('thead');
+      const TABLE_BODY = $(TABLE_DIV).find('tbody');
+      const TABLE_COLUMNS_COUNT = $(TABLE_HEAD).find('th').length;
+      const TABLE_PAGINATION_ROW = $(TABLE_DIV).parents('div.card').find('div.card-footer').find('div.row');
+      $(TABLE_BODY).empty();
+      $(TABLE_PAGINATION_ROW).empty();
+      if (itemsCount <= 0) {
+        $(TABLE_BODY).append(
+                '<tr>' +
+                '    <td colspan="' + TABLE_COLUMNS_COUNT + '" class="align-middle text-center no-data">' +
+                'No data...' +
+                '    </td>' +
+                '</tr>'
+        );
+      } else if (Number(pagesCount) > 1) createPagination(pagesCount, pageIndex, TABLE_PAGINATION_ROW, itemsCount);
+      return TABLE_BODY;
+    }
+
+    function createPagination(pagesCount, pageIndex, TABLE_PAGINATION_ROW, itemsCount) {
+      const colDiv = '<div class="col-sm-12 col-md-6"></div>';
+      const paginationList =
+              '<ul class="pagination pagination-sm mb-0 justify-content-center justify-content-md-end align-items-center">' +
+              '</ul>';
+      const collapsedPageBtn =
+              '   <li class="page-item">' +
+              '       <a class="page-link disabled" role="button">...</a>' +
+              '   </li>';
+
+      pagesCount = Number(pagesCount);
+      pageIndex = Number(pageIndex) + 1;
+      itemsCount = Number(itemsCount);
+
+      $(TABLE_PAGINATION_ROW).append($(colDiv).append(paginationList));
+      const paginationListPath = $(TABLE_PAGINATION_ROW).find('ul.pagination');
+
+      // pagination logic
+      if (pagesCount > 1) {
+        if (pageIndex !== 1) {
+          $(paginationListPath).append(createPrevNextPageBtn(false, true));
+          $(paginationListPath).append(createPageBtn(1, false));
+        } else {
+          $(paginationListPath).append(createPrevNextPageBtn(true, true));
+          $(paginationListPath).append(createPageBtn(1, true));
+        }
+
+        if (pagesCount > 7) {
+          if (pageIndex >= 5) {
+            $(paginationListPath).append(collapsedPageBtn);
+          }
+
+          let start;
+          let finish;
+          if (pageIndex < 5) {
+            start = 2;
+            finish = 5;
+          } else if (pagesCount - pageIndex < 4) {
+            start = pagesCount - 4;
+            finish = pagesCount - 1;
+          } else {
+            start = pageIndex - 1;
+            finish = pageIndex + 1;
+          }
+          for (let i = start; i <= finish; i++) {
+            if (i > 1 && i <= pagesCount - 1) {
+              if (pageIndex === i) {
+                $(paginationListPath).append(createPageBtn(i, true));
+              } else {
+                $(paginationListPath).append(createPageBtn(i, false));
+              }
+            }
+          }
+
+          if (pagesCount - pageIndex >= 4) {
+            $(paginationListPath).append(collapsedPageBtn);
+          }
+        } else {
+          for (let i = 2; i <= pagesCount - 1; i++) {
+            if (pageIndex === i) {
+              $(paginationListPath).append(createPageBtn(i, true));
+            } else {
+              $(paginationListPath).append(createPageBtn(i, false));
+            }
+          }
+        }
+
+        if (pageIndex !== pagesCount) {
+          $(paginationListPath).append(createPageBtn(pagesCount, false));
+          $(paginationListPath).append(createPrevNextPageBtn(false, false));
+        } else {
+          $(paginationListPath).append(createPageBtn(pagesCount, true));
+          $(paginationListPath).append(createPrevNextPageBtn(true, false));
+        }
+      } else {
+        $(paginationListPath).append(createPrevNextPageBtn(true, true));
+        $(paginationListPath).append(createPageBtn(1, true));
+        $(paginationListPath).append(createPrevNextPageBtn(true, false));
+      }
+      // end of pagination logic
+    }
+
+    //  Create Next previous triangle Btn
+    function createPrevNextPageBtn(isDisabled, isPrev) {
+      return '' +
+              '   <li class="page-item ' + (isPrev ? 'prev' : 'next') + (isDisabled ? ' disabled' : '') + '">' +
+              '       <a class="page-link" role="button">' +
+              (isPrev ? '<span aria-hidden="true">&laquo;</span>' : '<span aria-hidden="true">&raquo;</span>') +
+              '       </a>' +
+              '   </li>';
+    }
+
+    //  Create Pagination Btn
+    function createPageBtn(pageNumber, isActive) {
+      return '' +
+              '<li class="page-item ' + (isActive ? 'active' : '') + '">' +
+              '   <a class="page-link" role="button">' + pageNumber + '</a>' +
+              '</li>';
+    }
+
+    $(document).on('click', 'a.page-link', function () {
+      const pageBtn = $(this);
+      const whichTable = $(pageBtn).parents('div.card').find('table').attr('id');
+      if (whichTable === 'active-orders') {
+        if ($(pageBtn).parent('li.page-item').hasClass('prev')) {
+          orderActiveRequest.pageIndex = --orderActiveRequest.pageIndex;
+        } else if ($(pageBtn).parent('li.page-item').hasClass('next')) {
+          orderActiveRequest.pageIndex = ++orderActiveRequest.pageIndex;
+        } else {
+          orderActiveRequest.pageIndex = Number($(pageBtn).text()) - 1;
+        }
+        getAllActiveOrders();
+      } else {
+        if ($(pageBtn).parent('li.page-item').hasClass('prev')) {
+          orderCompleteRequest.pageIndex = --orderCompleteRequest.pageIndex;
+        } else if ($(pageBtn).parent('li.page-item').hasClass('next')) {
+          orderCompleteRequest.pageIndex = ++orderCompleteRequest.pageIndex;
+        } else {
+          orderCompleteRequest.pageIndex = Number($(pageBtn).text()) - 1;
+        }
+        getAllCompleteOrders();
+      }
+
+    });
+
+    $(document).on('change', '#orders-active-table-search', function () {
+      orderActiveRequest.query = $(this).val();
+      orderActiveRequest.pageIndex = 0;
+      getAllActiveOrders();
+    });
+
+    $(document).on('change', '#orders-complete-table-search', function () {
+      orderCompleteRequest.query = $(this).val();
+      orderCompleteRequest.pageIndex = 0;
+      getAllCompleteOrders();
+    });
+
+    function filterNameInput(input) {
+      clearInterval(filterTimeout)
+      filterTimeout = setTimeout(() => {
+        $(input).trigger('change');
+      }, 1000)
+    };
+
+  </script>
 
 </th:block>
 

@@ -1,5 +1,6 @@
 package lab.space.vilki_palki.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lab.space.vilki_palki.entity.Address;
 import lab.space.vilki_palki.entity.Order;
@@ -16,6 +17,7 @@ public class UserResponse {
     private Long id;
     private String email;
     private String name;
+    @JsonFormat(pattern = "dd.MM.yyyy", timezone = "UTC")
     private Instant birthday;
     private String facebookId;
     private String phoneNumber;

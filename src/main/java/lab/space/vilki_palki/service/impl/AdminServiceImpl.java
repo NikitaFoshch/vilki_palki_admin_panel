@@ -4,12 +4,17 @@ import jakarta.persistence.EntityNotFoundException;
 import lab.space.vilki_palki.entity.Admin;
 import lab.space.vilki_palki.entity.User;
 import lab.space.vilki_palki.mapper.AdminMapper;
+import lab.space.vilki_palki.model.AdminRequest;
 import lab.space.vilki_palki.model.AdminResponse;
+import lab.space.vilki_palki.model.AdminResponseByPage;
 import lab.space.vilki_palki.repository.AdminRepository;
 import lab.space.vilki_palki.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -24,6 +29,14 @@ import java.util.List;
 public class AdminServiceImpl implements AdminService, UserDetailsService {
     private final AdminRepository adminRepository;
     private final AdminMapper adminMapper;
+    private final AdminSpecification adminSpecification;
+
+    @Override
+    public Integer getCountByAllAdmins() {
+        log.info("---------------Get Count By All Admins---------------");
+        return adminRepository
+                        .findAll(Sort.by(Sort.Direction.DESC,"createAt")).size();
+    }
 
     @Override
     public Admin getAdminByEmail(String email) {
@@ -33,11 +46,14 @@ public class AdminServiceImpl implements AdminService, UserDetailsService {
     }
 
     @Override
-    public List<AdminResponse> getAllAdmins() {
-        log.info("---------------Get All Admins Order By createAt---------------");
-        return adminMapper
-                .toListDto(adminRepository
-                        .findAll(Sort.by(Sort.Direction.DESC,"createAt")));
+    public AdminResponseByPage getAdminsResponseByPage(AdminRequest adminRequest) {
+        log.info("---------------Get Admins Order By createAt---------------");
+        final int DEFAULT_PAGE_SIZE = 5;
+        return adminMapper.toAdminsResponseByPage(
+                adminRepository.findAll(adminSpecification.getAdminsByRequest(adminRequest),
+                        PageRequest.of(adminRequest.getPageIndex(),
+                                DEFAULT_PAGE_SIZE ,
+                                Sort.by(Direction.DESC,"createAt"))));
     }
 
     @Override

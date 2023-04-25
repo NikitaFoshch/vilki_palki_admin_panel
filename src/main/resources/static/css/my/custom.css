@@ -23,3 +23,11 @@ a.nav-link:hover{
 a.nav-link:active{
     color: #ffc923 !important;
 }
+.page-link{
+    color: #000000 !important;
+}
+.page-item.active .page-link{
+    color: #ffffff !important;
+    background-color: #b98e1a !important;
+    border-color: #b98e1a !important;
+}

@@ -1,9 +1,6 @@
 package lab.space.vilki_palki.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lab.space.vilki_palki.entity.common.MappedEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -25,6 +22,10 @@ public class Order extends MappedEntity {
     private int common_kit;
     private boolean cardPay;
     private boolean cashPay;
+    @Column(length = 10000)
+    private String products;
+    @Column(length = 10000)
+    private String address;
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 

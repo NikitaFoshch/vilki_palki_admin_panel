@@ -14,6 +14,17 @@
             <div class="card">
                 <div class="card-header vilki-mod">
                     <h3 class="card-title text-light">Address Table</h3>
+                    <div class="card-tools">
+                        <div class="input-group input-group-sm" style="width: 250px;">
+                            <input type="text" oninput="filterNameInput(this)" id="address-table-search" class="form-control float-right"
+                                   placeholder="Search">
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-default">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-body">
 
@@ -37,16 +48,6 @@
                 </div>
                 <div class="card-footer clearfix vilki-mod">
                     <div class="row">
-                        <div class="col-5"></div>
-                        <div class="col-4">
-                            <ul class="pagination pagination-sm m-auto">
-                                <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                            </ul>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -57,6 +58,17 @@
             <div class="card">
                 <div class="card-header vilki-mod">
                     <h3 class="card-title text-light">Orders Table</h3>
+                    <div class="card-tools">
+                        <div class="input-group input-group-sm" style="width: 250px;">
+                            <input type="text" oninput="filterNameInput(this)" id="orders-table-search" class="form-control float-right"
+                                   placeholder="Search">
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-default">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -80,16 +92,6 @@
                 <!-- /.card-body -->
                 <div class="card-footer clearfix vilki-mod">
                     <div class="row">
-                        <div class="col-5"></div>
-                        <div class="col-4">
-                            <ul class="pagination pagination-sm m-auto">
-                                <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                            </ul>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -140,10 +142,20 @@
 <th:block layout:fragment="extra-js">
 
     <script>
+
+        const defaultItemCount = 5;
+        let addressRequest = {};
+        addressRequest.pageIndex = 0;
+        let orderRequest = {};
+        orderRequest.pageIndex = 0;
+        let filterTimeout;
+
         $(document).ready(function () {
-            let id = $("#user-id").val();
-            getAllOrders(id);
-            getAllAddress(id);
+            const id = $("#user-id").val();
+            addressRequest.userId = id;
+            orderRequest.userId = id;
+            getAllOrders();
+            getAllAddress();
         });
 
         $('#confirm-order-delete').on('show.bs.modal', function (e) {
@@ -157,28 +169,31 @@
         });
 
         //  Get All Users
-        function getAllOrders(id) {
+        function getAllOrders() {
             $.ajax({
-                method: "GET",
+                method: "POST",
                 url: '/users/get-all-orders-by-user-id',
-                data: {id: id},
-                contentType: 'application/json'
-            }).done(function (orders) {
-                console.info(orders);
-                const TABLE_BODY = createTable('#orders-table', 1, 2, 0);
-                $.each(orders, function (index, order) {
+                contentType: 'application/json',
+                data: JSON.stringify(orderRequest),
+                beforeSend: function (){
+                    console.log(orderRequest)
+                }
+            }).done(function (orderResponse) {
+                console.info(orderResponse);
+                const TABLE_BODY = createTable('#orders-table', orderResponse?.itemsCount, orderResponse?.pagesCount, orderRequest?.pageIndex);
+                $.each(orderResponse?.data, function (index, order) {
                     const $delete = '' +
                         '<a class="btn pb-0 pt-0 btn-danger" ' +
                         'data-id="' + order?.id + '" data-toggle="modal" data-target="#confirm-order-delete">Удалить</a>';
                     $(TABLE_BODY).append(
                         '<tr>' +
-                        '    <td>' + order?.id + '</td>' +
-                        '    <td>' + order?.orderCode + '</td>' +
-                        '    <td>' + order.productsList + '</td>' +
-                        '    <td>' + order.date + '</td>' +
-                        '    <td>' + order.deliveryStatus + '</td>' +
-                        '    <td>' + order.address + '</td>' +
-                        '    <td>' + order.price + '</td>' +
+                        '    <td>' + ((index + 1) + (orderRequest.pageIndex * defaultItemCount)) + '</td>' +
+                        '    <td>' + (order?.orderCode ? order?.orderCode : '-') + '</td>' +
+                        '    <td>' + (order?.productsList ? order?.productsList : '-') + '</td>' +
+                        '    <td>' + (order?.date ? order?.date : '-') + '</td>' +
+                        '    <td>' + (order?.deliveryStatus ? order?.deliveryStatus : '-') + '</td>' +
+                        '    <td>' + (order?.address ? order?.address : '-') + '</td>' +
+                        '    <td>' + (order?.price ? order?.price : '-') + '</td>' +
                         '    <td>' + $delete + '</td>' +
                         '</tr>'
                     );
@@ -186,29 +201,33 @@
             });
         }
 
-        function getAllAddress(id) {
+        function getAllAddress() {
             $.ajax({
-                method: "GET",
+                method: "POST",
                 url: "/users/get-all-address-by-user-id",
-                data: {id: id},
-                contentType: 'application/json'
-            }).done(function (addresses) {
-                console.info(addresses);
-                const TABLE_BODY = createTable('#address-table', 1, 2, 0);
-                $.each(addresses, function (index, address) {
+                dataType: 'json',
+                contentType: 'application/json',
+                data: JSON.stringify(addressRequest),
+                beforeSend: function (){
+                    console.log(addressRequest)
+                }
+            }).done(function (addressResponse) {
+                console.info(addressResponse);
+                const TABLE_BODY = createTable('#address-table', addressResponse?.itemsCount, addressResponse?.pagesCount, addressRequest?.pageIndex);
+                $.each(addressResponse?.data, function (index, address) {
                     const $delete = '' +
                         '<a class="btn pb-0 pt-0 btn-danger" ' +
                         'data-id="' + address?.id + '" data-toggle="modal" data-target="#confirm-address-delete">Удалить</a>';
                     $(TABLE_BODY).append(
                         '<tr>' +
-                        '    <td>' + address?.id + '</td>' +
-                        '    <td>' + address?.street + '</td>' +
-                        '    <td>' + address?.numberHouse + '</td>' +
-                        '    <td>' + address?.apartment + '</td>' +
-                        '    <td>' + address?.frontDoor + '</td>' +
-                        '    <td>' + address?.doorCode + '</td>' +
-                        '    <td>' + address?.floor + '</td>' +
-                        '    <td>' + address?.notes + '</td>' +
+                        '    <td>' + ((index + 1) + (addressRequest.pageIndex * defaultItemCount)) + '</td>' +
+                        '    <td>' + (address?.street ? address?.street : '-') + '</td>' +
+                        '    <td>' + (address?.numberHouse ? address?.numberHouse : '-') + '</td>' +
+                        '    <td>' + (address?.apartment ? address?.apartment : '-') + '</td>' +
+                        '    <td>' + (address?.frontDoor ? address?.frontDoor : '-') + '</td>' +
+                        '    <td>' + (address?.doorCode ? address?.doorCode : '-') + '</td>' +
+                        '    <td>' + (address?.floor ? address?.floor : '-') + '</td>' +
+                        '    <td>' + (address?.notes ? address?.notes : '-') + '</td>' +
                         '    <td>' + $delete + '</td>' +
                         '</tr>'
                     );
@@ -222,7 +241,7 @@
             const TABLE_HEAD = $(TABLE_DIV).find('thead');
             const TABLE_BODY = $(TABLE_DIV).find('tbody');
             const TABLE_COLUMNS_COUNT = $(TABLE_HEAD).find('th').length;
-            const TABLE_PAGINATION_ROW = $(TABLE_DIV).next('div.card-body').find('div.row');
+            const TABLE_PAGINATION_ROW = $(TABLE_DIV).parents('div.card').find('div.card-footer').find('div.row');
             $(TABLE_BODY).empty();
             $(TABLE_PAGINATION_ROW).empty();
             if (itemsCount <= 0) {
@@ -233,7 +252,7 @@
                     '    </td>' +
                     '</tr>'
                 );
-            } else createPagination(pagesCount, pageIndex, TABLE_PAGINATION_ROW, itemsCount);
+            } else if (Number(pagesCount) > 1) createPagination(pagesCount, pageIndex, TABLE_PAGINATION_ROW, itemsCount);
             return TABLE_BODY;
         }
 
@@ -244,20 +263,12 @@
                 '</ul>';
             const collapsedPageBtn =
                 '   <li class="page-item">' +
-                '       <a class="page-link waves-effect disabled" role="button">...</a>' +
+                '       <a class="page-link disabled" role="button">...</a>' +
                 '   </li>';
 
             pagesCount = Number(pagesCount);
-            pageIndex = Number(pageIndex);
+            pageIndex = Number(pageIndex) + 1;
             itemsCount = Number(itemsCount);
-
-            $(TABLE_PAGINATION_ROW).append(
-                $($(colDiv).addClass('pagination-info'))
-                    .append('[[#{pages.table.entriesInfo}]]'
-                        .replace('X', ((pageIndex - 1) * 10 + 1))
-                        .replace('Y', Math.min(pageIndex * 10, itemsCount))
-                        .replace('Z', itemsCount))
-            );
 
             $(TABLE_PAGINATION_ROW).append($(colDiv).append(paginationList));
             const paginationListPath = $(TABLE_PAGINATION_ROW).find('ul.pagination');
@@ -330,9 +341,9 @@
         //  Create Next previous triangle Btn
         function createPrevNextPageBtn(isDisabled, isPrev) {
             return '' +
-                '   <li class="page-item ' + (isPrev ? 'prev' : 'next') + '">' +
-                '       <a class="page-link waves-effect ' + (isDisabled ? 'disabled' : '') + '" role="button">' +
-                '           <i class="ti ti-chevron-' + (isPrev ? 'left' : 'right') + ' ti-xs"></i>' +
+                '   <li class="page-item ' + (isPrev ? 'prev' : 'next') + (isDisabled ? ' disabled' : '') + '">' +
+                '       <a class="page-link" role="button">' +
+                (isPrev ? '<span aria-hidden="true">&laquo;</span>' : '<span aria-hidden="true">&raquo;</span>') +
                 '       </a>' +
                 '   </li>';
         }
@@ -341,9 +352,53 @@
         function createPageBtn(pageNumber, isActive) {
             return '' +
                 '<li class="page-item ' + (isActive ? 'active' : '') + '">' +
-                '   <a class="page-link waves-effect" role="button">' + pageNumber + '</a>' +
+                '   <a class="page-link" role="button">' + pageNumber + '</a>' +
                 '</li>';
         }
+
+        $(document).on('click', 'a.page-link', function () {
+            const pageBtn = $(this);
+            const whichTable = $(pageBtn).parents('div.card').find('table').attr('id');
+            if (whichTable === 'address-table') {
+                if ($(pageBtn).parent('li.page-item').hasClass('prev')) {
+                    addressRequest.pageIndex = --addressRequest.pageIndex;
+                } else if ($(pageBtn).parent('li.page-item').hasClass('next')) {
+                    addressRequest.pageIndex = ++addressRequest.pageIndex;
+                } else {
+                    addressRequest.pageIndex = Number($(pageBtn).text()) - 1;
+                }
+                getAllAddress();
+            } else {
+                if ($(pageBtn).parent('li.page-item').hasClass('prev')) {
+                    orderRequest.pageIndex = --orderRequest.pageIndex;
+                } else if ($(pageBtn).parent('li.page-item').hasClass('next')) {
+                    orderRequest.pageIndex = ++orderRequest.pageIndex;
+                } else {
+                    orderRequest.pageIndex = Number($(pageBtn).text()) - 1;
+                }
+                getAllOrders();
+            }
+
+        });
+
+        $(document).on('change', '#address-table-search', function () {
+            addressRequest.query = $(this).val();
+            addressRequest.pageIndex = 0;
+            getAllAddress();
+        });
+
+        $(document).on('change', '#orders-table-search', function () {
+            orderRequest.query = $(this).val();
+            orderRequest.pageIndex = 0;
+            getAllOrders();
+        });
+
+        function filterNameInput(input) {
+            clearInterval(filterTimeout)
+            filterTimeout = setTimeout(() => {
+                $(input).trigger('change');
+            }, 1000)
+        };
 
     </script>
 

@@ -1,7 +1,11 @@
 package lab.space.vilki_palki.mapper;
 
 import lab.space.vilki_palki.entity.Address;
+import lab.space.vilki_palki.entity.Order;
 import lab.space.vilki_palki.model.AddressResponse;
+import lab.space.vilki_palki.model.AddressResponseByPage;
+import lab.space.vilki_palki.model.OrderResponseByPage;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -22,6 +26,14 @@ public class AddressMapper {
                 .doorCode(address.getDoorCode())
                 .floor(address.getFloor())
                 .notes(address.getNotes())
+                .build();
+    }
+
+    public AddressResponseByPage toAddressResponseByPage(Page<Address> addresses) {
+        return AddressResponseByPage.builder()
+                .data(addresses.stream().map(this::toSimplifiedDto).toList())
+                .itemsCount(addresses.getTotalElements())
+                .pagesCount(addresses.getTotalPages())
                 .build();
     }
 }
