@@ -65,7 +65,8 @@
                     </h3>
                     <div class="card-tools">
                         <div class="input-group input-group-sm" style="width: 250px;">
-                            <input type="text" oninput="filterNameInput(this)" id="admins-table-search" class="form-control float-right"
+                            <input type="text" oninput="filterNameInput(this)" id="admins-table-search"
+                                   class="form-control float-right"
                                    placeholder="Search">
                             <div class="input-group-append">
                                 <button type="submit" class="btn btn-default">
@@ -175,13 +176,13 @@
                 dataType: 'json',
                 contentType: 'application/json',
                 data: JSON.stringify(userRequest),
-                beforeSend: function (){
+                beforeSend: function () {
                     console.log(userRequest)
                 }
             }).done(function (usersResponse) {
                 console.info(usersResponse);
-                const TABLE_BODY = createTable('#users-table', usersResponse?.itemsCount, usersResponse?.pagesCount, userRequest?.pageIndex);
-                $.each(usersResponse?.data, function (index, user) {
+                const TABLE_BODY = createTable('#users-table', usersResponse?.totalElements, usersResponse?.totalPages, userRequest?.pageIndex);
+                $.each(usersResponse?.content, function (index, user) {
                     const $view = '' +
                         '<a href="/users/user-details/' + user?.id + '" class="btn pb-0 pt-0 btn-secondary">Детали</a>';
                     const $delete = '' +
@@ -189,7 +190,7 @@
                         'data-id="' + user?.id + '" data-toggle="modal" data-target="#confirm-user-delete">Удалить</a>';
                     $(TABLE_BODY).append(
                         '<tr>' +
-                        '    <td>' + ((index + 1) + (userRequest.pageIndex * defaultItemCount)) + '</td>' +
+                        '    <td>' + ((index + 1) + (userRequest.pageIndex * usersResponse?.size)) + '</td>' +
                         '    <td>' + (user?.email ? user?.email : '-') + '</td>' +
                         '    <td>' + (user?.name ? user?.name : '-') + '</td>' +
                         '    <td>' + (user?.birthday ? user?.birthday : '—') + '</td>' +
@@ -210,7 +211,7 @@
                 dataType: 'json',
                 contentType: 'application/json',
                 data: JSON.stringify(adminRequest),
-                beforeSend: function (){
+                beforeSend: function () {
                     console.log(adminRequest)
                 }
             }).done(function (adminsResponse) {
@@ -381,24 +382,20 @@
 
         });
 
-        $(document).on('change', '#users-table-search', function () {
-            userRequest.query = $(this).val();
-            userRequest.pageIndex = 0;
-            getAllUsers();
-        });
-
-        $(document).on('change', '#admins-table-search', function () {
-            adminRequest.query = $(this).val();
-            adminRequest.pageIndex = 0;
-            getAllAdmins();
-        });
-
         function filterNameInput(input) {
             clearInterval(filterTimeout)
             filterTimeout = setTimeout(() => {
-                $(input).trigger('change');
+                if ($(input).attr('id') === 'users-table-search') {
+                    userRequest.query = $(input).val();
+                    userRequest.pageIndex = 0;
+                    getAllUsers();
+                } else if ($(input).attr('id') === 'admins-table-search') {
+                    adminRequest.query = $(input).val();
+                    adminRequest.pageIndex = 0;
+                    getAllAdmins();
+                }
             }, 1000)
-        };
+        }
 
     </script>
 

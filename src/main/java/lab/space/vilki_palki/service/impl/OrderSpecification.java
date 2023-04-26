@@ -38,6 +38,7 @@ public class OrderSpecification {
             List<Predicate> predicates = new ArrayList<>();
             if (nonNull(request.getQuery()) && !Objects.equals(request.getQuery(), "")) {
                 predicates.add(criteriaBuilder.or(
+                        criteriaBuilder.like(criteriaBuilder.lower(root.get("orderCode")), "%" + request.getQuery().toLowerCase() + "%"),
                         criteriaBuilder.like(criteriaBuilder.lower(root.get("products")), "%" + request.getQuery().toLowerCase() + "%"),
                         criteriaBuilder.like(criteriaBuilder.lower(root.get("address")), "%" + request.getQuery().toLowerCase() + "%")
                 ));

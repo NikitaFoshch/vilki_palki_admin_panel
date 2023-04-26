@@ -20,6 +20,10 @@ public class Product extends MappedEntity {
     private String description;
     @Column(length = 150)
     private String image;
+    @OneToOne
+    private ProductsCategory productsCategory;
+    @OneToOne
+    private ProductsType productsType;
     @ManyToMany
     private List<Structure> structures;
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)

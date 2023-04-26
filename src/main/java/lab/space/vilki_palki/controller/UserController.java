@@ -7,6 +7,7 @@ import lab.space.vilki_palki.service.AdminService;
 import lab.space.vilki_palki.service.OrderService;
 import lab.space.vilki_palki.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,7 +32,7 @@ public class UserController {
         return "/admin-panel/pages/user/users";
     }
     @PostMapping ("get-all-users")
-    public ResponseEntity<UserResponseByPage> getAllUsers(@RequestBody UserRequest userRequest) {
+    public ResponseEntity<Page<UserResponse>> getAllUsers(@RequestBody UserRequest userRequest) {
         return ResponseEntity.ok(userService.getUsersByPage(userRequest));
     }
     @PostMapping("get-all-admins")

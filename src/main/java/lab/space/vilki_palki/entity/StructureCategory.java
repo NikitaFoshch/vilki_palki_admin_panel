@@ -8,10 +8,10 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Entity
-@Table(name = "categories")
+@Table(name = "structure_categories")
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class Category extends MappedEntity {
+public class StructureCategory extends MappedEntity {
     @Column(length = 20)
     private String name;
 }

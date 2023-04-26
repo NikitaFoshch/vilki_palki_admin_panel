@@ -5,7 +5,6 @@ import lab.space.vilki_palki.entity.User;
 import lab.space.vilki_palki.mapper.UserMapper;
 import lab.space.vilki_palki.model.UserRequest;
 import lab.space.vilki_palki.model.UserResponse;
-import lab.space.vilki_palki.model.UserResponseByPage;
 import lab.space.vilki_palki.repository.UserRepository;
 import lab.space.vilki_palki.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -13,10 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -30,16 +26,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public Integer getCountByAllUsers() {
         return userRepository
-                        .findAll(Sort.by(Sort.Direction.DESC, "createAt")).size();
+                .findAll(Sort.by(Sort.Direction.DESC, "createAt")).size();
     }
 
 
     @Override
-    public UserResponseByPage getUsersByPage(UserRequest userRequest) {
+    public Page<UserResponse> getUsersByPage(UserRequest userRequest) {
         final int DEFAULT_PAGE_SIZE = 5;
-        return userMapper.toUserResponseByPage(
+        return
                 userRepository.findAll(userSpecification.getUsersByRequest(userRequest),
-                        PageRequest.of(userRequest.getPageIndex(), DEFAULT_PAGE_SIZE)));
+                        PageRequest.of(userRequest.getPageIndex(), DEFAULT_PAGE_SIZE)).map(userMapper::toDto);
     }
 
     @Override

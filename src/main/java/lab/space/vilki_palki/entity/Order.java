@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lab.space.vilki_palki.entity.common.MappedEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import java.time.Instant;
 
@@ -29,9 +31,15 @@ public class Order extends MappedEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
+    @Getter
+    @RequiredArgsConstructor
     public enum DeliveryStatus {
-        IN_PROCESS,
-        DONE
+        IN_PROCESS("Готовиться"),
+        ON_WAY("В пути"),
+        ACCEPT("Принят"),
+        CANCELED("Отменен"),
+        DONE("Исполнен");
+        private final String value;
     }
 
 }
