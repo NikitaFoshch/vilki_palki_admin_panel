@@ -3,118 +3,492 @@
       layout:decorate="~{admin-panel/fragments/index}">
 
 <head>
-  <title>Structures</title>
+    <title>Structures</title>
+
 </head>
 
 <th:block layout:fragment="content">
 
-  <div class="row">
-    <div class="col-md-4"></div>
-    <div class="col-md-4"></div>
-    <div class=" col-md-auto pl-5 ml-5 text-right">
-      <button type="button" class="btn btn-block btn-warning" data-toggle="modal" data-target="#add-product">
-        <i class="fa-solid fa-plus pr-2"></i>
-        Добавить ингредиент
-      </button>
+    <div class="row">
+
     </div>
-  </div>
-  <div class="row pt-5">
-    <div class="col-md-3 col-form-label" th:each="movie:${moviesOngoing}">
-      <a class="delete" th:href="${'/movies/delete/' + movie.id}">
-        <i class="fa-regular fa-circle-xmark fa-xl"></i>
-      </a>
-      <a th:href="'/admin/movies/edit/' + *{movie.id}" class="text-gray-dark">
-        <div class="row">
-          <div class="col-md-12 text-center pr-4 pl-4">
-            <img th:src="*{movie.mainImage == null} ? ${'/img/common/no-image.jpg'}
-                                    : *{'/files/' + movie.mainImage}"
-                 class="product-image w-100" height="400" alt="Movie Image">
-          </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header vilki-mod">
+                    <h3 class="card-title text-light pt-1">Structure Table</h3>
+
+                    <div class="card-tools  pt-1">
+                        <div class="input-group input-group-sm" style="width: 250px;">
+                            <input type="text" oninput="filterNameInput(this)" id="structure-table-search"
+                                   class="form-control float-right"
+                                   placeholder="Search">
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-default">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-tools mr-4 pt-0">
+                        <div class="col-md-auto">
+                            <button type="button" class="btn btn-sm btn-block btn-warning" data-toggle="modal"
+                                    data-target="#add-structure">
+                                <i class="fa-solid fa-plus pr-2"></i>
+                                Добавить ингредиент
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered" id="structure-table">
+                        <thead>
+                        <tr>
+                            <th style="width: 10px">#</th>
+                            <th>Название</th>
+                            <th>Категория</th>
+                            <th>Вес</th>
+                            <th>Цена, грн</th>
+                            <th style="width: 205px">Действия</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer clearfix vilki-mod">
+                    <div class="row">
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="row pt-2">
-          <div class="col-md-12 form-group text-center" th:text="${movie.name}"></div>
-        </div>
-      </a>
     </div>
-  </div>
 
 </th:block>
 
 <!-- Extra Modals -->
 <th:block layout:fragment="extra-modals">
 
-  <div class="modal fade" id="add-product">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content bg-warning">
-        <div class="modal-header">
-          <h4 class="modal-title">Add Structure</h4>
-        </div>
-        <div class="modal-body">
-          <div class="row">
-            <div class="col-6">
-              <div class="row">
-                <div class="form-group">
-                  <label for="title">Title</label>
-                  <input type="text" class="form-control" id="title" name="title" placeholder="Enter title">
+    <div class="modal fade" id="add-structure">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-warning">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add Structure</h4>
                 </div>
-              </div>
-              <div class="row">
-                <div class="form-group">
-                  <label for="weight">Weight</label>
-                  <input type="text" class="form-control" id="weight" name="weight" placeholder="Enter price">
+                <div class="modal-body">
+                    <div class="row d-flex justify-content-between align-items-center">
+                        <div class="mb-3">
+                            <label for="title">Title</label>
+                            <input type="text" class="form-control" id="title" placeholder="Enter title">
+                        </div>
+                        <div class="mb-3">
+                            <label for="price">Price</label>
+                            <input type="number" class="form-control" id="price" placeholder="Enter structure">
+                        </div>
+                    </div>
+                    <div class="row d-flex justify-content-between align-items-center">
+                        <div class="mb-3">
+                            <label for="weight">Weight</label>
+                            <input type="number" class="form-control" id="weight" placeholder="Enter price">
+                        </div>
+                        <div class="mb-3">
+                            <label for="category">Category</label>
+                            <select class="form-control" style="width: 202px" id="category">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row d-flex justify-content-between align-items-center">
+                        <div class="mb-3">
+                            <label for="image">Image</label>
+                            <div class="custom-file">
+                                <label class="custom-file-label" for="image"></label>
+                                <input type="file" class="custom-file-input" id="image"
+                                       accept="image/jpeg, image/png">
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
-              <div class="row">
-                <div class="form-group">
-                  <label for="price">Price</label>
-                  <input type="text" class="form-control" id="price" name="price" placeholder="Enter structure">
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Отменить</button>
+                    <button onclick="saveStructureById();" type="button" class="btn btn-outline-dark">Добавить</button>
                 </div>
-              </div>
             </div>
-            <div class="col-6">
-              <div class="row">
-                <div class="form-group">
-                  <label for="image">Image</label>
-                  <div class="custom-file">
-                    <label class="custom-file-label" for="image"></label>
-                    <input type="file" class="custom-file-input" id="image"
-                           name="image" accept="image/jpeg, image/png">
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="form-group">
-                  <label for="category">Category</label>
-                  <div class="form-group ml-2">
-                    <select class="form-control select2bs4" id="category">
-                      <option th:each="category : ${categoryes}" th:value="${category.id}"
-                              th:text="${category.name}"></option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
-        <div class="modal-footer justify-content-between">
-          <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Отменить</button>
-          <a href="/products/product-add" type="button" class="btn btn-outline-dark">Добавить</a>
-        </div>
-      </div>
     </div>
-  </div>
-
+    <div class="modal fade" id="update-structure">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-warning">
+                <div class="modal-header">
+                    <h4 class="modal-title">Update Structure</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row d-flex justify-content-between align-items-center">
+                        <div class="mb-3">
+                            <label for="update-title">Title</label>
+                            <input type="text" class="form-control" id="update-title" placeholder="Enter title">
+                        </div>
+                        <div class="mb-3">
+                            <label for="update-price">Price</label>
+                            <input type="number" class="form-control" id="update-price" placeholder="Enter structure">
+                        </div>
+                    </div>
+                    <div class="row d-flex justify-content-between align-items-center">
+                        <div class="mb-3">
+                            <label for="update-weight">Weight</label>
+                            <input type="number" class="form-control" id="update-weight" placeholder="Enter price">
+                        </div>
+                        <div class="mb-3">
+                            <label for="update-category">Category</label>
+                            <select class="form-control" style="width: 202px" id="update-category">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row d-flex justify-content-between align-items-center">
+                        <div class="mb-3">
+                            <label for="image">Image</label>
+                            <div class="custom-file">
+                                <label class="custom-file-label" for="update-image"></label>
+                                <input type="file" class="custom-file-input" id="update-image"
+                                       accept="image/jpeg, image/png">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Отменить</button>
+                    <button onclick="updateStructureById();" type="button" class="btn btn-outline-dark">Изменить</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="delete-structure">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-danger">
+                <div class="modal-header">
+                    <h4 class="modal-title">Delete Entity</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Вы уверены, что хотите удалить?</p>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Нет</button>
+                    <a id="delete-structure-button" type="button" class="btn btn-outline-dark">Да</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </th:block>
 
 <th:block layout:fragment="extra-js">
 
-  <script src="/js/select2/select2.full.js"></script>
-  <script src="/js/bs-file-input/bs-custom-file-input.min.js"></script>
-  <script>
-    $(function () {
-      bsCustomFileInput.init();
-    });
-  </script>
+    <script src="/js/bs-file-input/bs-custom-file-input.min.js"></script>
+    <script>
+        $(function () {
+            bsCustomFileInput.init();
+        });
+        let structureRequest = {};
+        structureRequest.pageIndex = 0;
+
+        let filterTimeout;
+
+        $(document).ready(function () {
+            getAllStructures();
+        });
+
+
+
+        $('#delete-structure').on('show.bs.modal', function (e) {
+            let id = $(e.relatedTarget).data('id');
+            $('#delete-structure-button').attr('href', '/structures/delete-structure/' + id);
+        });
+
+        function getAllStructures() {
+            $.ajax({
+                method: "POST",
+                url: "/structures/get-all-structure",
+                dataType: 'json',
+                contentType: 'application/json',
+                data: JSON.stringify(structureRequest),
+                beforeSend: function () {
+                    console.log(structureRequest)
+                }
+            }).done(function (structuresResponse) {
+                console.info(structuresResponse);
+                const TABLE_BODY = createTable('#structure-table', structuresResponse?.totalElements, structuresResponse?.totalPages, structureRequest?.pageIndex);
+                $.each(structuresResponse?.content, function (index, structure) {
+                    const $view = '' +
+                        '<button data-id="' + structure?.id + '" data-toggle="modal" data-target="#update-structure" ' +
+                        'class="btn pb-0 pt-0 btn-secondary">Изменить</button>';
+                    const $delete = '' +
+                        '<a class="btn pb-0 pt-0 btn-danger" ' +
+                        'data-id="' + structure?.id + '" data-toggle="modal" data-target="#delete-structure">Удалить</a>';
+                    $(TABLE_BODY).append(
+                        '<tr>' +
+                        '    <td>' + ((index + 1) + (structureRequest.pageIndex * structuresResponse?.size)) + '</td>' +
+                        '    <td>' + (structure?.name ? structure?.name : '-') + '</td>' +
+                        '    <td>' + (structure?.structureCategory ? structure?.structureCategory : '—') + '</td>' +
+                        '    <td>' + (structure?.weight ? structure?.weight : '—') + '</td>' +
+                        '    <td>' + (structure?.price ? structure?.price : '—') + '</td>' +
+                        '    <td>' + $view + $delete + '</td>' +
+                        '</tr>'
+                    );
+                });
+            });
+        }
+
+        //  Drawing table
+        function createTable(tableSelector, itemsCount, pagesCount, pageIndex) {
+            const TABLE_DIV = $(tableSelector);
+            const TABLE_HEAD = $(TABLE_DIV).find('thead');
+            const TABLE_BODY = $(TABLE_DIV).find('tbody');
+            const TABLE_COLUMNS_COUNT = $(TABLE_HEAD).find('th').length;
+            const TABLE_PAGINATION_ROW = $(TABLE_DIV).parents('div.card').find('div.card-footer').find('div.row');
+            $(TABLE_BODY).empty();
+            $(TABLE_PAGINATION_ROW).empty();
+            if (itemsCount <= 0) {
+                $(TABLE_BODY).append(
+                    '<tr>' +
+                    '    <td colspan="' + TABLE_COLUMNS_COUNT + '" class="align-middle text-center no-data">' +
+                    'No data...' +
+                    '    </td>' +
+                    '</tr>'
+                );
+            } else if (Number(pagesCount) > 1) createPagination(pagesCount, pageIndex, TABLE_PAGINATION_ROW, itemsCount);
+            return TABLE_BODY;
+        }
+
+        function createPagination(pagesCount, pageIndex, TABLE_PAGINATION_ROW, itemsCount) {
+            const colDiv = '<div class="col-sm-12 col-md-6"></div>';
+            const paginationList =
+                '<ul class="pagination pagination-sm mb-0 justify-content-center justify-content-md-end align-items-center">' +
+                '</ul>';
+            const collapsedPageBtn =
+                '   <li class="page-item">' +
+                '       <a class="page-link disabled" role="button">...</a>' +
+                '   </li>';
+
+            pagesCount = Number(pagesCount);
+            pageIndex = Number(pageIndex) + 1;
+            itemsCount = Number(itemsCount);
+
+            $(TABLE_PAGINATION_ROW).append($(colDiv).append(paginationList));
+            const paginationListPath = $(TABLE_PAGINATION_ROW).find('ul.pagination');
+
+            // pagination logic
+            if (pagesCount > 1) {
+                if (pageIndex !== 1) {
+                    $(paginationListPath).append(createPrevNextPageBtn(false, true));
+                    $(paginationListPath).append(createPageBtn(1, false));
+                } else {
+                    $(paginationListPath).append(createPrevNextPageBtn(true, true));
+                    $(paginationListPath).append(createPageBtn(1, true));
+                }
+
+                if (pagesCount > 7) {
+                    if (pageIndex >= 5) {
+                        $(paginationListPath).append(collapsedPageBtn);
+                    }
+
+                    let start;
+                    let finish;
+                    if (pageIndex < 5) {
+                        start = 2;
+                        finish = 5;
+                    } else if (pagesCount - pageIndex < 4) {
+                        start = pagesCount - 4;
+                        finish = pagesCount - 1;
+                    } else {
+                        start = pageIndex - 1;
+                        finish = pageIndex + 1;
+                    }
+                    for (let i = start; i <= finish; i++) {
+                        if (i > 1 && i <= pagesCount - 1) {
+                            if (pageIndex === i) {
+                                $(paginationListPath).append(createPageBtn(i, true));
+                            } else {
+                                $(paginationListPath).append(createPageBtn(i, false));
+                            }
+                        }
+                    }
+
+                    if (pagesCount - pageIndex >= 4) {
+                        $(paginationListPath).append(collapsedPageBtn);
+                    }
+                } else {
+                    for (let i = 2; i <= pagesCount - 1; i++) {
+                        if (pageIndex === i) {
+                            $(paginationListPath).append(createPageBtn(i, true));
+                        } else {
+                            $(paginationListPath).append(createPageBtn(i, false));
+                        }
+                    }
+                }
+
+                if (pageIndex !== pagesCount) {
+                    $(paginationListPath).append(createPageBtn(pagesCount, false));
+                    $(paginationListPath).append(createPrevNextPageBtn(false, false));
+                } else {
+                    $(paginationListPath).append(createPageBtn(pagesCount, true));
+                    $(paginationListPath).append(createPrevNextPageBtn(true, false));
+                }
+            } else {
+                $(paginationListPath).append(createPrevNextPageBtn(true, true));
+                $(paginationListPath).append(createPageBtn(1, true));
+                $(paginationListPath).append(createPrevNextPageBtn(true, false));
+            }
+            // end of pagination logic
+        }
+
+        //  Create Next previous triangle Btn
+        function createPrevNextPageBtn(isDisabled, isPrev) {
+            return '' +
+                '   <li class="page-item ' + (isPrev ? 'prev' : 'next') + (isDisabled ? ' disabled' : '') + '">' +
+                '       <a class="page-link" role="button">' +
+                (isPrev ? '<span aria-hidden="true">&laquo;</span>' : '<span aria-hidden="true">&raquo;</span>') +
+                '       </a>' +
+                '   </li>';
+        }
+
+        //  Create Pagination Btn
+        function createPageBtn(pageNumber, isActive) {
+            return '' +
+                '<li class="page-item ' + (isActive ? 'active' : '') + '">' +
+                '   <a class="page-link" role="button">' + pageNumber + '</a>' +
+                '</li>';
+        }
+
+        //  Page click action
+        $(document).on('click', 'a.page-link', function () {
+            const pageBtn = $(this);
+            const whichTable = $(pageBtn).parents('div.card').find('table').attr('id');
+            if (whichTable === 'structure-table') {
+                if ($(pageBtn).parent('li.page-item').hasClass('prev')) {
+                    structureRequest.pageIndex = --structureRequest.pageIndex;
+                } else if ($(pageBtn).parent('li.page-item').hasClass('next')) {
+                    structureRequest.pageIndex = ++structureRequest.pageIndex;
+                } else {
+                    structureRequest.pageIndex = Number($(pageBtn).text()) - 1;
+                }
+                getAllStructures();
+            }
+        });
+
+        function filterNameInput(input) {
+            clearInterval(filterTimeout)
+            filterTimeout = setTimeout(() => {
+                if ($(input).attr('id') === 'structure-table-search') {
+                    structureRequest.query = $(input).val();
+                    structureRequest.pageIndex = 0;
+                    getAllStructures();
+                }
+            }, 1000)
+        }
+
+        function saveStructureById() {
+            let structureSaveRequest = new FormData();
+            const file = $('#image')[0].files[0];
+            structureSaveRequest.append('title', $('#title').val());
+            structureSaveRequest.append('weight', $('#weight').val());
+            structureSaveRequest.append('price', $('#price').val());
+            if (file) {
+                structureSaveRequest.append('image', file);
+            }
+            if ($('#category').val() !== '') {
+                structureSaveRequest.append('category', $('#category').val());
+            }
+            $.ajax({
+                method: "POST",
+                url: '/structures/structure-save',
+                contentType: false,
+                processData: false,
+                data: structureSaveRequest,
+                beforeSend: function () {
+                    console.log(structureSaveRequest)
+                }
+            }).done(function () {
+                $('#add-structure').modal('hide');
+
+            }).fail(function (response) {
+                console.error(response);
+            })
+        }
+
+        //  Clearing modal
+        $(document).on('hidden.bs.modal', '#update-structure', function () {
+            $('#title').val('');
+            $('#weight').val('');
+            $('#price').val('');
+            $('#image').val('');
+            $('#category').val('');
+        })
+
+        let structureUpdateRequest = new FormData();
+
+        $('#update-structure').on('show.bs.modal', function (e) {
+            let id = $(e.relatedTarget).data('id');
+            structureUpdateRequest.append('id',id);
+            $.ajax({
+                method: "POST",
+                url: "/structures/get-structure-by-id",
+                dataType: 'json',
+                contentType: 'application/json',
+                data: JSON.stringify(id),
+                beforeSend: function () {
+                    console.log(structureUpdateRequest)
+                }
+            }).done(function (structureResponse) {
+                console.info(structureResponse);
+            });
+        });
+
+        function updateStructureById() {
+            const file = $('#update-image')[0].files[0];
+            structureUpdateRequest.append('id', $('#update-title').val());
+            structureUpdateRequest.append('title', $('#update-title').val());
+            structureUpdateRequest.append('weight', $('#update-weight').val());
+            structureUpdateRequest.append('price', $('#update-price').val());
+            if (file) {
+                structureUpdateRequest.append('image', file);
+            }
+            if ($('#update-category').val() !== '') {
+                structureUpdateRequest.append('category', $('#update-category').val());
+            }
+            $.ajax({
+                method: "POST",
+                url: '/structures/structure-update',
+                contentType: false,
+                processData: false,
+                data: structureUpdateRequest,
+                beforeSend: function () {
+                    console.log(structureUpdateRequest)
+                }
+            }).done(function () {
+                $('#update-structure').modal('hide');
+
+            }).fail(function (response) {
+                console.error(response);
+            })
+        }
+
+        //  Clearing modal
+        $(document).on('hidden.bs.modal', '#update-structure', function () {
+            $('#title').val('');
+            $('#weight').val('');
+            $('#price').val('');
+            $('#image').val('');
+            $('#category').val('');
+        })
+
+        $('#category').select2({
+            theme: 'bootstrap4',
+            placeholder: 'Choose category',
+            width: '204px',
+            minimumInputLength: -1
+        });
+
+    </script>
 
 </th:block>
 

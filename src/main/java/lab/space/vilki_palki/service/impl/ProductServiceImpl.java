@@ -35,7 +35,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void saveProduct(Product requestProduct, MultipartFile image) {
         log.info("---------------Save Product---------------");
-        if (FileUtil.saveFile(image.getOriginalFilename(), image))
+//        if (FileUtil.saveFile(image.getOriginalFilename(), image))
             requestProduct.setImage(image.getOriginalFilename());
         productRepository.save(requestProduct);
         log.info("---------------Success Save Product---------------");
@@ -49,13 +49,13 @@ public class ProductServiceImpl implements ProductService {
         product.setName(requestProduct.getName());
         product.setDescription(requestProduct.getDescription());
 
-        if (FileUtil.saveFile(image.getOriginalFilename(), image)) {
-            FileUtil.deleteFile(product.getImage());
-            requestProduct.setImage(image.getOriginalFilename());
-        }
-
-        productRepository.save(product);
-        log.info("---------------Success Update Product---------------");
+//        if (FileUtil.saveFile(image.getOriginalFilename(), image)) {
+//            FileUtil.deleteFile(product.getImage());
+//            requestProduct.setImage(image.getOriginalFilename());
+//        }
+//
+//        productRepository.save(product);
+//        log.info("---------------Success Update Product---------------");
 
     }
 

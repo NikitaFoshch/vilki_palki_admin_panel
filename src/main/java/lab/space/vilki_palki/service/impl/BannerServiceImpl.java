@@ -37,7 +37,7 @@ public class BannerServiceImpl implements BannerService {
         log.info("---------------Save Banner---------------");
         Banner banner = new Banner();
         banner.setName(name);
-        if (FileUtil.saveFile(image.getOriginalFilename(), image))
+//        if (FileUtil.saveFile(image.getOriginalFilename(), image))
             banner.setImage(image.getOriginalFilename());
         bannerRepository.save(banner);
         log.info("---------------Success Save Banner" + banner + "---------------");
@@ -49,7 +49,7 @@ public class BannerServiceImpl implements BannerService {
         log.info("---------------Save Update---------------");
         Banner banner = getBannerById(id);
         banner.setName(requestBanner.getName());
-        if (FileUtil.saveFile(image.getOriginalFilename(), image))
+//        if (FileUtil.saveFile(image.getOriginalFilename(), image))
             FileUtil.deleteFile(banner.getImage());
             banner.setImage(image.getOriginalFilename());
         bannerRepository.save(banner);

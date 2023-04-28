@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-@RequiredArgsConstructor
 public class OrderMapper {
     public List<OrderResponse> toSimplifiedListDto(List<Order> orders) {
         return orders.stream().map(this::toSimplifiedDto).toList();

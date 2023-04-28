@@ -3,20 +3,13 @@ package lab.space.vilki_palki.mapper;
 import lab.space.vilki_palki.entity.User;
 import lab.space.vilki_palki.model.UserResponse;
 import lab.space.vilki_palki.service.OrderService;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 @Component
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class UserMapper {
     private final OrderService orderService;
-    private final OrderMapper orderMapper;
-
-    public List<UserResponse> toSimplifiedListDto(List<User> users) {
-        return users.stream().map(this::toSimplifiedDto).toList();
-    }
 
     public UserResponse toDto(User user) {
         return UserResponse.builder()
@@ -29,15 +22,6 @@ public class UserMapper {
                 .sumOrders(orderService
                         .sumAllOrders(orderService
                                 .findAllOrdersByUserIdByOrderByCreateAt(user.getId())))
-                .build();
-    }
-
-    public UserResponse toSimplifiedDto(User user) {
-        return UserResponse.builder()
-                .id(user.getId())
-                .name(user.getName())
-                .addresses(user.getAddresses())
-                .orders(user.getOrders())
                 .build();
     }
 }

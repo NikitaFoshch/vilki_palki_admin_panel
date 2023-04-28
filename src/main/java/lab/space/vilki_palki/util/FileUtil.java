@@ -15,29 +15,20 @@ import java.nio.file.StandardCopyOption;
 public class FileUtil {
     private final static Path DIRECTORY = Paths.get("files/");
 
-    public static boolean saveFile(String filename, MultipartFile multipartFile) {
-        if (multipartFile != null
-                && multipartFile.getOriginalFilename() != null
-                && !multipartFile.getOriginalFilename().equals("")) {
-            if (!Files.exists(DIRECTORY)) {
-                try {
-                    Files.createDirectory(DIRECTORY);
-                } catch (IOException e) {
-                    log.error("Could Not Create Directory");
-                    return false;
-                }
-            }
-            try (InputStream inputStream = multipartFile.getInputStream()) {
-                Path filePath = DIRECTORY.resolve(filename);
-                Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+    public static void saveFile(String filename, MultipartFile multipartFile) {
+        if (!Files.exists(DIRECTORY)) {
+            try {
+                Files.createDirectory(DIRECTORY);
             } catch (IOException e) {
-                log.error("Could Not Save File");
-                return false;
+                log.error("Could Not Create Directory");
             }
-            return true;
-
         }
-        return false;
+        try (InputStream inputStream = multipartFile.getInputStream()) {
+            Path filePath = DIRECTORY.resolve(filename);
+            Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            log.error("Could Not Save File");
+        }
     }
 
     public static void deleteFile(String filename) {
@@ -48,15 +39,15 @@ public class FileUtil {
             } else {
                 log.error("File Not Deleted");
             }
-        }else log.warn("Filename Is Empty");
+        } else log.warn("Filename Is Empty");
     }
 
     public static File getFile(String filename) {
-        if (filename != null){
+        if (filename != null) {
             File file = new File("files\\" + filename);
-            if (file.exists()){
+            if (file.exists()) {
                 return file;
-            }else {
+            } else {
                 log.error("File Not return");
                 return null;
             }
