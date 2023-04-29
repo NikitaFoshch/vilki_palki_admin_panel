@@ -1,4 +1,4 @@
-package lab.space.vilki_palki.model;
+package lab.space.vilki_palki.model.address;
 
 import lombok.Builder;
 import lombok.Data;
@@ -7,8 +7,8 @@ import java.util.List;
 
 @Data
 @Builder
-public class OrderResponseByPage{
-    private List<OrderResponse> data;
+public class AddressResponseByPage{
+    private List<AddressResponse> data;
     private Long itemsCount;
     private Integer pagesCount;
 }

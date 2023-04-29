@@ -1,16 +1,12 @@
 package lab.space.vilki_palki.controller;
 
-import groovyjarjarantlr4.v4.codegen.model.Wildcard;
-import lab.space.vilki_palki.entity.Structure;
-import lab.space.vilki_palki.entity.StructureCategory;
-import lab.space.vilki_palki.model.*;
+import lab.space.vilki_palki.model.structure.*;
 import lab.space.vilki_palki.service.StructureService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -24,10 +20,10 @@ public class StructureController {
         return new ModelAndView("/admin-panel/pages/product-structure/structures");
     }
 
-    @DeleteMapping("delete-user/{id}")
-    public String deleteStructure(@PathVariable Long id) {
-        structureService.deleteStructureById(id);
-        return "redirect:/structures";
+    @DeleteMapping("delete-structure")
+    public ResponseEntity<?> deleteStructure(@RequestBody StructureDeleteRequest request) {
+        structureService.deleteStructureById(request);
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("structure-save")
@@ -36,9 +32,9 @@ public class StructureController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("structure-update")
+    @PutMapping("structure-update")
     public ResponseEntity<?> updateStructure(@ModelAttribute StructureUpdateRequest request) {
-//        structureService.updateStructure(request);
+        structureService.updateStructure(request);
         return ResponseEntity.ok().build();
     }
 
@@ -47,8 +43,8 @@ public class StructureController {
         return ResponseEntity.ok(structureService.getAllProductStructuresByOrderByCreateAt(structureRequest));
     }
 
-    @PostMapping("get-structure-by-id")
-    public ResponseEntity<StructureResponse> getStructureById(@RequestBody Long id) {
+    @GetMapping("get-structure/{id}")
+    public ResponseEntity<StructureResponse> getStructureById(@PathVariable Long id) {
         return ResponseEntity.ok(structureService.getStructureById(id));
     }
 }

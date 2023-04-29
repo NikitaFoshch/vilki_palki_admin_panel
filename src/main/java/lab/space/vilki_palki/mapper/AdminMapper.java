@@ -1,13 +1,10 @@
 package lab.space.vilki_palki.mapper;
 
 import lab.space.vilki_palki.entity.Admin;
-import lab.space.vilki_palki.model.AddressResponse;
-import lab.space.vilki_palki.model.AdminResponse;
-import lab.space.vilki_palki.model.AdminResponseByPage;
+import lab.space.vilki_palki.model.admin.AdminResponse;
+import lab.space.vilki_palki.model.admin.AdminResponseByPage;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 public class AdminMapper {

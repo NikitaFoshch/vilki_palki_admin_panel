@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lab.space.vilki_palki.entity.common.MappedEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 
 import java.util.List;
 
@@ -11,9 +12,11 @@ import java.util.List;
 @Table(name = "products")
 @Data
 @EqualsAndHashCode(callSuper = true)
+@Accessors(chain = true)
 public class Product extends MappedEntity {
     @Column(length = 100)
     private String name;
+    private Integer price;
     @Column(length = 500)
     private String productInfo;
     @Column(length = 2000)

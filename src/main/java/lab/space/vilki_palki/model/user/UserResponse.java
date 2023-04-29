@@ -1,4 +1,4 @@
-package lab.space.vilki_palki.model;
+package lab.space.vilki_palki.model.user;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;

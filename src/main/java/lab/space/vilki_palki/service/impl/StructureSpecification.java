@@ -2,9 +2,7 @@ package lab.space.vilki_palki.service.impl;
 
 import jakarta.persistence.criteria.Predicate;
 import lab.space.vilki_palki.entity.Structure;
-import lab.space.vilki_palki.entity.User;
-import lab.space.vilki_palki.model.StructureRequest;
-import lab.space.vilki_palki.model.UserRequest;
+import lab.space.vilki_palki.model.structure.StructureRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 

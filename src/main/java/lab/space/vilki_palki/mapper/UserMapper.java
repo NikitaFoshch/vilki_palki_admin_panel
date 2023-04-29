@@ -1,7 +1,7 @@
 package lab.space.vilki_palki.mapper;
 
 import lab.space.vilki_palki.entity.User;
-import lab.space.vilki_palki.model.UserResponse;
+import lab.space.vilki_palki.model.user.UserResponse;
 import lab.space.vilki_palki.service.OrderService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;

@@ -1,15 +1,13 @@
 package lab.space.vilki_palki.service.impl;
 
-import lab.space.vilki_palki.entity.Order;
 import lab.space.vilki_palki.mapper.OrderMapper;
-import lab.space.vilki_palki.model.OrderRequest;
-import lab.space.vilki_palki.model.OrderResponse;
-import lab.space.vilki_palki.model.OrderResponseByPage;
+import lab.space.vilki_palki.model.order.OrderRequest;
+import lab.space.vilki_palki.model.order.OrderResponse;
+import lab.space.vilki_palki.model.order.OrderResponseByPage;
 import lab.space.vilki_palki.repository.OrderRepository;
 import lab.space.vilki_palki.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;

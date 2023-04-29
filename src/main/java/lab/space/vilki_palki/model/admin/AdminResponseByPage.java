@@ -1,4 +1,4 @@
-package lab.space.vilki_palki.model;
+package lab.space.vilki_palki.model.admin;
 
 import lombok.Builder;
 import lombok.Data;

@@ -1,15 +1,17 @@
 package lab.space.vilki_palki.service;
 
 import lab.space.vilki_palki.entity.Banner;
-import lab.space.vilki_palki.entity.Banner;
-import org.springframework.web.multipart.MultipartFile;
+import lab.space.vilki_palki.model.banner.BannerResponse;
+import lab.space.vilki_palki.model.banner.BannerSaveRequest;
+import lab.space.vilki_palki.model.banner.BannerUpdateRequest;
 
 import java.util.List;
 
 public interface BannerService {
-    List<Banner> getAllBannersByOrderByCreateAt();
+    List<BannerResponse> getAllBannersByOrderByCreateAt();
     Banner getBannerById(Long id);
-    void saveBanner(String name, MultipartFile image);
-    void updateBannerById(Long id, Banner banner, MultipartFile image);
+    BannerResponse getBannerDto(Long id);
+    void saveBanner(BannerSaveRequest request);
+    void updateBannerById(BannerUpdateRequest request);
     void deleteBanner(Long id);
 }

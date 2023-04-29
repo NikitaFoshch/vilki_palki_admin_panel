@@ -1,6 +1,8 @@
 package lab.space.vilki_palki.service;
 
-import lab.space.vilki_palki.model.*;
+import lab.space.vilki_palki.model.address.AddressRequest;
+import lab.space.vilki_palki.model.address.AddressResponse;
+import lab.space.vilki_palki.model.address.AddressResponseByPage;
 
 import java.util.List;
 

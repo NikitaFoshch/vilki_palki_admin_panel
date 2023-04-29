@@ -1,10 +1,8 @@
 package lab.space.vilki_palki.service.impl;
 
 import jakarta.persistence.criteria.Predicate;
-import lab.space.vilki_palki.entity.Address;
 import lab.space.vilki_palki.entity.Order;
-import lab.space.vilki_palki.model.AddressRequest;
-import lab.space.vilki_palki.model.OrderRequest;
+import lab.space.vilki_palki.model.order.OrderRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 

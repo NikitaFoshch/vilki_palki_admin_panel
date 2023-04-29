@@ -18,24 +18,7 @@
       </button>
     </div>
   </div>
-  <div class="row pt-5">
-    <div class="col-md-3 col-form-label" th:each="banner:${banners}">
-      <a class="delete" th:href="${'/banners/banner-delete/' + banner.id}">
-        <i class="fa-regular fa-circle-xmark fa-xl"></i>
-      </a>
-      <a type="button" class="text-gray-dark" data-toggle="modal" data-target="#update-banner" th:data-banner="${banner}">
-        <div class="row">
-          <div class="col-md-12 text-center pr-4 pl-4">
-            <img th:src="*{banner.image == null} ? ${'/img/no-image.jpg'}
-                                    : *{'/files/' + banner.image}"
-                 class="product-image w-100" height="300"  alt="Banner Image">
-          </div>
-        </div>
-        <div class="row pt-2">
-          <div class="col-md-12 form-group text-center" th:text="${banner.name}"></div>
-        </div>
-      </a>
-    </div>
+  <div class="row pt-5" id="banner-blocks">
   </div>
 
 </th:block>
@@ -46,7 +29,6 @@
   <div class="modal fade" id="save-banner">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content bg-warning">
-        <form th:method="POST" th:action="${'/banners/banner-save'}" enctype="multipart/form-data">
           <div class="modal-header">
             <h4 class="modal-title">Add Banner</h4>
           </div>
@@ -55,8 +37,8 @@
               <div class="col-6">
                 <div class="row">
                   <div class="form-group">
-                    <label for="title">Title</label>
-                    <input type="text" class="form-control" id="title" placeholder="Enter title" name="title">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" id="name" placeholder="Enter name">
                   </div>
                 </div>
               </div>
@@ -67,7 +49,7 @@
                     <div class="custom-file">
                       <label class="custom-file-label" for="image"></label>
                       <input type="file" class="custom-file-input" id="image"
-                             name="image" accept="image/jpeg, image/png">
+                             accept="image/jpeg, image/png">
                     </div>
                   </div>
                 </div>
@@ -76,23 +58,139 @@
           </div>
           <div class="modal-footer justify-content-between">
             <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Отменить</button>
-            <button type="submit" class="btn btn-outline-dark">Добавить</button>
+            <button onclick="saveBanner()" type="button" class="btn btn-outline-dark">Сохранить</button>
           </div>
-        </form>
       </div>
     </div>
   </div>
-
+  <div class="modal fade" id="delete-banner">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content bg-danger">
+        <div class="modal-header">
+          <h4 class="modal-title">Delete Entity</h4>
+        </div>
+        <div class="modal-body">
+          <p>Вы уверены, что хотите удалить?</p>
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Нет</button>
+          <a id="delete-structure-button" onclick="deleteBannerById()" type="button"
+             class="btn btn-outline-dark">Да</a>
+        </div>
+      </div>
+    </div>
+  </div>
 </th:block>
 
 <th:block layout:fragment="extra-js">
 
-  <script src="/js/select2/select2.full.js"></script>
-  <script src="/js/bs-file-input/bs-custom-file-input.min.js"></script>
   <script>
-    $(function () {
+
+    $(document).ready(function () {
+      getAllBanners();
       bsCustomFileInput.init();
     });
+    let bannerId;
+
+    $(document).on('click', '.delete', function () {
+      bannerId = $(this).data('id');
+      $('#delete-banner').modal('show');
+    });
+    function getAllBanners() {
+      $.ajax({
+        method: "GET",
+        url: "/banners/get-all-banners",
+        dataType: 'json',
+        contentType: 'application/json',
+      }).done(function (bannersResponse) {
+        console.info(bannersResponse);
+        $('#banner-blocks').empty();
+        $.each(bannersResponse, function (index, banner) {
+          const image = banner?.image ? '/files/' + banner?.image : '/img/no-image.jpg' ;
+          $('#banner-blocks').append(
+                  '<div class="col-md-3 col-form-label">' +
+              '    <a class="delete " type="button"' +
+                  ' data-id="' + banner?.id + '" data-toggle="modal" data-target="#delete-banner"><i class="fa-regular fa-circle-xmark fa-xl"></i></a>' +
+              '    <a type="button" onclick="editActionButton(' + banner?.id + ')" >' +
+              '       <div class="row">' +
+              '           <div class="col-md-12 text-center pr-4 pl-4">' +
+              '               <img src="' + image + '" class="product-image w-100" height="300"  alt="Banner Image">' +
+              '           </div>' +
+              '       </div>' +
+              '       <div class="row pt-2">' +
+              '           <div class="col-md-12 form-group text-center">'+banner?.name+'</div>' +
+              '       </div>' +
+              '    </a>' +
+              '</div>'
+          );
+        });
+      });
+    }
+
+    function deleteBannerById() {
+
+      $.ajax({
+        method: "DELETE",
+        url: '/banners/banner-delete/' + bannerId,
+        contentType: 'application/json',
+      }).done(function () {
+        $('#delete-banner').modal('hide');
+        bannerId = undefined;
+        getAllBanners()
+
+      }).fail(function (response) {
+        console.error(response);
+        bannerId = undefined;
+      })
+    }
+
+    function saveBanner() {
+      let bannerRequest = new FormData();
+      const file = $('#image')[0].files[0];
+      if (bannerId) bannerRequest.append('id', bannerId);
+      bannerRequest.append('name', $('#name').val());
+      if (file) {
+        bannerRequest.append('image', file);
+      }
+      $.ajax({
+        method: bannerId ? 'PUT' : "POST",
+        url: bannerId ? '/banners/banner-update' : '/banners/banner-save',
+        contentType: false,
+        processData: false,
+        data: bannerRequest,
+        beforeSend: function () {
+          console.log(bannerRequest)
+        }
+      }).done(function () {
+        $('#save-banner').modal('hide');
+        getAllBanners();
+
+      }).fail(function (response) {
+        console.error(response);
+      })
+    }
+
+    function editActionButton(id) {
+      bannerId = id;
+      $.ajax({
+        method: "GET",
+        url: "/banners/get-banner/" + id,
+        dataType: 'json'
+      }).done(function (banner) {
+        console.info(banner);
+        $('#name').val(banner?.name);
+      });
+      $('#save-banner .modal-title').text('Edit Banner');
+      $('#save-banner').modal('show');
+    }
+
+    $(document).on('hidden.bs.modal', '#save-banner', function () {
+      $('#save-banner select, #save-banner input').val('').trigger('change');
+      $('#image').prev('label').text('');
+      $('#save-banner .modal-title').text('Add Banner');
+      bannerId = undefined;
+    })
+
   </script>
 
 </th:block>

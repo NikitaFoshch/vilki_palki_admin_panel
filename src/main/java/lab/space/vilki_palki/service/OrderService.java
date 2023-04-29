@@ -1,9 +1,8 @@
 package lab.space.vilki_palki.service;
 
-import lab.space.vilki_palki.entity.Order;
-import lab.space.vilki_palki.model.OrderRequest;
-import lab.space.vilki_palki.model.OrderResponse;
-import lab.space.vilki_palki.model.OrderResponseByPage;
+import lab.space.vilki_palki.model.order.OrderRequest;
+import lab.space.vilki_palki.model.order.OrderResponse;
+import lab.space.vilki_palki.model.order.OrderResponseByPage;
 
 import java.util.List;
 

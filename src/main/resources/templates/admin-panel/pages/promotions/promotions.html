@@ -8,20 +8,199 @@
 
 <th:block layout:fragment="content">
 
-  <!-- this page content -->
+  <div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4"></div>
+    <div class=" col-md-auto pl-5 ml-5 text-right">
+      <button type="button" class="btn btn-block btn-warning" data-toggle="modal" data-target="#save-promotion">
+        <i class="fa-solid fa-plus pr-2"></i>
+        Добавить акцию
+      </button>
+    </div>
+  </div>
+  <div class="row pt-5" id="promotion-blocks">
+  </div>
 
 </th:block>
 
 <!-- Extra Modals -->
 <th:block layout:fragment="extra-modals">
 
-  <!-- put extra modals here for only this page -->
+  <div class="modal fade" id="save-promotion">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content bg-warning">
+        <div class="modal-header">
+          <h4 class="modal-title">Add Promotions</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-6">
+              <div class="row">
+                <div class="form-group">
+                  <label for="name">Name</label>
+                  <input type="text" class="form-control" id="name" placeholder="Enter name">
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group">
+                  <label for="percent">Percent</label>
+                  <input type="number" class="form-control" id="percent" placeholder="Enter percent">
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="row">
+                <div class="form-group">
+                  <label for="image">Image</label>
+                  <div class="custom-file">
+                    <label class="custom-file-label" for="image"></label>
+                    <input type="file" class="custom-file-input" id="image"
+                           accept="image/jpeg, image/png">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Отменить</button>
+          <button onclick="savePromotion()" type="button" class="btn btn-outline-dark">Сохранить</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="delete-promotion">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content bg-danger">
+        <div class="modal-header">
+          <h4 class="modal-title">Delete Entity</h4>
+        </div>
+        <div class="modal-body">
+          <p>Вы уверены, что хотите удалить?</p>
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Нет</button>
+          <a id="delete-structure-button" onclick="deletePromotionById()" type="button"
+             class="btn btn-outline-dark">Да</a>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </th:block>
 
 <th:block layout:fragment="extra-js">
 
-  <!-- put JS here for only this page -->
+  <script>
+
+    $(document).ready(function () {
+      getAllPromotions();
+      bsCustomFileInput.init();
+    });
+    let promotionId;
+
+    $(document).on('click', '.delete', function () {
+      promotionId = $(this).data('id');
+      $('#delete-promotion').modal('show');
+    });
+    function getAllPromotions() {
+      $.ajax({
+        method: "GET",
+        url: "/promotions/get-all-promotions",
+        dataType: 'json',
+        contentType: 'application/json',
+      }).done(function (promotionsResponse) {
+        console.info(promotionsResponse);
+        $('#promotion-blocks').empty();
+        $.each(promotionsResponse, function (index, promotion) {
+          const image = promotion?.image ? '/files/' + promotion?.image : '/img/no-image.jpg' ;
+          $('#promotion-blocks').append(
+                  '<div class="col-md-3 col-form-label">' +
+                  '    <a class="delete " type="button"' +
+                  ' data-id="' + promotion?.id + '" data-toggle="modal" data-target="#delete-promotion"><i class="fa-regular fa-circle-xmark fa-xl"></i></a>' +
+                  '    <a type="button" onclick="editActionButton(' + promotion?.id + ')" >' +
+                  '       <div class="row">' +
+                  '           <div class="col-md-12 text-center pr-4 pl-4">' +
+                  '               <img src="' + image + '" class="product-image w-100" height="300"  alt="Promotion Image">' +
+                  '           </div>' +
+                  '       </div>' +
+                  '       <div class="row pt-2">' +
+                  '           <div class="col-md-12 form-group text-center">'+promotion?.name+'</div>' +
+                  '       </div>' +
+                  '    </a>' +
+                  '</div>'
+          );
+        });
+      });
+    }
+
+    function deletePromotionById() {
+
+      $.ajax({
+        method: "DELETE",
+        url: '/promotions/promotion-delete/' + promotionId,
+        contentType: 'application/json',
+      }).done(function () {
+        $('#delete-promotion').modal('hide');
+        promotionId = undefined;
+        getAllPromotions()
+
+      }).fail(function (response) {
+        console.error(response);
+        promotionId = undefined;
+      })
+    }
+
+    function savePromotion() {
+      let promotionRequest = new FormData();
+      const file = $('#image')[0].files[0];
+      if (promotionId) promotionRequest.append('id', promotionId);
+      promotionRequest.append('name', $('#name').val());
+      promotionRequest.append('percent', $('#percent').val());
+      if (file) {
+        promotionRequest.append('image', file);
+      }
+      $.ajax({
+        method: promotionId ? 'PUT' : "POST",
+        url: promotionId ? '/promotions/promotion-update' : '/promotions/promotion-save',
+        contentType: false,
+        processData: false,
+        data: promotionRequest,
+        beforeSend: function () {
+          console.log(promotionRequest)
+        }
+      }).done(function () {
+        $('#save-promotion').modal('hide');
+        getAllPromotions();
+
+      }).fail(function (response) {
+        console.error(response);
+      })
+    }
+
+    function editActionButton(id) {
+      promotionId = id;
+      $.ajax({
+        method: "GET",
+        url: "/promotions/get-promotion/" + id,
+        dataType: 'json'
+      }).done(function (promotion) {
+        console.info(promotion);
+        $('#name').val(promotion?.name);
+        $('#percent').val(promotion?.percent);
+      });
+      $('#save-promotion .modal-title').text('Edit Promotion');
+      $('#save-promotion').modal('show');
+    }
+
+    $(document).on('hidden.bs.modal', '#save-promotion', function () {
+      $('#save-promotion select, #save-promotion input').val('').trigger('change');
+      $('#image').prev('label').text('');
+      $('#save-promotion .modal-title').text('Add Promotion');
+      promotionId = undefined;
+    })
+
+  </script>
 
 </th:block>
 

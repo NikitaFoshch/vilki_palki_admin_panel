@@ -2,12 +2,8 @@ package lab.space.vilki_palki.service.impl;
 
 import jakarta.persistence.EntityNotFoundException;
 import lab.space.vilki_palki.entity.Structure;
-import lab.space.vilki_palki.entity.StructureCategory;
 import lab.space.vilki_palki.mapper.StructureMapper;
-import lab.space.vilki_palki.model.StructureRequest;
-import lab.space.vilki_palki.model.StructureResponse;
-import lab.space.vilki_palki.model.StructureSaveRequest;
-import lab.space.vilki_palki.model.StructureUpdateRequest;
+import lab.space.vilki_palki.model.structure.*;
 import lab.space.vilki_palki.repository.StructureRepository;
 import lab.space.vilki_palki.service.StructureService;
 import lab.space.vilki_palki.util.FileUtil;
@@ -16,7 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.UUID;
 
@@ -52,7 +47,7 @@ public class StructureServiceImpl implements StructureService {
     public void saveStructure(StructureSaveRequest request) {
 
         Structure structure = new Structure()
-                .setName(request.title())
+                .setName(request.name())
                 .setStructureCategory(null)
                 .setWeight(request.weight())
                 .setPrice(request.price());
@@ -71,26 +66,25 @@ public class StructureServiceImpl implements StructureService {
     public void updateStructure(StructureUpdateRequest request) {
 
         Structure structure = getById(request.id())
-                .setName(request.title())
-                .setStructureCategory(request.structureCategory())
+                .setName(request.name())
+                .setStructureCategory(null)
                 .setWeight(request.weight())
                 .setPrice(request.price());
 
-        structure.setId(request.id());
         if (nonNull(request.image())
                 && nonNull(request.image().getOriginalFilename())
                 && !request.image().getOriginalFilename().equals("")) {
             final String newFileName = UUID.randomUUID() + request.image().getOriginalFilename();
+            FileUtil.saveFile(newFileName, request.image());
             FileUtil.deleteFile(structure.getImage());
             structure.setImage(newFileName);
-
         }
         structureRepository.save(structure);
     }
 
     @Override
-    public void deleteStructureById(Long id) {
-        Structure structure = getById(id);
+    public void deleteStructureById(StructureDeleteRequest request) {
+        Structure structure = getById(request.id());
         if (nonNull(structure.getImage())) FileUtil.deleteFile(structure.getImage());
 
         structureRepository.delete(structure);

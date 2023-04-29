@@ -1,4 +1,4 @@
-package lab.space.vilki_palki.model;
+package lab.space.vilki_palki.model.address;
 
 
 import com.fasterxml.jackson.annotation.JsonInclude;

@@ -1,12 +1,16 @@
 package lab.space.vilki_palki.controller;
 
-import lab.space.vilki_palki.entity.Banner;
+import lab.space.vilki_palki.model.banner.BannerResponse;
+import lab.space.vilki_palki.model.banner.BannerSaveRequest;
+import lab.space.vilki_palki.model.banner.BannerUpdateRequest;
 import lab.space.vilki_palki.service.BannerService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("banners")
@@ -14,25 +18,32 @@ import org.springframework.web.multipart.MultipartFile;
 public class BannerController {
     private final BannerService bannerService;
     @GetMapping({"/", ""})
-    public String showBannerPage(Model model) {
-        model.addAttribute("banners",bannerService.getAllBannersByOrderByCreateAt());
+    public String showBannerPage() {
         return "/admin-panel/pages/banner/banners";
     }
     @PostMapping("banner-save")
-    public String saveBanner(@RequestPart String title,
-                             @RequestPart MultipartFile image){
-        bannerService.saveBanner(title, image);
-        return "redirect:/banners";
+    public ResponseEntity<?> saveBanner(@ModelAttribute BannerSaveRequest request){
+        bannerService.saveBanner(request);
+        return ResponseEntity.ok().build();
     }
-    @PostMapping("banner-update")
-    public String updateBanner(@ModelAttribute Banner banner,
-                             @RequestPart MultipartFile image){
-        bannerService.updateBannerById(banner.getId(),banner ,image);
-        return "redirect:/banners";
+    @PutMapping("banner-update")
+    public ResponseEntity<?> updateBanner(@ModelAttribute BannerUpdateRequest request){
+        bannerService.updateBannerById(request);
+        return ResponseEntity.ok().build();
     }
-    @GetMapping("banner-delete/{id}")
-    public String deleteBanner(@PathVariable Long id){
+    @DeleteMapping("banner-delete/{id}")
+    public ResponseEntity<?> deleteBanner(@PathVariable Long id){
         bannerService.deleteBanner(id);
-        return "redirect:/banners";
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("get-all-banners")
+    public ResponseEntity<List<BannerResponse>> getAllBanners() {
+        return ResponseEntity.ok(bannerService.getAllBannersByOrderByCreateAt());
+    }
+
+    @GetMapping("get-banner/{id}")
+    public ResponseEntity<BannerResponse> getBannerById(@PathVariable Long id) {
+        return ResponseEntity.ok(bannerService.getBannerDto(id));
     }
 }

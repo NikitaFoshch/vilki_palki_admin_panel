@@ -1,7 +1,9 @@
 package lab.space.vilki_palki.service.impl;
 
 import lab.space.vilki_palki.mapper.AddressMapper;
-import lab.space.vilki_palki.model.*;
+import lab.space.vilki_palki.model.address.AddressRequest;
+import lab.space.vilki_palki.model.address.AddressResponse;
+import lab.space.vilki_palki.model.address.AddressResponseByPage;
 import lab.space.vilki_palki.repository.AddressRepository;
 import lab.space.vilki_palki.service.AddressService;
 import lombok.RequiredArgsConstructor;

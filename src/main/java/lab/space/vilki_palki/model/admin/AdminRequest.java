@@ -1,9 +1,9 @@
-package lab.space.vilki_palki.model;
+package lab.space.vilki_palki.model.admin;
 
 import lombok.Data;
 
 @Data
-public class UserRequest {
+public class AdminRequest {
     private Integer pageIndex;
     private String query;
 }

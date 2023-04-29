@@ -1,4 +1,4 @@
-package lab.space.vilki_palki.model;
+package lab.space.vilki_palki.model.order;
 
 import lombok.Builder;
 import lombok.Data;

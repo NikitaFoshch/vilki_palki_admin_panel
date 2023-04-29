@@ -1,9 +1,8 @@
 package lab.space.vilki_palki.mapper;
 
 import lab.space.vilki_palki.entity.Order;
-import lab.space.vilki_palki.model.OrderResponse;
-import lab.space.vilki_palki.model.OrderResponseByPage;
-import lombok.RequiredArgsConstructor;
+import lab.space.vilki_palki.model.order.OrderResponse;
+import lab.space.vilki_palki.model.order.OrderResponseByPage;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 

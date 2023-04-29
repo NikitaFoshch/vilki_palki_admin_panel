@@ -1,7 +1,7 @@
 package lab.space.vilki_palki.mapper;
 
 import lab.space.vilki_palki.entity.Structure;
-import lab.space.vilki_palki.model.StructureResponse;
+import lab.space.vilki_palki.model.structure.StructureResponse;
 import org.springframework.stereotype.Component;
 
 @Component

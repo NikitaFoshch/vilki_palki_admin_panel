@@ -1,7 +1,14 @@
 package lab.space.vilki_palki.controller;
 
 import lab.space.vilki_palki.entity.User;
-import lab.space.vilki_palki.model.*;
+import lab.space.vilki_palki.model.address.AddressRequest;
+import lab.space.vilki_palki.model.address.AddressResponseByPage;
+import lab.space.vilki_palki.model.admin.AdminRequest;
+import lab.space.vilki_palki.model.admin.AdminResponseByPage;
+import lab.space.vilki_palki.model.order.OrderRequest;
+import lab.space.vilki_palki.model.order.OrderResponseByPage;
+import lab.space.vilki_palki.model.user.UserRequest;
+import lab.space.vilki_palki.model.user.UserResponse;
 import lab.space.vilki_palki.service.AddressService;
 import lab.space.vilki_palki.service.AdminService;
 import lab.space.vilki_palki.service.OrderService;
@@ -12,8 +19,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Controller
 @RequestMapping("users")

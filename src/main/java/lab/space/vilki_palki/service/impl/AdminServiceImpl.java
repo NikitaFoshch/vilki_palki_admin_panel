@@ -2,16 +2,13 @@ package lab.space.vilki_palki.service.impl;
 
 import jakarta.persistence.EntityNotFoundException;
 import lab.space.vilki_palki.entity.Admin;
-import lab.space.vilki_palki.entity.User;
 import lab.space.vilki_palki.mapper.AdminMapper;
-import lab.space.vilki_palki.model.AdminRequest;
-import lab.space.vilki_palki.model.AdminResponse;
-import lab.space.vilki_palki.model.AdminResponseByPage;
+import lab.space.vilki_palki.model.admin.AdminRequest;
+import lab.space.vilki_palki.model.admin.AdminResponseByPage;
 import lab.space.vilki_palki.repository.AdminRepository;
 import lab.space.vilki_palki.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
@@ -21,7 +18,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
