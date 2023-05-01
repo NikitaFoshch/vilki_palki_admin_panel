@@ -7,7 +7,7 @@ import java.util.List;
 
 @Data
 @Builder
-public class OrderResponseByPage{
+public class OrderResponseByPage {
     private List<OrderResponse> data;
     private Long itemsCount;
     private Integer pagesCount;

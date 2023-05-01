@@ -10,7 +10,7 @@ import java.util.List;
 
 @Builder
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public record ProductResponse (
+public record ProductResponse(
         Long id,
         String name,
         Integer price,
@@ -20,5 +20,5 @@ public record ProductResponse (
         ProductsCategory productsCategory,
         ProductsType productsType,
         List<Structure> structures
-){
+) {
 }

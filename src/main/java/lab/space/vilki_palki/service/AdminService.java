@@ -6,6 +6,7 @@ import lab.space.vilki_palki.model.admin.AdminResponseByPage;
 
 public interface AdminService {
     Integer getCountByAllAdmins();
+
     Admin getAdminByEmail(String email);
 
     AdminResponseByPage getAdminsResponseByPage(AdminRequest adminRequest);

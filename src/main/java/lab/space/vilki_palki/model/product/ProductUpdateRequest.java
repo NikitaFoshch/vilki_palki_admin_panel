@@ -4,7 +4,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-public record ProductUpdateRequest (
+public record ProductUpdateRequest(
         Long id,
         String name,
         Integer price,
@@ -15,5 +15,5 @@ public record ProductUpdateRequest (
         Long productsTypeId,
 
         List<Long> structuresId
-){
+) {
 }

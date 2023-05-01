@@ -1,8 +1,6 @@
 package lab.space.vilki_palki.mapper;
 
-import lab.space.vilki_palki.entity.Banner;
 import lab.space.vilki_palki.entity.Promotion;
-import lab.space.vilki_palki.model.banner.BannerResponse;
 import lab.space.vilki_palki.model.promotion.PromotionResponse;
 import org.springframework.stereotype.Component;
 

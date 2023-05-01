@@ -35,7 +35,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order getOrderById(Long id) {
         return orderRepository.findById(id)
-                .orElseThrow(()-> new EntityNotFoundException("Order not found by id " + id));
+                .orElseThrow(() -> new EntityNotFoundException("Order not found by id " + id));
     }
 
     @Override
@@ -45,6 +45,7 @@ public class OrderServiceImpl implements OrderService {
                 orderRepository.findAll(orderSpecification.getOrdersByRequestByOrderByUserId(orderRequest),
                         PageRequest.of(orderRequest.getPageIndex(), DEFAULT_PAGE_SIZE)));
     }
+
     @Override
     public OrderResponseByPage getOrdersByPage(OrderRequest orderRequest) {
         final int DEFAULT_PAGE_SIZE = 5;

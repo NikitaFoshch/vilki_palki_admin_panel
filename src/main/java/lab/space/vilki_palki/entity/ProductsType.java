@@ -11,7 +11,7 @@ import lombok.EqualsAndHashCode;
 @Table(name = "products_type")
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class ProductsType  extends MappedEntity {
+public class ProductsType extends MappedEntity {
     @Column(length = 100)
     private String name;
 }

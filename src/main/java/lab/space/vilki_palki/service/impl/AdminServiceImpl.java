@@ -31,14 +31,14 @@ public class AdminServiceImpl implements AdminService, UserDetailsService {
     public Integer getCountByAllAdmins() {
         log.info("---------------Get Count By All Admins---------------");
         return adminRepository
-                        .findAll(Sort.by(Sort.Direction.DESC,"createAt")).size();
+                .findAll(Sort.by(Sort.Direction.DESC, "createAt")).size();
     }
 
     @Override
     public Admin getAdminByEmail(String email) {
         log.info("---------------Get Admin By email" + email + "---------------");
         return adminRepository.findByEmail(email)
-                .orElseThrow(()-> new EntityNotFoundException("Not found admin with email " + email));
+                .orElseThrow(() -> new EntityNotFoundException("Not found admin with email " + email));
     }
 
     @Override
@@ -48,15 +48,15 @@ public class AdminServiceImpl implements AdminService, UserDetailsService {
         return adminMapper.toAdminsResponseByPage(
                 adminRepository.findAll(adminSpecification.getAdminsByRequest(adminRequest),
                         PageRequest.of(adminRequest.getPageIndex(),
-                                DEFAULT_PAGE_SIZE ,
-                                Sort.by(Direction.DESC,"createAt"))));
+                                DEFAULT_PAGE_SIZE,
+                                Sort.by(Direction.DESC, "createAt"))));
     }
 
     @Override
     public Admin getAdminById(Long id) {
         log.info("---------------Get Admin By Id" + id + "---------------");
         return adminRepository.findById(id)
-                .orElseThrow(()-> new EntityNotFoundException("Not found admin with id " + id));
+                .orElseThrow(() -> new EntityNotFoundException("Not found admin with id " + id));
     }
 
     @Override
@@ -66,6 +66,7 @@ public class AdminServiceImpl implements AdminService, UserDetailsService {
         adminRepository.delete(admin);
         log.info("---------------Success delete Admin By Id" + id + "---------------");
     }
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         UserDetails userDetails = getAdminByEmail(email);

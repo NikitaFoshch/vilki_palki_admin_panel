@@ -10,10 +10,16 @@ import java.util.List;
 public interface OrderService {
 
     Order getOrderById(Long id);
+
     OrderResponseByPage getOrdersByPageByUserId(OrderRequest orderRequest);
+
     OrderResponseByPage getOrdersByPage(OrderRequest orderRequest);
+
     List<OrderResponse> findAllOrdersOrderByCreateAt();
+
     List<OrderResponse> findAllOrdersByUserIdByOrderByCreateAt(Long id);
+
     Integer sumAllOrders(List<OrderResponse> orderResponses);
+
     void deleteOrder(Long id);
 }

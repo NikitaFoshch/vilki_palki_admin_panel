@@ -9,7 +9,10 @@ import java.util.List;
 
 public interface AddressService {
     Address getAddressById(Long id);
+
     public List<AddressResponse> findAllOrdersByUserIdByOrderByCreateAt(Long id);
+
     AddressResponseByPage getAddressesByPageByUserId(AddressRequest addressRequest);
+
     void deleteAddress(Long id);
 }

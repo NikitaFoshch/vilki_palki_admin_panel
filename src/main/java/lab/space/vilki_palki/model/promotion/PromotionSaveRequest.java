@@ -5,11 +5,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-public record PromotionSaveRequest (
+public record PromotionSaveRequest(
         Integer percent,
         String name,
         Integer totalPrice,
         MultipartFile image,
         List<Product> products
-){
+) {
 }

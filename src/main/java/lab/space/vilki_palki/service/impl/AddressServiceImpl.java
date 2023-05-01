@@ -26,7 +26,7 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public Address getAddressById(Long id) {
         return addressRepository.findById(id)
-                .orElseThrow(()-> new EntityNotFoundException("Address not found by id " + id));
+                .orElseThrow(() -> new EntityNotFoundException("Address not found by id " + id));
     }
 
     @Override

@@ -9,9 +9,14 @@ import java.util.List;
 
 public interface BannerService {
     List<BannerResponse> getAllBannersByOrderByCreateAt();
+
     Banner getBannerById(Long id);
+
     BannerResponse getBannerDto(Long id);
+
     void saveBanner(BannerSaveRequest request);
+
     void updateBannerById(BannerUpdateRequest request);
+
     void deleteBanner(Long id);
 }

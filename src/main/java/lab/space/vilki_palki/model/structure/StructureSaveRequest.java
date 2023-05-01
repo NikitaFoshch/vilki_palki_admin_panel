@@ -1,6 +1,5 @@
 package lab.space.vilki_palki.model.structure;
 
-import lab.space.vilki_palki.entity.StructureCategory;
 import org.springframework.web.multipart.MultipartFile;
 
 public record StructureSaveRequest(
@@ -9,4 +8,5 @@ public record StructureSaveRequest(
         Integer weight,
         Integer price,
         MultipartFile image
-){}
+) {
+}

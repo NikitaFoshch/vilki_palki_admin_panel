@@ -4,19 +4,16 @@ import jakarta.persistence.*;
 import lab.space.vilki_palki.entity.common.MappedEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @Entity
 @Table(name = "users")
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class User extends MappedEntity{
+public class User extends MappedEntity {
 
     @Column(length = 100)
     private String name;

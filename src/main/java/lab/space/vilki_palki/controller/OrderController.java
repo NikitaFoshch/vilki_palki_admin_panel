@@ -28,6 +28,7 @@ public class OrderController {
     public ResponseEntity<OrderResponseByPage> getAllCompleteOrders(@RequestBody OrderRequest orderRequest) {
         return ResponseEntity.ok(orderService.getOrdersByPage(orderRequest));
     }
+
     @DeleteMapping("delete-order/{id}")
     public ResponseEntity<?> deleteOrder(@PathVariable Long id) {
         orderService.deleteOrder(id);

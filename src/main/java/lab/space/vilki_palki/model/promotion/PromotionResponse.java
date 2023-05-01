@@ -8,12 +8,12 @@ import java.util.List;
 
 @Builder
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public record PromotionResponse (
+public record PromotionResponse(
         Long id,
         String name,
         Integer percent,
         Integer totalPrice,
         String image,
         List<Product> products
-){
+) {
 }
