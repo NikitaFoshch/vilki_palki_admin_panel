@@ -1,8 +1,5 @@
 package lab.space.vilki_palki.controller;
 
-import lab.space.vilki_palki.model.banner.BannerResponse;
-import lab.space.vilki_palki.model.banner.BannerSaveRequest;
-import lab.space.vilki_palki.model.banner.BannerUpdateRequest;
 import lab.space.vilki_palki.model.promotion.PromotionResponse;
 import lab.space.vilki_palki.model.promotion.PromotionSaveRequest;
 import lab.space.vilki_palki.model.promotion.PromotionUpdateRequest;
@@ -15,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/promotions")
+@RequestMapping("promotions")
 @RequiredArgsConstructor
 public class PromotionsController {
 
@@ -27,17 +24,19 @@ public class PromotionsController {
     }
 
     @PostMapping("promotion-save")
-    public ResponseEntity<?> savePromotion(@ModelAttribute PromotionSaveRequest request){
+    public ResponseEntity<?> savePromotion(@ModelAttribute PromotionSaveRequest request) {
         promotionService.savePromotion(request);
         return ResponseEntity.ok().build();
     }
+
     @PutMapping("promotion-update")
-    public ResponseEntity<?> updatePromotion(@ModelAttribute PromotionUpdateRequest request){
+    public ResponseEntity<?> updatePromotion(@ModelAttribute PromotionUpdateRequest request) {
         promotionService.updatePromotionById(request);
         return ResponseEntity.ok().build();
     }
+
     @DeleteMapping("promotion-delete/{id}")
-    public ResponseEntity<?> deletePromotion(@PathVariable Long id){
+    public ResponseEntity<?> deletePromotion(@PathVariable Long id) {
         promotionService.deletePromotion(id);
         return ResponseEntity.ok().build();
     }

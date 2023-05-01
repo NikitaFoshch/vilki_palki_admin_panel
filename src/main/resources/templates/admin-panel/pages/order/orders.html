@@ -3,253 +3,292 @@
       layout:decorate="~{admin-panel/fragments/index}">
 
 <head>
-  <title>Orders</title>
+    <title>Orders</title>
 </head>
 
 <th:block layout:fragment="content">
 
-  <div class="row">
-    <div class="col-12">
-      <div class="card">
-        <div class="card-header vilki-mod">
-          <h3 class="card-title text-light">Active Orders Table</h3>
-          <div class="card-tools">
-            <div class="input-group input-group-sm" style="width: 250px;">
-              <input type="text" oninput="filterNameInput(this)" id="orders-active-table-search" class="form-control float-right"
-                     placeholder="Search">
-              <div class="input-group-append">
-                <button type="submit" class="btn btn-default">
-                  <i class="fas fa-search"></i>
-                </button>
-              </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header vilki-mod">
+                    <h3 class="card-title text-light">Active Orders Table</h3>
+                    <div class="card-tools">
+                        <div class="input-group input-group-sm" style="width: 250px;">
+                            <input type="text" oninput="filterNameInput(this)" id="orders-active-table-search"
+                                   class="form-control float-right"
+                                   placeholder="Search">
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-default">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered" id="active-orders">
+                        <thead>
+                        <tr>
+                            <th style="width: 10px">#</th>
+                            <th>Номер</th>
+                            <th>Список</th>
+                            <th>Дата</th>
+                            <th>Статус</th>
+                            <th>Адрес</th>
+                            <th>Сумма</th>
+                            <th>Действия</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer clearfix vilki-mod">
+                    <div class="row">
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-        <div class="card-body">
-          <table class="table table-bordered" id="active-orders">
-            <thead>
-            <tr>
-              <th style="width: 10px">#</th>
-              <th>Номер</th>
-              <th>Список</th>
-              <th>Дата</th>
-              <th>Статус</th>
-              <th>Адрес</th>
-              <th>Сумма</th>
-              <th>Действия</th>
-            </tr>
-            </thead>
-            <tbody>
-            </tbody>
-          </table>
-        </div>
-        <div class="card-footer clearfix vilki-mod">
-          <div class="row">
-          </div>
-        </div>
-      </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-12">
-      <div class="card">
-        <div class="card-header vilki-mod">
-          <h3 class="card-title text-light">Complete Orders Table</h3>
-          <div class="card-tools">
-            <div class="input-group input-group-sm" style="width: 250px;">
-              <input type="text" oninput="filterNameInput(this)" id="orders-complete-table-search" class="form-control float-right"
-                     placeholder="Search">
-              <div class="input-group-append">
-                <button type="submit" class="btn btn-default">
-                  <i class="fas fa-search"></i>
-                </button>
-              </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header vilki-mod">
+                    <h3 class="card-title text-light">Complete Orders Table</h3>
+                    <div class="card-tools">
+                        <div class="input-group input-group-sm" style="width: 250px;">
+                            <input type="text" oninput="filterNameInput(this)" id="orders-complete-table-search"
+                                   class="form-control float-right"
+                                   placeholder="Search">
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-default">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered" id="complete-orders">
+                        <thead>
+                        <tr>
+                            <th style="width: 10px">#</th>
+                            <th>Номер</th>
+                            <th>Список</th>
+                            <th>Дата</th>
+                            <th>Статус</th>
+                            <th>Адрес</th>
+                            <th>Сумма</th>
+                            <th>Действия</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer clearfix vilki-mod">
+                    <div class="row">
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-        <div class="card-body">
-          <table class="table table-bordered" id="complete-orders">
-            <thead>
-            <tr>
-              <th style="width: 10px">#</th>
-              <th>Номер</th>
-              <th>Список</th>
-              <th>Дата</th>
-              <th>Статус</th>
-              <th>Адрес</th>
-              <th>Сумма</th>
-              <th>Действия</th>
-            </tr>
-            </thead>
-            <tbody>
-            </tbody>
-          </table>
-        </div>
-        <div class="card-footer clearfix vilki-mod">
-          <div class="row">
-          </div>
-        </div>
-      </div>
     </div>
-  </div>
 
 </th:block>
 
 <!-- Extra Modals -->
 <th:block layout:fragment="extra-modals">
 
-  <div class="modal fade" id="confirm-order-delete">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content bg-danger">
-        <div class="modal-header">
-          <h4 class="modal-title">Delete Entity</h4>
+    <div class="modal fade" id="confirm-delete">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-danger">
+                <div class="modal-header">
+                    <h4 class="modal-title">Delete Entity</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Вы уверены, что хотите удалить?</p>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Нет</button>
+                    <a id="delete-order-button" onclick="deleteEntity()" type="button"
+                       class="btn btn-outline-dark">Да</a>
+                </div>
+            </div>
         </div>
-        <div class="modal-body">
-          <p>Вы уверены, что хотите удалить?</p>
-        </div>
-        <div class="modal-footer justify-content-between">
-          <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Нет</button>
-          <a id="delete-order-button" type="button" class="btn btn-outline-dark">Да</a>
-        </div>
-      </div>
     </div>
-  </div>
 
 </th:block>
 
 <th:block layout:fragment="extra-js">
 
-  <script>
+    <script>
 
-    const defaultItemCount = 5;
-    let orderActiveRequest = {};
-    orderActiveRequest.pageIndex = 0;
-    let orderCompleteRequest = {};
-    orderCompleteRequest.pageIndex = 0;
-    let filterTimeout;
+        const defaultItemCount = 5;
+        let orderActiveRequest = {};
+        orderActiveRequest.pageIndex = 0;
+        let orderCompleteRequest = {};
+        orderCompleteRequest.pageIndex = 0;
+        let filterTimeout;
+        let activeOrderId;
+        let completeOrderId;
 
-    $(document).ready(function () {
-      getAllActiveOrders();
-      getAllCompleteOrders();
-    });
-
-    $('#confirm-order-delete').on('show.bs.modal', function (e) {
-      let id = $(e.relatedTarget).data('id');
-      $('#delete-order-button').attr('href', '/orders/delete-order/' + id);
-    });
-
-    //  Get All Users
-    function getAllActiveOrders() {
-      $.ajax({
-        method: "POST",
-        url: '/orders/get-active-orders',
-        contentType: 'application/json',
-        data: JSON.stringify(orderActiveRequest),
-        beforeSend: function (){
-          console.log(orderActiveRequest)
-        }
-      }).done(function (orderResponse) {
-        console.info(orderResponse);
-        const TABLE_BODY = createTable('#active-orders', orderResponse?.itemsCount, orderResponse?.pagesCount, orderActiveRequest?.pageIndex);
-        $.each(orderResponse?.data, function (index, order) {
-          const $delete = '' +
-                  '<a class="btn pb-0 pt-0 btn-danger" ' +
-                  'data-id="' + order?.id + '" data-toggle="modal" data-target="#confirm-order-delete">Удалить</a>';
-          $(TABLE_BODY).append(
-                  '<tr>' +
-                  '    <td>' + ((index + 1) + (orderActiveRequest.pageIndex * defaultItemCount)) + '</td>' +
-                  '    <td>' + (order?.orderCode ? order?.orderCode : '-') + '</td>' +
-                  '    <td>' + (order?.productsList ? order?.productsList : '-') + '</td>' +
-                  '    <td>' + (order?.date ? order?.date : '-') + '</td>' +
-                  '    <td>' + (order?.deliveryStatus ? order?.deliveryStatus : '-') + '</td>' +
-                  '    <td>' + (order?.address ? order?.address : '-') + '</td>' +
-                  '    <td>' + (order?.price ? order?.price : '-') + '</td>' +
-                  '    <td>' + $delete + '</td>' +
-                  '</tr>'
-          );
+        $(document).ready(function () {
+            getAllActiveOrders();
+            getAllCompleteOrders();
         });
-      });
-    }
 
-
-
-    function getAllCompleteOrders() {
-      $.ajax({
-        method: "POST",
-        url: '/orders/get-complete-orders',
-        contentType: 'application/json',
-        data: JSON.stringify(orderCompleteRequest),
-        beforeSend: function (){
-          console.log(orderCompleteRequest)
-        }
-      }).done(function (orderResponse) {
-        console.info(orderResponse);
-        const TABLE_BODY = createTable('#complete-orders', orderResponse?.itemsCount, orderResponse?.pagesCount, orderCompleteRequest?.pageIndex);
-        $.each(orderResponse?.data, function (index, order) {
-          const $delete = '' +
-                  '<a class="btn pb-0 pt-0 btn-danger" ' +
-                  'data-id="' + order?.id + '" data-toggle="modal" data-target="#confirm-order-delete">Удалить</a>';
-          $(TABLE_BODY).append(
-                  '<tr>' +
-                  '    <td>' + ((index + 1) + (orderActiveRequest.pageIndex * defaultItemCount)) + '</td>' +
-                  '    <td>' + (order?.orderCode ? order?.orderCode : '-') + '</td>' +
-                  '    <td>' + (order?.productsList ? order?.productsList : '-') + '</td>' +
-                  '    <td>' + (order?.date ? order?.date : '-') + '</td>' +
-                  '    <td>' + (order?.deliveryStatus ? order?.deliveryStatus : '-') + '</td>' +
-                  '    <td>' + (order?.address ? order?.address : '-') + '</td>' +
-                  '    <td>' + (order?.price ? order?.price : '-') + '</td>' +
-                  '    <td>' + $delete + '</td>' +
-                  '</tr>'
-          );
+        $(document).on('click', '.active-order', function () {
+            activeOrderId = $(this).data('id');
+            $('#confirm-delete').modal('show');
         });
-      });
-    }
 
-    $(document).on('click', 'a.page-link', function () {
-      const pageBtn = $(this);
-      const whichTable = $(pageBtn).parents('div.card').find('table').attr('id');
-      if (whichTable === 'active-orders') {
-        if ($(pageBtn).parent('li.page-item').hasClass('prev')) {
-          orderActiveRequest.pageIndex = --orderActiveRequest.pageIndex;
-        } else if ($(pageBtn).parent('li.page-item').hasClass('next')) {
-          orderActiveRequest.pageIndex = ++orderActiveRequest.pageIndex;
-        } else {
-          orderActiveRequest.pageIndex = Number($(pageBtn).text()) - 1;
+        $(document).on('click', '.complete-order', function () {
+            completeOrderId = $(this).data('id');
+            $('#confirm-delete').modal('show');
+        });
+
+        //  Get All Users
+        function getAllActiveOrders() {
+            $.ajax({
+                method: "POST",
+                url: '/orders/get-active-orders',
+                contentType: 'application/json',
+                data: JSON.stringify(orderActiveRequest),
+                beforeSend: function () {
+                    console.log(orderActiveRequest)
+                }
+            }).done(function (orderResponse) {
+                console.info(orderResponse);
+                const TABLE_BODY = createTable('#active-orders', orderResponse?.itemsCount, orderResponse?.pagesCount, orderActiveRequest?.pageIndex);
+                $.each(orderResponse?.data, function (index, order) {
+                    const $delete = '' +
+                        '<a class="btn pb-0 pt-0 btn-danger active-order" ' +
+                        'data-id="' + order?.id + '" data-toggle="modal" data-target="#confirm-order-delete">Удалить</a>';
+                    $(TABLE_BODY).append(
+                        '<tr>' +
+                        '    <td>' + ((index + 1) + (orderActiveRequest.pageIndex * defaultItemCount)) + '</td>' +
+                        '    <td>' + (order?.orderCode ? order?.orderCode : '-') + '</td>' +
+                        '    <td>' + (order?.productsList ? order?.productsList : '-') + '</td>' +
+                        '    <td>' + (order?.date ? order?.date : '-') + '</td>' +
+                        '    <td>' + (order?.deliveryStatus ? order?.deliveryStatus : '-') + '</td>' +
+                        '    <td>' + (order?.address ? order?.address : '-') + '</td>' +
+                        '    <td>' + (order?.price ? order?.price : '-') + '</td>' +
+                        '    <td>' + $delete + '</td>' +
+                        '</tr>'
+                    );
+                });
+            });
         }
-        getAllActiveOrders();
-      } else {
-        if ($(pageBtn).parent('li.page-item').hasClass('prev')) {
-          orderCompleteRequest.pageIndex = --orderCompleteRequest.pageIndex;
-        } else if ($(pageBtn).parent('li.page-item').hasClass('next')) {
-          orderCompleteRequest.pageIndex = ++orderCompleteRequest.pageIndex;
-        } else {
-          orderCompleteRequest.pageIndex = Number($(pageBtn).text()) - 1;
+
+
+        function getAllCompleteOrders() {
+            $.ajax({
+                method: "POST",
+                url: '/orders/get-complete-orders',
+                contentType: 'application/json',
+                data: JSON.stringify(orderCompleteRequest),
+                beforeSend: function () {
+                    console.log(orderCompleteRequest)
+                }
+            }).done(function (orderResponse) {
+                console.info(orderResponse);
+                const TABLE_BODY = createTable('#complete-orders', orderResponse?.itemsCount, orderResponse?.pagesCount, orderCompleteRequest?.pageIndex);
+                $.each(orderResponse?.data, function (index, order) {
+                    const $delete = '' +
+                        '<a class="btn pb-0 pt-0 btn-danger complete-order" ' +
+                        'data-id="' + order?.id + '" data-toggle="modal" data-target="#confirm-order-delete">Удалить</a>';
+                    $(TABLE_BODY).append(
+                        '<tr>' +
+                        '    <td>' + ((index + 1) + (orderActiveRequest.pageIndex * defaultItemCount)) + '</td>' +
+                        '    <td>' + (order?.orderCode ? order?.orderCode : '-') + '</td>' +
+                        '    <td>' + (order?.productsList ? order?.productsList : '-') + '</td>' +
+                        '    <td>' + (order?.date ? order?.date : '-') + '</td>' +
+                        '    <td>' + (order?.deliveryStatus ? order?.deliveryStatus : '-') + '</td>' +
+                        '    <td>' + (order?.address ? order?.address : '-') + '</td>' +
+                        '    <td>' + (order?.price ? order?.price : '-') + '</td>' +
+                        '    <td>' + $delete + '</td>' +
+                        '</tr>'
+                    );
+                });
+            });
         }
-        getAllCompleteOrders();
-      }
 
-    });
+        function deleteEntity() {
+            if (activeOrderId !== undefined) {
+                $.ajax({
+                    method: "DELETE",
+                    url: "/orders/delete-order/" + activeOrderId,
+                    contentType: 'application/json'
+                }).done(function () {
+                    $('#confirm-delete').modal('hide');
+                    activeOrderId = undefined;
+                    getAllActiveOrders();
+                }).fail(function (response) {
+                    console.error(response);
+                    activeOrderId = undefined;
+                });
+            } else if (completeOrderId !== undefined) {
+                $.ajax({
+                    method: "DELETE",
+                    url: "/orders/delete-order/" + completeOrderId,
+                    contentType: 'application/json'
+                }).done(function () {
+                    $('#confirm-delete').modal('hide');
+                    completeOrderId = undefined;
+                    getAllCompleteOrders();
+                }).fail(function (response) {
+                    console.error(response);
+                    completeOrderId = undefined;
+                });
+            }
+        }
 
-    $(document).on('change', '#orders-active-table-search', function () {
-      orderActiveRequest.query = $(this).val();
-      orderActiveRequest.pageIndex = 0;
-      getAllActiveOrders();
-    });
+        $(document).on('click', 'a.page-link', function () {
+            const pageBtn = $(this);
+            const whichTable = $(pageBtn).parents('div.card').find('table').attr('id');
+            if (whichTable === 'active-orders') {
+                if ($(pageBtn).parent('li.page-item').hasClass('prev')) {
+                    orderActiveRequest.pageIndex = --orderActiveRequest.pageIndex;
+                } else if ($(pageBtn).parent('li.page-item').hasClass('next')) {
+                    orderActiveRequest.pageIndex = ++orderActiveRequest.pageIndex;
+                } else {
+                    orderActiveRequest.pageIndex = Number($(pageBtn).text()) - 1;
+                }
+                getAllActiveOrders();
+            } else {
+                if ($(pageBtn).parent('li.page-item').hasClass('prev')) {
+                    orderCompleteRequest.pageIndex = --orderCompleteRequest.pageIndex;
+                } else if ($(pageBtn).parent('li.page-item').hasClass('next')) {
+                    orderCompleteRequest.pageIndex = ++orderCompleteRequest.pageIndex;
+                } else {
+                    orderCompleteRequest.pageIndex = Number($(pageBtn).text()) - 1;
+                }
+                getAllCompleteOrders();
+            }
 
-    $(document).on('change', '#orders-complete-table-search', function () {
-      orderCompleteRequest.query = $(this).val();
-      orderCompleteRequest.pageIndex = 0;
-      getAllCompleteOrders();
-    });
+        });
 
-    function filterNameInput(input) {
-      clearInterval(filterTimeout)
-      filterTimeout = setTimeout(() => {
-        $(input).trigger('change');
-      }, 1000)
-    };
+        $(document).on('change', '#orders-active-table-search', function () {
+            orderActiveRequest.query = $(this).val();
+            orderActiveRequest.pageIndex = 0;
+            getAllActiveOrders();
+        });
 
-  </script>
+        $(document).on('change', '#orders-complete-table-search', function () {
+            orderCompleteRequest.query = $(this).val();
+            orderCompleteRequest.pageIndex = 0;
+            getAllCompleteOrders();
+        });
+
+        function filterNameInput(input) {
+            clearInterval(filterTimeout)
+            filterTimeout = setTimeout(() => {
+                $(input).trigger('change');
+            }, 1000)
+        };
+
+    </script>
 
 </th:block>
 

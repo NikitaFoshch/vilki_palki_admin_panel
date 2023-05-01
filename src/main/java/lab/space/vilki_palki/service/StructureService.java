@@ -14,5 +14,5 @@ public interface StructureService {
     void saveStructure(StructureSaveRequest request);
     void updateStructure(StructureUpdateRequest request);
 
-    void deleteStructureById(StructureDeleteRequest request);
+    void deleteStructureById(Long id);
 }

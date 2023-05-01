@@ -1,5 +1,7 @@
 package lab.space.vilki_palki.service.impl;
 
+import jakarta.persistence.EntityNotFoundException;
+import lab.space.vilki_palki.entity.Address;
 import lab.space.vilki_palki.mapper.AddressMapper;
 import lab.space.vilki_palki.model.address.AddressRequest;
 import lab.space.vilki_palki.model.address.AddressResponse;
@@ -22,6 +24,12 @@ public class AddressServiceImpl implements AddressService {
     private final AddressSpecification addressSpecification;
 
     @Override
+    public Address getAddressById(Long id) {
+        return addressRepository.findById(id)
+                .orElseThrow(()-> new EntityNotFoundException("Address not found by id " + id));
+    }
+
+    @Override
     public List<AddressResponse> findAllOrdersByUserIdByOrderByCreateAt(Long id) {
         log.info("---------------Get All Addresses By UserId Order by create at---------------");
         return addressMapper
@@ -34,6 +42,12 @@ public class AddressServiceImpl implements AddressService {
         return addressMapper.toAddressResponseByPage(
                 addressRepository.findAll(addressSpecification.getAddressesByRequest(addressRequest),
                         PageRequest.of(addressRequest.getPageIndex(), DEFAULT_PAGE_SIZE)));
+    }
+
+    @Override
+    public void deleteAddress(Long id) {
+        Address address = getAddressById(id);
+        addressRepository.delete(address);
     }
 
 }

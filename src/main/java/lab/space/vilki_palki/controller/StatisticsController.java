@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.security.Principal;
 
 @Controller
-@RequestMapping("/statistics")
+@RequestMapping("statistics")
 @RequiredArgsConstructor
 public class StatisticsController {
     @GetMapping({"/", ""})

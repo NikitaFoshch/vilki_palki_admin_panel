@@ -1,5 +1,7 @@
 package lab.space.vilki_palki.service.impl;
 
+import jakarta.persistence.EntityNotFoundException;
+import lab.space.vilki_palki.entity.Order;
 import lab.space.vilki_palki.mapper.OrderMapper;
 import lab.space.vilki_palki.model.order.OrderRequest;
 import lab.space.vilki_palki.model.order.OrderResponse;
@@ -31,6 +33,12 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public Order getOrderById(Long id) {
+        return orderRepository.findById(id)
+                .orElseThrow(()-> new EntityNotFoundException("Order not found by id " + id));
+    }
+
+    @Override
     public OrderResponseByPage getOrdersByPageByUserId(OrderRequest orderRequest) {
         final int DEFAULT_PAGE_SIZE = 5;
         return orderMapper.toOrderResponseByPage(
@@ -59,5 +67,10 @@ public class OrderServiceImpl implements OrderService {
                 .sum();
     }
 
+    @Override
+    public void deleteOrder(Long id) {
+        Order order = getOrderById(id);
+        orderRepository.delete(order);
+    }
 
 }

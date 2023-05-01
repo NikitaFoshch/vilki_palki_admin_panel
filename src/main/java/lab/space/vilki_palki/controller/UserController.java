@@ -36,41 +36,57 @@ public class UserController {
         model.addAttribute("adminsCount", adminService.getCountByAllAdmins());
         return "/admin-panel/pages/user/users";
     }
-    @PostMapping ("get-all-users")
+
+    @PostMapping("get-all-users")
     public ResponseEntity<Page<UserResponse>> getAllUsers(@RequestBody UserRequest userRequest) {
         return ResponseEntity.ok(userService.getUsersByPage(userRequest));
     }
+
     @PostMapping("get-all-admins")
     public ResponseEntity<AdminResponseByPage> getAllAdmins(@RequestBody AdminRequest adminRequest) {
         return ResponseEntity.ok(adminService.getAdminsResponseByPage(adminRequest));
     }
 
-    @GetMapping("delete-user/{id}")
-    public String deleteUser(@PathVariable Long id) {
+    @DeleteMapping("delete-user/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
         userService.deleteUserById(id);
-        return "redirect:/users";
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("user-details/{id}")
     public String showUserDetailsPage(@PathVariable Long id, Model model) {
         User user = new User();
         user.setId(id);
-        model.addAttribute("user",user);
+        model.addAttribute("user", user);
         return "/admin-panel/pages/user/user-details";
     }
 
-    @GetMapping("delete-admin/{id}")
-    public String deleteAdmin(@PathVariable Long id) {
+    @DeleteMapping("delete-admin/{id}")
+    public ResponseEntity<?> deleteAdmin(@PathVariable Long id) {
         adminService.deleteAdminById(id);
-        return "redirect:/users";
+        return ResponseEntity.ok().build();
     }
+
     @PostMapping("get-all-orders-by-user-id")
     public ResponseEntity<OrderResponseByPage> getAllOrdersByUserId(@RequestBody OrderRequest orderRequest) {
         return ResponseEntity.ok(orderService.getOrdersByPageByUserId(orderRequest));
     }
+
     @PostMapping("get-all-address-by-user-id")
     public ResponseEntity<AddressResponseByPage> getAllAddressByUserId(@RequestBody AddressRequest addressRequest) {
         return ResponseEntity.ok(addressService.getAddressesByPageByUserId(addressRequest));
+    }
+
+    @DeleteMapping("delete-order/{id}")
+    public ResponseEntity<?> deleteOrder(@PathVariable Long id) {
+        orderService.deleteOrder(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("delete-address/{id}")
+    public ResponseEntity<?> deleteAddress(@PathVariable Long id) {
+        addressService.deleteAddress(id);
+        return ResponseEntity.ok().build();
     }
 
 }

@@ -15,7 +15,8 @@
                     <h3 class="card-title text-light">Address Table</h3>
                     <div class="card-tools">
                         <div class="input-group input-group-sm" style="width: 250px;">
-                            <input type="text" oninput="filterNameInput(this)" id="address-table-search" class="form-control float-right"
+                            <input type="text" oninput="filterNameInput(this)" id="address-table-search"
+                                   class="form-control float-right"
                                    placeholder="Search">
                             <div class="input-group-append">
                                 <button type="submit" class="btn btn-default">
@@ -59,7 +60,8 @@
                     <h3 class="card-title text-light">Orders Table</h3>
                     <div class="card-tools">
                         <div class="input-group input-group-sm" style="width: 250px;">
-                            <input type="text" oninput="filterNameInput(this)" id="orders-table-search" class="form-control float-right"
+                            <input type="text" oninput="filterNameInput(this)" id="orders-table-search"
+                                   class="form-control float-right"
                                    placeholder="Search">
                             <div class="input-group-append">
                                 <button type="submit" class="btn btn-default">
@@ -102,7 +104,7 @@
 <!-- Extra Modals -->
 <th:block layout:fragment="extra-modals">
 
-    <div class="modal fade" id="confirm-order-delete">
+    <div class="modal fade" id="confirm-delete">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content bg-danger">
                 <div class="modal-header">
@@ -113,24 +115,7 @@
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Нет</button>
-                    <a id="delete-order-button" type="button" class="btn btn-outline-dark">Да</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="confirm-address-delete">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content bg-danger">
-                <div class="modal-header">
-                    <h4 class="modal-title">Delete Entity</h4>
-                </div>
-                <div class="modal-body">
-                    <p>Вы уверены, что хотите удалить?</p>
-                </div>
-                <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Нет</button>
-                    <a id="delete-address-button" type="button" class="btn btn-outline-dark">Да</a>
+                    <a onclick="deleteEntity()" type="button" class="btn btn-outline-dark">Да</a>
                 </div>
             </div>
         </div>
@@ -148,6 +133,8 @@
         let orderRequest = {};
         orderRequest.pageIndex = 0;
         let filterTimeout;
+        let addressId;
+        let orderId;
 
         $(document).ready(function () {
             const id = $("#user-id").val();
@@ -157,14 +144,14 @@
             getAllAddress();
         });
 
-        $('#confirm-order-delete').on('show.bs.modal', function (e) {
-            let id = $(e.relatedTarget).data('id');
-            $('#delete-order-button').attr('href', '/orders/delete-order/' + id);
+        $(document).on('click', '.order', function () {
+            orderId = $(this).data('id');
+            $('#confirm-delete').modal('show');
         });
 
-        $('#confirm-address-delete').on('show.bs.modal', function (e) {
-            let id = $(e.relatedTarget).data('id');
-            $('#delete-address-button').attr('href', '/orders/delete-address/' + id);
+        $(document).on('click', '.address', function () {
+            addressId = $(this).data('id');
+            $('#confirm-delete').modal('show');
         });
 
         //  Get All Users
@@ -174,7 +161,7 @@
                 url: '/users/get-all-orders-by-user-id',
                 contentType: 'application/json',
                 data: JSON.stringify(orderRequest),
-                beforeSend: function (){
+                beforeSend: function () {
                     console.log(orderRequest)
                 }
             }).done(function (orderResponse) {
@@ -182,8 +169,8 @@
                 const TABLE_BODY = createTable('#orders-table', orderResponse?.itemsCount, orderResponse?.pagesCount, orderRequest?.pageIndex);
                 $.each(orderResponse?.data, function (index, order) {
                     const $delete = '' +
-                        '<a class="btn pb-0 pt-0 btn-danger" ' +
-                        'data-id="' + order?.id + '" data-toggle="modal" data-target="#confirm-order-delete">Удалить</a>';
+                        '<a class="btn pb-0 pt-0 btn-danger order" ' +
+                        'data-id="' + order?.id + '" data-toggle="modal" data-target="#confirm-delete">Удалить</a>';
                     $(TABLE_BODY).append(
                         '<tr>' +
                         '    <td>' + ((index + 1) + (orderRequest.pageIndex * defaultItemCount)) + '</td>' +
@@ -207,7 +194,7 @@
                 dataType: 'json',
                 contentType: 'application/json',
                 data: JSON.stringify(addressRequest),
-                beforeSend: function (){
+                beforeSend: function () {
                     console.log(addressRequest)
                 }
             }).done(function (addressResponse) {
@@ -215,8 +202,8 @@
                 const TABLE_BODY = createTable('#address-table', addressResponse?.itemsCount, addressResponse?.pagesCount, addressRequest?.pageIndex);
                 $.each(addressResponse?.data, function (index, address) {
                     const $delete = '' +
-                        '<a class="btn pb-0 pt-0 btn-danger" ' +
-                        'data-id="' + address?.id + '" data-toggle="modal" data-target="#confirm-address-delete">Удалить</a>';
+                        '<a class="btn pb-0 pt-0 btn-danger address" ' +
+                        'data-id="' + address?.id + '" data-toggle="modal" data-target="#confirm-delete">Удалить</a>';
                     $(TABLE_BODY).append(
                         '<tr>' +
                         '    <td>' + ((index + 1) + (addressRequest.pageIndex * defaultItemCount)) + '</td>' +
@@ -232,6 +219,36 @@
                     );
                 });
             });
+        }
+
+        function deleteEntity() {
+            if (orderId !== undefined) {
+                $.ajax({
+                    method: "DELETE",
+                    url: "/users/delete-order/" + orderId,
+                    contentType: 'application/json'
+                }).done(function () {
+                    $('#confirm-delete').modal('hide');
+                    orderId = undefined;
+                    getAllOrders();
+                }).fail(function (response) {
+                    console.error(response);
+                    orderId = undefined;
+                });
+            } else if (addressId !== undefined) {
+                $.ajax({
+                    method: "DELETE",
+                    url: "/users/delete-address/" + addressId,
+                    contentType: 'application/json'
+                }).done(function () {
+                    $('#confirm-delete').modal('hide');
+                    addressId = undefined;
+                    getAllAddress();
+                }).fail(function (response) {
+                    console.error(response);
+                    addressId = undefined;
+                });
+            }
         }
 
         $(document).on('click', 'a.page-link', function () {

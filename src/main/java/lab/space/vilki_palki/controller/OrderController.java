@@ -9,10 +9,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/orders")
+@RequestMapping("orders")
 @RequiredArgsConstructor
 public class OrderController {
     private final OrderService orderService;
+
     @GetMapping({"/", ""})
     public String showOrderPage() {
         return "/admin-panel/pages/order/orders";
@@ -27,4 +28,10 @@ public class OrderController {
     public ResponseEntity<OrderResponseByPage> getAllCompleteOrders(@RequestBody OrderRequest orderRequest) {
         return ResponseEntity.ok(orderService.getOrdersByPage(orderRequest));
     }
+    @DeleteMapping("delete-order/{id}")
+    public ResponseEntity<?> deleteOrder(@PathVariable Long id) {
+        orderService.deleteOrder(id);
+        return ResponseEntity.ok().build();
+    }
+
 }

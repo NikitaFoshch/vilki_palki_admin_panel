@@ -107,7 +107,7 @@
 <!-- Extra Modals -->
 <th:block layout:fragment="extra-modals">
 
-    <div class="modal fade" id="confirm-user-delete">
+    <div class="modal fade" id="confirm-delete">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content bg-danger">
                 <div class="modal-header">
@@ -118,24 +118,7 @@
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Нет</button>
-                    <a id="delete-user-button" type="button" class="btn btn-outline-dark">Да</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="confirm-admin-delete">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content bg-danger">
-                <div class="modal-header">
-                    <h4 class="modal-title">Delete Entity</h4>
-                </div>
-                <div class="modal-body">
-                    <p>Вы уверены, что хотите удалить?</p>
-                </div>
-                <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Нет</button>
-                    <a id="delete-admin-button" type="button" class="btn btn-outline-dark">Да</a>
+                    <a onclick="deleteEntity()" type="button" class="btn btn-outline-dark">Да</a>
                 </div>
             </div>
         </div>
@@ -153,19 +136,21 @@
         let adminRequest = {};
         adminRequest.pageIndex = 0;
         let filterTimeout;
+        let adminId;
+        let userId;
 
         $(document).ready(function () {
             getAllUsers();
             getAllAdmins();
         });
 
-        $('#confirm-user-delete').on('show.bs.modal', function (e) {
-            let id = $(e.relatedTarget).data('id');
-            $('#delete-user-button').attr('href', '/users/delete-user/' + id);
+        $(document).on('click', '.user', function () {
+            userId = $(this).data('id');
+            $('#confirm-delete').modal('show');
         });
-        $('#confirm-admin-delete').on('show.bs.modal', function (e) {
-            let id = $(e.relatedTarget).data('id');
-            $('#delete-admin-button').attr('href', '/users/delete-admin/' + id);
+        $(document).on('click', '.admin', function () {
+            adminId = $(this).data('id');
+            $('#confirm-delete').modal('show');
         });
 
         //  Get All Users
@@ -186,8 +171,8 @@
                     const $view = '' +
                         '<a href="/users/user-details/' + user?.id + '" class="btn pb-0 pt-0 btn-secondary">Детали</a>';
                     const $delete = '' +
-                        '<a class="btn pb-0 pt-0 btn-danger" ' +
-                        'data-id="' + user?.id + '" data-toggle="modal" data-target="#confirm-user-delete">Удалить</a>';
+                        '<a class="btn pb-0 pt-0 btn-danger user" ' +
+                        'data-id="' + user?.id + '" data-toggle="modal" data-target="#confirm-delete">Удалить</a>';
                     $(TABLE_BODY).append(
                         '<tr>' +
                         '    <td>' + ((index + 1) + (userRequest.pageIndex * usersResponse?.size)) + '</td>' +
@@ -219,8 +204,8 @@
                 const TABLE_BODY = createTable('#admins-table', adminsResponse?.itemsCount, adminsResponse?.pagesCount, adminRequest?.pageIndex);
                 $.each(adminsResponse?.data, function (index, admin) {
                     const $delete = '' +
-                        '<a class="btn pb-0 pt-0 btn-danger" ' +
-                        'data-id="' + admin?.id + '" data-toggle="modal" data-target="#confirm-admin-delete">Удалить</a>';
+                        '<a class="btn pb-0 pt-0 btn-danger admin" ' +
+                        'data-id="' + admin?.id + '" data-toggle="modal" data-target="#confirm-delete">Удалить</a>';
                     $(TABLE_BODY).append(
                         '<tr>' +
                         '    <td>' + ((index + 1) + (adminRequest.pageIndex * defaultItemCount)) + '</td>' +
@@ -233,6 +218,36 @@
                     );
                 });
             });
+        }
+
+        function deleteEntity() {
+            if (userId !== undefined) {
+                $.ajax({
+                    method: "DELETE",
+                    url: "/users/delete-user/" + userId,
+                    contentType: 'application/json'
+                }).done(function () {
+                    $('#confirm-delete').modal('hide');
+                    userId = undefined;
+                    getAllUsers();
+                }).fail(function (response) {
+                    console.error(response);
+                    userId = undefined;
+                });
+            } else if (adminId !== undefined) {
+                $.ajax({
+                    method: "DELETE",
+                    url: "/users/delete-admin/" + adminId,
+                    contentType: 'application/json'
+                }).done(function () {
+                    $('#confirm-delete').modal('hide');
+                    adminId = undefined;
+                    getAllAdmins();
+                }).fail(function (response) {
+                    console.error(response);
+                    adminId = undefined;
+                });
+            }
         }
 
         //  Page click action

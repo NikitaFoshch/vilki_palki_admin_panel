@@ -152,45 +152,10 @@
             getAllStructures();
         });
 
-        let structureDeleteRequest = {};
-
         $(document).on('click', '.delete-button', function () {
             structureId = $(this).data('id');
             $('#delete-structure').modal('show');
         });
-
-        function deleteStructureById() {
-            $.ajax({
-                method: "DELETE",
-                url: '/structures/delete-structure',
-                contentType: 'application/json',
-                data: JSON.stringify({id: structureId})
-            }).done(function () {
-                $('#delete-structure').modal('hide');
-                getAllStructures()
-
-            }).fail(function (response) {
-                $('#delete-structure').modal('hide');
-                console.error(response);
-            })
-        }
-
-        function editActionButton(id) {
-            structureId = id;
-            $.ajax({
-                method: "GET",
-                url: "/structures/get-structure/" + id,
-                dataType: 'json'
-            }).done(function (structure) {
-                console.info(structure);
-                $('#name').val(structure?.name);
-                $('#weight').val(structure?.weight);
-                $('#price').val(structure?.price);
-                $('#category').val(structure?.category).trigger('change');
-            });
-            $('#add-structure .modal-title').text('Edit Structure');
-            $('#add-structure').modal('show');
-        }
 
         function getAllStructures() {
             $.ajax({
@@ -280,6 +245,39 @@
                 getAllStructures();
 
             }).fail(function (response) {
+                console.error(response);
+            })
+        }
+
+        function editActionButton(id) {
+            structureId = id;
+            $.ajax({
+                method: "GET",
+                url: "/structures/get-structure/" + id,
+                dataType: 'json'
+            }).done(function (structure) {
+                console.info(structure);
+                $('#name').val(structure?.name);
+                $('#weight').val(structure?.weight);
+                $('#price').val(structure?.price);
+                $('#category').val(structure?.category).trigger('change');
+            });
+            $('#add-structure .modal-title').text('Edit Structure');
+            $('#add-structure').modal('show');
+        }
+
+        function deleteStructureById() {
+            $.ajax({
+                method: "DELETE",
+                url: '/structures/delete-structure/' + structureId,
+                contentType: 'application/json',
+            }).done(function () {
+                $('#delete-structure').modal('hide');
+                structureId = undefined;
+                getAllStructures();
+
+            }).fail(function (response) {
+                structureId = undefined;
                 console.error(response);
             })
         }

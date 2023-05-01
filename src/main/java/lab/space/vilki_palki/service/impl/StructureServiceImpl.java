@@ -83,8 +83,8 @@ public class StructureServiceImpl implements StructureService {
     }
 
     @Override
-    public void deleteStructureById(StructureDeleteRequest request) {
-        Structure structure = getById(request.id());
+    public void deleteStructureById(Long id) {
+        Structure structure = getById(id);
         if (nonNull(structure.getImage())) FileUtil.deleteFile(structure.getImage());
 
         structureRepository.delete(structure);

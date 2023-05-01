@@ -1,6 +1,9 @@
 package lab.space.vilki_palki.controller;
 
-import lab.space.vilki_palki.model.structure.*;
+import lab.space.vilki_palki.model.structure.StructureRequest;
+import lab.space.vilki_palki.model.structure.StructureResponse;
+import lab.space.vilki_palki.model.structure.StructureSaveRequest;
+import lab.space.vilki_palki.model.structure.StructureUpdateRequest;
 import lab.space.vilki_palki.service.StructureService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -20,9 +23,9 @@ public class StructureController {
         return new ModelAndView("/admin-panel/pages/product-structure/structures");
     }
 
-    @DeleteMapping("delete-structure")
-    public ResponseEntity<?> deleteStructure(@RequestBody StructureDeleteRequest request) {
-        structureService.deleteStructureById(request);
+    @DeleteMapping("delete-structure/{id}")
+    public ResponseEntity<?> deleteStructure(@PathVariable Long id) {
+        structureService.deleteStructureById(id);
         return ResponseEntity.ok().build();
     }
 

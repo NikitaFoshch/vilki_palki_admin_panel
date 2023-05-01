@@ -7,7 +7,6 @@ import lab.space.vilki_palki.service.BannerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,22 +16,26 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BannerController {
     private final BannerService bannerService;
+
     @GetMapping({"/", ""})
     public String showBannerPage() {
         return "/admin-panel/pages/banner/banners";
     }
+
     @PostMapping("banner-save")
-    public ResponseEntity<?> saveBanner(@ModelAttribute BannerSaveRequest request){
+    public ResponseEntity<?> saveBanner(@ModelAttribute BannerSaveRequest request) {
         bannerService.saveBanner(request);
         return ResponseEntity.ok().build();
     }
+
     @PutMapping("banner-update")
-    public ResponseEntity<?> updateBanner(@ModelAttribute BannerUpdateRequest request){
+    public ResponseEntity<?> updateBanner(@ModelAttribute BannerUpdateRequest request) {
         bannerService.updateBannerById(request);
         return ResponseEntity.ok().build();
     }
+
     @DeleteMapping("banner-delete/{id}")
-    public ResponseEntity<?> deleteBanner(@PathVariable Long id){
+    public ResponseEntity<?> deleteBanner(@PathVariable Long id) {
         bannerService.deleteBanner(id);
         return ResponseEntity.ok().build();
     }
