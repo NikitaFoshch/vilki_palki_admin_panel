@@ -31,13 +31,13 @@
                         <thead>
                         <tr>
                             <th style="width: 10px">#</th>
-                            <th>Номер</th>
-                            <th>Список</th>
-                            <th>Дата</th>
-                            <th>Статус</th>
-                            <th>Адрес</th>
-                            <th>Сумма</th>
-                            <th>Действия</th>
+                            <th>Code</th>
+                            <th>Products</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Address</th>
+                            <th>Total price, UAH</th>
+                            <th style="width: 100px">Actions</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -74,13 +74,13 @@
                         <thead>
                         <tr>
                             <th style="width: 10px">#</th>
-                            <th>Номер</th>
-                            <th>Список</th>
-                            <th>Дата</th>
-                            <th>Статус</th>
-                            <th>Адрес</th>
-                            <th>Сумма</th>
-                            <th>Действия</th>
+                            <th>Code</th>
+                            <th>Products</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Address</th>
+                            <th>Total price, UAH</th>
+                            <th style="width: 100px">Actions</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -107,12 +107,12 @@
                     <h4 class="modal-title">Delete Entity</h4>
                 </div>
                 <div class="modal-body">
-                    <p>Вы уверены, что хотите удалить?</p>
+                    <p>Are you sure you want to delete?</p>
                 </div>
                 <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Нет</button>
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">No</button>
                     <a id="delete-order-button" onclick="deleteEntity()" type="button"
-                       class="btn btn-outline-dark">Да</a>
+                       class="btn btn-outline-dark">Yes</a>
                 </div>
             </div>
         </div>
@@ -152,7 +152,7 @@
         function getAllActiveOrders() {
             $.ajax({
                 method: "POST",
-                url: '/orders/get-active-orders',
+                url: '/orders/get-active-orders-by-request',
                 contentType: 'application/json',
                 data: JSON.stringify(orderActiveRequest),
                 beforeSend: function () {
@@ -160,11 +160,11 @@
                 }
             }).done(function (orderResponse) {
                 console.info(orderResponse);
-                const TABLE_BODY = createTable('#active-orders', orderResponse?.itemsCount, orderResponse?.pagesCount, orderActiveRequest?.pageIndex);
-                $.each(orderResponse?.data, function (index, order) {
+                const TABLE_BODY = createTable('#active-orders', orderResponse?.totalElements, orderResponse?.totalPages, orderActiveRequest?.pageIndex);
+                $.each(orderResponse?.content, function (index, order) {
                     const $delete = '' +
                         '<a class="btn pb-0 pt-0 btn-danger active-order" ' +
-                        'data-id="' + order?.id + '" data-toggle="modal" data-target="#confirm-order-delete">Удалить</a>';
+                        'data-id="' + order?.id + '" data-toggle="modal" data-target="#confirm-order-delete">Delete</a>';
                     $(TABLE_BODY).append(
                         '<tr>' +
                         '    <td>' + ((index + 1) + (orderActiveRequest.pageIndex * defaultItemCount)) + '</td>' +
@@ -185,7 +185,7 @@
         function getAllCompleteOrders() {
             $.ajax({
                 method: "POST",
-                url: '/orders/get-complete-orders',
+                url: '/orders/get-completed-orders-by-request',
                 contentType: 'application/json',
                 data: JSON.stringify(orderCompleteRequest),
                 beforeSend: function () {
@@ -193,14 +193,14 @@
                 }
             }).done(function (orderResponse) {
                 console.info(orderResponse);
-                const TABLE_BODY = createTable('#complete-orders', orderResponse?.itemsCount, orderResponse?.pagesCount, orderCompleteRequest?.pageIndex);
-                $.each(orderResponse?.data, function (index, order) {
+                const TABLE_BODY = createTable('#complete-orders', orderResponse?.totalElements, orderResponse?.totalPages, orderCompleteRequest?.pageIndex);
+                $.each(orderResponse?.content, function (index, order) {
                     const $delete = '' +
                         '<a class="btn pb-0 pt-0 btn-danger complete-order" ' +
-                        'data-id="' + order?.id + '" data-toggle="modal" data-target="#confirm-order-delete">Удалить</a>';
+                        'data-id="' + order?.id + '" data-toggle="modal" data-target="#confirm-order-delete">Delete</a>';
                     $(TABLE_BODY).append(
                         '<tr>' +
-                        '    <td>' + ((index + 1) + (orderActiveRequest.pageIndex * defaultItemCount)) + '</td>' +
+                        '    <td>' + ((index + 1) + (orderCompleteRequest.pageIndex * defaultItemCount)) + '</td>' +
                         '    <td>' + (order?.orderCode ? order?.orderCode : '-') + '</td>' +
                         '    <td>' + (order?.productsList ? order?.productsList : '-') + '</td>' +
                         '    <td>' + (order?.date ? order?.date : '-') + '</td>' +

@@ -32,14 +32,14 @@
                         <thead>
                         <tr>
                             <th style="width: 10px">#</th>
-                            <th>Улица</th>
-                            <th>Дом</th>
-                            <th>Квартира</th>
-                            <th>Парадная</th>
-                            <th>Код</th>
-                            <th>Этаж</th>
-                            <th>Примечание</th>
-                            <th style="width: 190px">Действия</th>
+                            <th>Street</th>
+                            <th>House</th>
+                            <th>Apartment</th>
+                            <th>Front</th>
+                            <th>Intercom code</th>
+                            <th>Floor</th>
+                            <th>Note</th>
+                            <th style="width: 100px">Action</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -77,13 +77,13 @@
                         <thead>
                         <tr>
                             <th style="width: 10px">#</th>
-                            <th>Номер</th>
-                            <th>Список</th>
-                            <th>Дата</th>
-                            <th>Статус</th>
-                            <th>Адрес</th>
-                            <th>Сумма</th>
-                            <th style="width: 190px">Действия</th>
+                            <th>Code</th>
+                            <th>Products</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Address</th>
+                            <th>Total price, UAH</th>
+                            <th style="width: 100px">Actions</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -111,11 +111,11 @@
                     <h4 class="modal-title">Delete Entity</h4>
                 </div>
                 <div class="modal-body">
-                    <p>Вы уверены, что хотите удалить?</p>
+                    <p>Are you sure you want to delete?</p>
                 </div>
                 <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Нет</button>
-                    <a onclick="deleteEntity()" type="button" class="btn btn-outline-dark">Да</a>
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">No</button>
+                    <a onclick="deleteEntity()" type="button" class="btn btn-outline-dark">Yes</a>
                 </div>
             </div>
         </div>
@@ -170,7 +170,7 @@
                 $.each(orderResponse?.data, function (index, order) {
                     const $delete = '' +
                         '<a class="btn pb-0 pt-0 btn-danger order" ' +
-                        'data-id="' + order?.id + '" data-toggle="modal" data-target="#confirm-delete">Удалить</a>';
+                        'data-id="' + order?.id + '" data-toggle="modal" data-target="#confirm-delete">Delete</a>';
                     $(TABLE_BODY).append(
                         '<tr>' +
                         '    <td>' + ((index + 1) + (orderRequest.pageIndex * defaultItemCount)) + '</td>' +
@@ -203,7 +203,7 @@
                 $.each(addressResponse?.data, function (index, address) {
                     const $delete = '' +
                         '<a class="btn pb-0 pt-0 btn-danger address" ' +
-                        'data-id="' + address?.id + '" data-toggle="modal" data-target="#confirm-delete">Удалить</a>';
+                        'data-id="' + address?.id + '" data-toggle="modal" data-target="#confirm-delete">Delete</a>';
                     $(TABLE_BODY).append(
                         '<tr>' +
                         '    <td>' + ((index + 1) + (addressRequest.pageIndex * defaultItemCount)) + '</td>' +

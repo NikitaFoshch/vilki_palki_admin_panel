@@ -24,14 +24,13 @@ import static java.util.Objects.nonNull;
 @RequiredArgsConstructor
 public class BannerServiceImpl implements BannerService {
     private final BannerRepository bannerRepository;
-    private final BannerMapper bannerMapper;
 
     @Override
     public List<BannerResponse> getAllBannersByOrderByCreateAt() {
         log.info("---------------Get All Banners Order By createAt---------------");
         return bannerRepository.findAll(Sort.by(Sort.Direction.DESC, "createAt"))
                 .stream()
-                .map(bannerMapper::toDto)
+                .map(BannerMapper::toDto)
                 .toList();
     }
 
@@ -45,7 +44,7 @@ public class BannerServiceImpl implements BannerService {
     @Override
     public BannerResponse getBannerDto(Long id) {
         log.info("---------------Get Banner Dto By Id" + id + "---------------");
-        return bannerMapper.toDto(getBannerById(id));
+        return BannerMapper.toDto(getBannerById(id));
     }
 
     @Override

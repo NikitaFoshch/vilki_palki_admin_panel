@@ -14,7 +14,7 @@
         <div class=" col-md-auto pl-5 ml-5 text-right">
             <button type="button" class="btn btn-block btn-warning" data-toggle="modal" data-target="#save-product">
                 <i class="fa-solid fa-plus pr-2"></i>
-                Добавить продукт
+                Add product
             </button>
         </div>
     </div>
@@ -26,7 +26,7 @@
 <th:block layout:fragment="extra-modals">
 
     <div class="modal fade" id="save-product">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
             <div class="modal-content bg-warning">
                 <div class="modal-header">
                     <h4 class="modal-title">Add Products</h4>
@@ -37,39 +37,57 @@
                             <label for="name">Name</label>
                             <input type="text" class="form-control" id="name" placeholder="Enter name">
                         </div>
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <div class="mb-3 mr-5" style="width: 202px">
+                                <label for="image">Image</label>
+                                <div class="custom-file">
+                                    <label class="custom-file-label" for="image"></label>
+                                    <input type="file" class="custom-file-input" id="image"
+                                           accept="image/jpeg, image/png">
+                                </div>
+                            </div>
+                            <div class="mb-3 ml-5">
+                                <label for="category">Category</label>
+                                <select style="width: 202px" id="category">
+                                    <option value=""></option>
+                                </select>
+                            </div>
+                        </div>
                         <div class="mb-3">
                             <label for="price">Price</label>
-                            <input type="number" class="form-control" id="price" placeholder="Enter structure">
+                            <input type="number" class="form-control" id="price" placeholder="Enter price">
+                        </div>
+                    </div>
+
+                    <div class="row d-flex justify-content-between align-items-center">
+                        <div class="mb-3" style="width: 505px">
+                            <label for="description">Description</label>
+                            <textarea class="form-control" rows="5" placeholder="Enter ..." id="description"></textarea>
+                        </div>
+                        <div class="mb-3" style="width: 505px">
+                            <label for="productInfo">Product Info</label>
+                            <textarea class="form-control" rows="5" placeholder="Enter ..." id="productInfo"></textarea>
                         </div>
                     </div>
                     <div class="row d-flex justify-content-between align-items-center">
-                        <div class="mb-3">
+                        <div style="width: 75%">
                             <label for="structure">Structure</label>
-                            <select class="form-control" style="width: 202px" id="structure">
-                                <option value=""></option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="category">Category</label>
-                            <select class="form-control" style="width: 202px" id="category">
-                                <option value=""></option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row d-flex justify-content-between align-items-center">
-                        <div class="mb-3">
-                            <label for="image">Image</label>
-                            <div class="custom-file">
-                                <label class="custom-file-label" for="image"></label>
-                                <input type="file" class="custom-file-input" id="image"
-                                       accept="image/jpeg, image/png">
+                            <div class="select2-indigo">
+                                <select id="structure" class="select2" multiple="multiple"
+                                        data-placeholder="Select structure"></select>
                             </div>
+                        </div>
+                        <div class="ml-5">
+                            <label for="type">Type</label>
+                            <select style="width: 202px" id="type">
+                                <option value=""></option>
+                            </select>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Отменить</button>
-                    <button onclick="saveProduct()" type="button" class="btn btn-outline-dark">Сохранить</button>
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancel</button>
+                    <button onclick="saveProduct()" type="button" class="btn btn-outline-dark">Save</button>
                 </div>
             </div>
         </div>
@@ -81,12 +99,12 @@
                     <h4 class="modal-title">Delete Entity</h4>
                 </div>
                 <div class="modal-body">
-                    <p>Вы уверены, что хотите удалить?</p>
+                    <p>Are you sure you want to delete?</p>
                 </div>
                 <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Нет</button>
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">No</button>
                     <a id="delete-structure-button" onclick="deleteProductById()" type="button"
-                       class="btn btn-outline-dark">Да</a>
+                       class="btn btn-outline-dark">Yes</a>
                 </div>
             </div>
         </div>
@@ -146,8 +164,19 @@
             if (productId) productRequest.append('id', productId);
             productRequest.append('name', $('#name').val());
             productRequest.append('price', $('#price').val());
+            productRequest.append('description', $('#description').val());
+            productRequest.append('productInfo', $('#productInfo').val());
             if (file) {
                 productRequest.append('image', file);
+            }
+            if ($('#category').val() !== '') {
+                productRequest.append('productsCategoryId', $('#category').val());
+            }
+            if ($('#structure').val() !== '') {
+                productRequest.append('structureIds', $('#structure').val());
+            }
+            if ($('#type').val() !== '') {
+                productRequest.append('productsTypeId', $('#type').val());
             }
             $.ajax({
                 method: productId ? 'PUT' : "POST",
@@ -156,7 +185,7 @@
                 processData: false,
                 data: productRequest,
                 beforeSend: function () {
-                    console.log(productRequest)
+                    clearErrorMessages();
                 }
             }).done(function () {
                 $('#save-product').modal('hide');
@@ -164,6 +193,15 @@
 
             }).fail(function (response) {
                 console.error(response);
+                const errors = response.responseJSON;
+                if (errors.name) errorMessage($('#name'), errors.name)
+                if (errors.price) errorMessage($('#price'), errors.price)
+                if (errors.productInfo) errorMessage($('#productInfo'), errors.productInfo)
+                if (errors.description) errorMessage($('#description'), errors.description)
+                if (errors.productsCategoryId) errorMessage($('#category'), errors.productsCategoryId, 'div.mb-3')
+                if (errors.productsTypeId) errorMessage($('#type'), errors.productsTypeId, 'div.ml-5')
+                if (errors.structureIds) errorMessage($('#structure'), errors.structureIds, 'div')
+                if (errors.image) errorMessage($('#image'), errors.image)
             })
         }
 
@@ -177,6 +215,13 @@
                 console.info(product);
                 $('#name').val(product?.name);
                 $('#price').val(product?.price);
+                $('#description').val(product?.description);
+                $('#productInfo').val(product?.productInfo);
+                $('#category').append('<option selected value="' + product?.productCategory?.id + '">' + product?.productCategory?.name + '</option>');
+                for (let i = 0; i < product?.structures.length ; i++){
+                    $('#structure').append('<option selected value="' + product?.structures[i]?.id + '">' + product?.structures[i]?.name + '</option>');
+                }
+                $('#type').append('<option selected value="' + product?.productType?.id + '">' + product?.productType?.name + '</option>');
             });
             $('#save-product .modal-title').text('Edit Product');
             $('#save-product').modal('show');
@@ -199,11 +244,80 @@
             })
         }
 
+        $('#category').select2({
+            minimumResultsForSearch: -1,
+            placeholder: 'Choose category',
+            theme: 'bootstrap4',
+            allowClear: true,
+            ajax: {
+                method: 'GET',
+                url: 'products/get-all-product-categories-order-by-name',
+                cache: true,
+                delay: 500,
+                processResults: function (data) {
+                    return {
+                        results: data.map(function (item) {
+                            return {
+                                id: item.id,
+                                text: item.name
+                            };
+                        })
+                    };
+                }
+            }
+        });
+
+        $('#structure').select2({
+            minimumResultsForSearch: -1,
+            placeholder: 'Select structure',
+            allowClear: true,
+            ajax: {
+                method: 'GET',
+                url: 'products/get-all-structure-order-by-name',
+                cache: true,
+                delay: 500,
+                processResults: function (data) {
+                    return {
+                        results: data.map(function (item) {
+                            return {
+                                id: item.id,
+                                text: item.name
+                            };
+                        })
+                    };
+                }
+            }
+        });
+
+        $('#type').select2({
+            minimumResultsForSearch: -1,
+            placeholder: 'Choose structure',
+            theme: 'bootstrap4',
+            allowClear: true,
+            ajax: {
+                method: 'GET',
+                url: 'products/get-all-product-types-order-by-name',
+                cache: true,
+                delay: 500,
+                processResults: function (data) {
+                    return {
+                        results: data.map(function (item) {
+                            return {
+                                id: item.id,
+                                text: item.name
+                            };
+                        })
+                    };
+                }
+            }
+        });
+
         $(document).on('hidden.bs.modal', '#save-product', function () {
-            $('#save-product select, #save-product input').val('').trigger('change');
+            $('#save-product select, #save-product input, #save-product textarea , #save-product div select').val('').trigger('change');
             $('#image').prev('label').text('');
             $('#save-product .modal-title').text('Add Product');
             productId = undefined;
+            clearErrorMessages();
         })
     </script>
 

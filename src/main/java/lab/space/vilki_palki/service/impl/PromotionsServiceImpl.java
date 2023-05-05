@@ -7,6 +7,7 @@ import lab.space.vilki_palki.model.promotion.PromotionResponse;
 import lab.space.vilki_palki.model.promotion.PromotionSaveRequest;
 import lab.space.vilki_palki.model.promotion.PromotionUpdateRequest;
 import lab.space.vilki_palki.repository.PromotionRepository;
+import lab.space.vilki_palki.service.ProductService;
 import lab.space.vilki_palki.service.PromotionService;
 import lab.space.vilki_palki.util.FileUtil;
 import lombok.AllArgsConstructor;
@@ -14,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,12 +27,13 @@ import static java.util.Objects.nonNull;
 public class PromotionsServiceImpl implements PromotionService {
     private final PromotionRepository promotionRepository;
     private final PromotionMapper promotionMapper;
+    private final ProductService productService;
 
     @Override
     public List<PromotionResponse> getAllPromotionsByOrderByCreateAt() {
         return promotionRepository.findAll(Sort.by(Sort.Direction.DESC, "createAt"))
                 .stream().
-                map(promotionMapper::toDto)
+                map(promotionMapper::toSimpleDto)
                 .toList();
     }
 
@@ -49,16 +52,17 @@ public class PromotionsServiceImpl implements PromotionService {
     public void savePromotion(PromotionSaveRequest request) {
         Promotion promotion = new Promotion()
                 .setPercent(request.percent())
-                .setProducts(request.products())
+                .setProduct(productService.getProduct(request.productId()))
+                .setTotalPrice(
+                        (productService.getProduct(request.productId())
+                                .getPrice().multiply(new BigDecimal(request.percent()).movePointLeft(2))
+                        )
+                )
                 .setName(request.name());
-        if (nonNull(request.image())
-                && nonNull(request.image().getOriginalFilename())
-                && !request.image().getOriginalFilename().equals("")) {
-            final String newFileName = UUID.randomUUID() + request.image().getOriginalFilename();
-            FileUtil.saveFile(newFileName, request.image());
-            FileUtil.deleteFile(promotion.getImage());
-            promotion.setImage(newFileName);
-        }
+        final String newFileName = UUID.randomUUID() + request.image().getOriginalFilename();
+        FileUtil.saveFile(newFileName, request.image());
+        FileUtil.deleteFile(promotion.getImage());
+        promotion.setImage(newFileName);
         promotionRepository.save(promotion);
     }
 
@@ -66,16 +70,17 @@ public class PromotionsServiceImpl implements PromotionService {
     public void updatePromotionById(PromotionUpdateRequest request) {
         Promotion promotion = getPromotionById(request.id())
                 .setPercent(request.percent())
-                .setProducts(request.products())
+                .setProduct(productService.getProduct(request.productId()))
+                .setTotalPrice(
+                        (productService.getProduct(request.productId())
+                                .getPrice().multiply(new BigDecimal(request.percent()).movePointLeft(2))
+                        )
+                )
                 .setName(request.name());
-        if (nonNull(request.image())
-                && nonNull(request.image().getOriginalFilename())
-                && !request.image().getOriginalFilename().equals("")) {
-            final String newFileName = UUID.randomUUID() + request.image().getOriginalFilename();
-            FileUtil.saveFile(newFileName, request.image());
-            FileUtil.deleteFile(promotion.getImage());
-            promotion.setImage(newFileName);
-        }
+        final String newFileName = UUID.randomUUID() + request.image().getOriginalFilename();
+        FileUtil.saveFile(newFileName, request.image());
+        FileUtil.deleteFile(promotion.getImage());
+        promotion.setImage(newFileName);
         promotionRepository.save(promotion);
     }
 

@@ -2,11 +2,27 @@ package lab.space.vilki_palki.mapper;
 
 import lab.space.vilki_palki.entity.Product;
 import lab.space.vilki_palki.model.product.ProductResponse;
+import lab.space.vilki_palki.service.ProductCategoryService;
+import lab.space.vilki_palki.service.ProductTypeService;
+import lab.space.vilki_palki.service.StructureService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@AllArgsConstructor
 public class ProductMapper {
+    private final StructureService structureService;
+    private final ProductTypeService productTypeService;
+    private final ProductCategoryService productCategoryService;
+
     public ProductResponse toSimpleDto(Product product) {
+        return ProductResponse.builder()
+                .id(product.getId())
+                .name(product.getName())
+                .build();
+    }
+
+    public ProductResponse toSimpleDtoWithImage(Product product) {
         return ProductResponse.builder()
                 .id(product.getId())
                 .name(product.getName())
@@ -22,9 +38,9 @@ public class ProductMapper {
                 .description(product.getDescription())
                 .image(product.getImage())
                 .price(product.getPrice())
-                .productsCategory(product.getProductsCategory())
-                .productsType(product.getProductsType())
-                .structures(product.getStructures())
+                .productCategory(productCategoryService.getProductCategoryToDto(product.getProductCategory().getId()))
+                .productType(productTypeService.getProductTypeToDto(product.getProductType().getId()))
+                .structures(product.getStructures().stream().map(structure -> structureService.getStructureSimpleDtoById(structure.getId())).toList())
                 .build();
     }
 }

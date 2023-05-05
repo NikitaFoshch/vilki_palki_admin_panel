@@ -12,7 +12,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header vilki-mod">
-                    <h3 class="card-title text-light">Users Table | Общее кол-во:
+                    <h3 class="card-title text-light">Users Table | Total number:
                         <th:block th:text="${usersCount}"></th:block>
                     </h3>
                     <div class="card-tools">
@@ -36,12 +36,12 @@
                         <tr>
                             <th style="width: 10px">#</th>
                             <th>Email</th>
-                            <th>Полное имя</th>
-                            <th>Дата рождения</th>
+                            <th>Full Name</th>
+                            <th>Birthday</th>
                             <th>Facebook Id</th>
-                            <th>Телефон</th>
-                            <th>Сумма заказов</th>
-                            <th style="width: 190px">Действия</th>
+                            <th>Phone number</th>
+                            <th>Order amount</th>
+                            <th style="width: 190px">Actions</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -60,7 +60,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header vilki-mod">
-                    <h3 class="card-title text-light">Admins Table | Общее кол-во:
+                    <h3 class="card-title text-light">Admins Table | Total number:
                         <th:block th:text="${adminsCount}"></th:block>
                     </h3>
                     <div class="card-tools">
@@ -83,10 +83,10 @@
                         <tr>
                             <th style="width: 10px">#</th>
                             <th>Email</th>
-                            <th>Имя</th>
-                            <th>Фамилия</th>
+                            <th>Firstname</th>
+                            <th>Lastname</th>
                             <th>Security level</th>
-                            <th style="width: 190px">Действия</th>
+                            <th style="width: 190px">Actions</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -114,11 +114,11 @@
                     <h4 class="modal-title">Delete Entity</h4>
                 </div>
                 <div class="modal-body">
-                    <p>Вы уверены, что хотите удалить?</p>
+                    <p>Are you sure you want to delete?</p>
                 </div>
                 <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Нет</button>
-                    <a onclick="deleteEntity()" type="button" class="btn btn-outline-dark">Да</a>
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">No</button>
+                    <a onclick="deleteEntity()" type="button" class="btn btn-outline-dark">Yes</a>
                 </div>
             </div>
         </div>
@@ -169,10 +169,10 @@
                 const TABLE_BODY = createTable('#users-table', usersResponse?.totalElements, usersResponse?.totalPages, userRequest?.pageIndex);
                 $.each(usersResponse?.content, function (index, user) {
                     const $view = '' +
-                        '<a href="/users/user-details/' + user?.id + '" class="btn pb-0 pt-0 btn-secondary">Детали</a>';
+                        '<a href="/users/user-details/' + user?.id + '" class="btn pb-0 pt-0 btn-secondary">Details</a>';
                     const $delete = '' +
                         '<a class="btn pb-0 pt-0 btn-danger user" ' +
-                        'data-id="' + user?.id + '" data-toggle="modal" data-target="#confirm-delete">Удалить</a>';
+                        'data-id="' + user?.id + '" data-toggle="modal" data-target="#confirm-delete">Delete</a>';
                     $(TABLE_BODY).append(
                         '<tr>' +
                         '    <td>' + ((index + 1) + (userRequest.pageIndex * usersResponse?.size)) + '</td>' +
@@ -205,7 +205,7 @@
                 $.each(adminsResponse?.data, function (index, admin) {
                     const $delete = '' +
                         '<a class="btn pb-0 pt-0 btn-danger admin" ' +
-                        'data-id="' + admin?.id + '" data-toggle="modal" data-target="#confirm-delete">Удалить</a>';
+                        'data-id="' + admin?.id + '" data-toggle="modal" data-target="#confirm-delete">Delete</a>';
                     $(TABLE_BODY).append(
                         '<tr>' +
                         '    <td>' + ((index + 1) + (adminRequest.pageIndex * defaultItemCount)) + '</td>' +

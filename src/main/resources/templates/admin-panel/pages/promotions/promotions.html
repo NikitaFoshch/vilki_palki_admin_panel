@@ -14,7 +14,7 @@
         <div class=" col-md-auto pl-5 ml-5 text-right">
             <button type="button" class="btn btn-block btn-warning" data-toggle="modal" data-target="#save-promotion">
                 <i class="fa-solid fa-plus pr-2"></i>
-                Добавить акцию
+                Add promotion
             </button>
         </div>
     </div>
@@ -59,12 +59,20 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="form-group">
+                                    <label for="product">Product</label>
+                                    <select class="form-control" style="width: 220px" id="product">
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Отменить</button>
-                    <button onclick="savePromotion()" type="button" class="btn btn-outline-dark">Сохранить</button>
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancel</button>
+                    <button onclick="savePromotion()" type="button" class="btn btn-outline-dark">Save</button>
                 </div>
             </div>
         </div>
@@ -76,12 +84,12 @@
                     <h4 class="modal-title">Delete Entity</h4>
                 </div>
                 <div class="modal-body">
-                    <p>Вы уверены, что хотите удалить?</p>
+                    <p>Are you sure you want to delete?</p>
                 </div>
                 <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Нет</button>
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">No</button>
                     <a id="delete-structure-button" onclick="deletePromotionById()" type="button"
-                       class="btn btn-outline-dark">Да</a>
+                       class="btn btn-outline-dark">Yes</a>
                 </div>
             </div>
         </div>
@@ -144,6 +152,9 @@
             if (file) {
                 promotionRequest.append('image', file);
             }
+            if ($('#product').val() !== '') {
+                promotionRequest.append('productId', $('#product').val());
+            }
             $.ajax({
                 method: promotionId ? 'PUT' : "POST",
                 url: promotionId ? '/promotions/promotion-update' : '/promotions/promotion-save',
@@ -151,7 +162,7 @@
                 processData: false,
                 data: promotionRequest,
                 beforeSend: function () {
-                    console.log(promotionRequest)
+                    clearErrorMessages();
                 }
             }).done(function () {
                 $('#save-promotion').modal('hide');
@@ -159,6 +170,11 @@
 
             }).fail(function (response) {
                 console.error(response);
+                const errors = response.responseJSON;
+                if (errors.name) errorMessage($('#name'), errors.name)
+                if (errors.percent) errorMessage($('#percent'), errors.percent)
+                if (errors.productId) errorMessage($('#product'), errors.productId, 'div.mb-3')
+                if (errors.image) errorMessage($('#image'), errors.image)
             })
         }
 
@@ -172,6 +188,7 @@
                 console.info(promotion);
                 $('#name').val(promotion?.name);
                 $('#percent').val(promotion?.percent);
+                $('#product').append('<option selected value="' + promotion?.product?.id + '">' + promotion?.product?.name + '</option>');
             });
             $('#save-promotion .modal-title').text('Edit Promotion');
             $('#save-promotion').modal('show');
@@ -194,11 +211,35 @@
             })
         }
 
+        $('#product').select2({
+            minimumResultsForSearch: -1,
+            placeholder: 'Choose product',
+            theme: 'bootstrap4',
+            allowClear: true,
+            ajax: {
+                method: 'GET',
+                url: 'promotions/get-all-products-order-by-name',
+                cache: true,
+                delay: 500,
+                processResults: function (data) {
+                    return {
+                        results: data.map(function (item) {
+                            return {
+                                id: item.id,
+                                text: item.name
+                            };
+                        })
+                    };
+                }
+            }
+        });
+
         $(document).on('hidden.bs.modal', '#save-promotion', function () {
             $('#save-promotion select, #save-promotion input').val('').trigger('change');
             $('#image').prev('label').text('');
             $('#save-promotion .modal-title').text('Add Promotion');
             promotionId = undefined;
+            clearErrorMessages();
         })
 
     </script>

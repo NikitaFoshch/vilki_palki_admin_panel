@@ -14,7 +14,7 @@
         <div class=" col-md-auto pl-5 ml-5 text-right">
             <button type="button" class="btn btn-block btn-warning" data-toggle="modal" data-target="#save-banner">
                 <i class="fa-solid fa-plus pr-2"></i>
-                Добавить баннер
+                Add banner
             </button>
         </div>
     </div>
@@ -57,8 +57,8 @@
                     </div>
                 </div>
                 <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Отменить</button>
-                    <button onclick="saveBanner()" type="button" class="btn btn-outline-dark">Сохранить</button>
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancel</button>
+                    <button onclick="saveBanner()" type="button" class="btn btn-outline-dark">Save</button>
                 </div>
             </div>
         </div>
@@ -71,12 +71,12 @@
                     <h4 class="modal-title">Delete Entity</h4>
                 </div>
                 <div class="modal-body">
-                    <p>Вы уверены, что хотите удалить?</p>
+                    <p>Are you sure you want to delete?</p>
                 </div>
                 <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Нет</button>
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">No</button>
                     <a id="delete-structure-button" onclick="deleteBanner()" type="button"
-                       class="btn btn-outline-dark">Да</a>
+                       class="btn btn-outline-dark">Yes</a>
                 </div>
             </div>
         </div>
@@ -144,7 +144,7 @@
                 processData: false,
                 data: bannerRequest,
                 beforeSend: function () {
-                    console.log(bannerRequest)
+                    clearErrorMessages();
                 }
             }).done(function () {
                 $('#save-banner').modal('hide');
@@ -152,6 +152,9 @@
 
             }).fail(function (response) {
                 console.error(response);
+                const errors = response.responseJSON;
+                if (errors.name) errorMessage($('#name'), errors.name)
+                if (errors.image) errorMessage($('#image'), errors.image)
             })
         }
 

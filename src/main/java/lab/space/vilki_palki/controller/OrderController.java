@@ -1,9 +1,10 @@
 package lab.space.vilki_palki.controller;
 
 import lab.space.vilki_palki.model.order.OrderRequest;
-import lab.space.vilki_palki.model.order.OrderResponseByPage;
+import lab.space.vilki_palki.model.order.OrderResponse;
 import lab.space.vilki_palki.service.OrderService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -19,14 +20,14 @@ public class OrderController {
         return "/admin-panel/pages/order/orders";
     }
 
-    @PostMapping("get-active-orders")
-    public ResponseEntity<OrderResponseByPage> getAllActiveOrders(@RequestBody OrderRequest orderRequest) {
-        return ResponseEntity.ok(orderService.getOrdersByPage(orderRequest));
+    @PostMapping("get-active-orders-by-request")
+    public ResponseEntity<Page<OrderResponse>> getActiveOrdersByRequest(@RequestBody OrderRequest orderRequest) {
+        return ResponseEntity.ok(orderService.getActiveOrders(orderRequest));
     }
 
-    @PostMapping("get-complete-orders")
-    public ResponseEntity<OrderResponseByPage> getAllCompleteOrders(@RequestBody OrderRequest orderRequest) {
-        return ResponseEntity.ok(orderService.getOrdersByPage(orderRequest));
+    @PostMapping("get-completed-orders-by-request")
+    public ResponseEntity<Page<OrderResponse>> getCompletedOrdersByRequest(@RequestBody OrderRequest orderRequest) {
+        return ResponseEntity.ok(orderService.getCompletedOrders(orderRequest));
     }
 
     @DeleteMapping("delete-order/{id}")

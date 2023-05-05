@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
@@ -14,22 +15,25 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 public class Product extends MappedEntity {
-    @Column(length = 100)
+    @Column(length = 100, nullable = false, unique = true)
     private String name;
-    private Integer price;
-    @Column(length = 500)
+    @Column(nullable = false)
+    private BigDecimal price;
+    @Column(length = 500, nullable = false)
     private String productInfo;
-    @Column(length = 2000)
+    @Column(length = 2000, nullable = false)
     private String description;
-    @Column(length = 150)
+    @Column(length = 150, nullable = false)
     private String image;
     @OneToOne
-    private ProductsCategory productsCategory;
+    @JoinColumn(name = "product_category_id", nullable = false)
+    private ProductCategory productCategory;
     @OneToOne
-    private ProductsType productsType;
+    @JoinColumn(name = "product_type_id", nullable = false)
+    private ProductType productType;
     @ManyToMany
     private List<Structure> structures;
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "product_id")
     private List<ShoppingCart> shoppingCarts;
 }

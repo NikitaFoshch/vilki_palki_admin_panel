@@ -20,7 +20,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AddressServiceImpl implements AddressService {
     private final AddressRepository addressRepository;
-    private final AddressMapper addressMapper;
     private final AddressSpecification addressSpecification;
 
     @Override
@@ -32,14 +31,14 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public List<AddressResponse> findAllOrdersByUserIdByOrderByCreateAt(Long id) {
         log.info("---------------Get All Addresses By UserId Order by create at---------------");
-        return addressMapper
+        return AddressMapper
                 .toSimplifiedListDto(addressRepository.findAllByUserIdOrderByCreateAt(id));
     }
 
     @Override
     public AddressResponseByPage getAddressesByPageByUserId(AddressRequest addressRequest) {
         final int DEFAULT_PAGE_SIZE = 5;
-        return addressMapper.toAddressResponseByPage(
+        return AddressMapper.toAddressResponseByPage(
                 addressRepository.findAll(addressSpecification.getAddressesByRequest(addressRequest),
                         PageRequest.of(addressRequest.getPageIndex(), DEFAULT_PAGE_SIZE)));
     }

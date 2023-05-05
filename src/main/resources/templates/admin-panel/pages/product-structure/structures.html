@@ -10,9 +10,6 @@
 <th:block layout:fragment="content">
 
     <div class="row">
-
-    </div>
-    <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-header vilki-mod">
@@ -35,7 +32,7 @@
                             <button type="button" class="btn btn-sm btn-block btn-warning" data-toggle="modal"
                                     data-target="#add-structure">
                                 <i class="fa-solid fa-plus pr-2"></i>
-                                Добавить ингредиент
+                                Add ingredient
                             </button>
                         </div>
                     </div>
@@ -45,11 +42,11 @@
                         <thead>
                         <tr>
                             <th style="width: 10px">#</th>
-                            <th>Название</th>
-                            <th>Категория</th>
-                            <th>Вес</th>
-                            <th>Цена, грн</th>
-                            <th style="width: 205px">Действия</th>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Weight</th>
+                            <th>Price, UAH</th>
+                            <th style="width: 160px">Actions</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -98,20 +95,18 @@
                             </select>
                         </div>
                     </div>
-                    <div class="row d-flex justify-content-between align-items-center">
-                        <div class="mb-3">
-                            <label for="image">Image</label>
-                            <div class="custom-file">
-                                <label class="custom-file-label" for="image"></label>
-                                <input type="file" class="custom-file-input" id="image"
-                                       accept="image/jpeg, image/png">
-                            </div>
+                    <div class="w-100 mb-3">
+                        <label for="image">Image</label>
+                        <div class="custom-file">
+                            <label class="custom-file-label" for="image"></label>
+                            <input type="file" class="custom-file-input" id="image"
+                                   accept="image/jpeg, image/png">
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Отменить</button>
-                    <button onclick="saveStructure();" type="button" class="btn btn-outline-dark">Сохранить</button>
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancel</button>
+                    <button onclick="saveStructure();" type="button" class="btn btn-outline-dark">Save</button>
                 </div>
             </div>
         </div>
@@ -123,12 +118,12 @@
                     <h4 class="modal-title">Delete Entity</h4>
                 </div>
                 <div class="modal-body">
-                    <p>Вы уверены, что хотите удалить?</p>
+                    <p>Are you sure you want to delete?</p>
                 </div>
                 <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Нет</button>
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">No</button>
                     <a id="delete-structure-button" onclick="deleteStructureById()" type="button"
-                       class="btn btn-outline-dark">Да</a>
+                       class="btn btn-outline-dark">Yes</a>
                 </div>
             </div>
         </div>
@@ -139,22 +134,26 @@
 
     <script src="/js/bs-file-input/bs-custom-file-input.min.js"></script>
     <script>
-        $(function () {
-            bsCustomFileInput.init();
-        });
+
         let structureRequest = {
             pageIndex: 0
         };
+
         let structureId;
         let filterTimeout;
 
+        const addStructureModal = $('#add-structure');
+        const deleteStructureModal = $('#delete-structure');
+        const categorySelect = $('#category');
+
         $(document).ready(function () {
             getAllStructures();
+            bsCustomFileInput.init();
         });
 
         $(document).on('click', '.delete-button', function () {
             structureId = $(this).data('id');
-            $('#delete-structure').modal('show');
+            deleteStructureModal.modal('show');
         });
 
         function getAllStructures() {
@@ -173,17 +172,17 @@
                 $.each(structuresResponse?.content, function (index, structure) {
                     const $view = '' +
                         '<button onclick="editActionButton(' + structure?.id + ')" ' +
-                        'class="btn pb-0 pt-0 btn-secondary">Изменить</button>';
+                        'class="btn pb-0 pt-0 btn-secondary">Edit</button>';
                     const $delete = '' +
                         '<a class="btn pb-0 pt-0 btn-danger delete-button" ' +
-                        'data-id="' + structure?.id + '" data-toggle="modal" data-target="#delete-structure">Удалить</a>';
+                        'data-id="' + structure?.id + '" data-toggle="modal" data-target="#delete-structure">Delete</a>';
                     $(TABLE_BODY).append(
                         '<tr>' +
                         '    <td>' + ((index + 1) + (structureRequest.pageIndex * structuresResponse?.size)) + '</td>' +
-                        '    <td>' + (structure?.name ? structure?.name : '-') + '</td>' +
-                        '    <td>' + (structure?.structureCategory ? structure?.structureCategory : '—') + '</td>' +
-                        '    <td>' + (structure?.weight ? structure?.weight : '—') + '</td>' +
-                        '    <td>' + (structure?.price ? structure?.price : '—') + '</td>' +
+                        '    <td>' + structure?.name + '</td>' +
+                        '    <td>' + structure?.structureCategory?.name + '</td>' +
+                        '    <td>' + structure?.weight + '</td>' +
+                        '    <td>' + structure?.price + '</td>' +
                         '    <td>' + $view + $delete + '</td>' +
                         '</tr>'
                     );
@@ -196,7 +195,7 @@
             const pageBtn = $(this);
             const whichTable = $(pageBtn).parents('div.card').find('table').attr('id');
             if (whichTable === 'structure-table') {
-                if ($(pageBtn).parent('li.page-item').hasClass('prev')) {
+                if ($(this).parent('li.page-item').hasClass('prev')) {
                     structureRequest.pageIndex = --structureRequest.pageIndex;
                 } else if ($(pageBtn).parent('li.page-item').hasClass('next')) {
                     structureRequest.pageIndex = ++structureRequest.pageIndex;
@@ -228,8 +227,8 @@
             if (file) {
                 structureSaveRequest.append('image', file);
             }
-            if ($('#category').val() !== '') {
-                structureSaveRequest.append('category', $('#category').val());
+            if (!isBlank(categorySelect.val())) {
+                structureSaveRequest.append('structureCategoryId', categorySelect.val());
             }
             $.ajax({
                 method: structureId ? 'PUT' : "POST",
@@ -238,14 +237,19 @@
                 processData: false,
                 data: structureSaveRequest,
                 beforeSend: function () {
-                    console.log(structureSaveRequest)
+                    clearErrorMessages();
                 }
             }).done(function () {
-                $('#add-structure').modal('hide');
+                addStructureModal.modal('hide');
                 getAllStructures();
-
             }).fail(function (response) {
                 console.error(response);
+                const errors = response.responseJSON;
+                if (errors.name) errorMessage($('#name'), errors.name)
+                if (errors.price) errorMessage($('#price'), errors.price)
+                if (errors.weight) errorMessage($('#weight'), errors.weight)
+                if (errors.structureCategoryId) errorMessage($('#category'), errors.structureCategoryId, 'div.mb-3')
+                if (errors.image) errorMessage($('#image'), errors.image)
             })
         }
 
@@ -260,10 +264,10 @@
                 $('#name').val(structure?.name);
                 $('#weight').val(structure?.weight);
                 $('#price').val(structure?.price);
-                $('#category').val(structure?.category).trigger('change');
+                categorySelect.append('<option selected value="' + structure?.structureCategory?.id + '">' + structure?.structureCategory?.name + '</option>');
             });
-            $('#add-structure .modal-title').text('Edit Structure');
-            $('#add-structure').modal('show');
+            addStructureModal.find('.modal-title').text('Edit Structure');
+            addStructureModal.modal('show');
         }
 
         function deleteStructureById() {
@@ -272,7 +276,7 @@
                 url: '/structures/delete-structure/' + structureId,
                 contentType: 'application/json',
             }).done(function () {
-                $('#delete-structure').modal('hide');
+                deleteStructureModal.modal('hide');
                 structureId = undefined;
                 getAllStructures();
 
@@ -282,20 +286,36 @@
             })
         }
 
-        //  Clearing modal
-        $(document).on('hidden.bs.modal', '#add-structure', function () {
-            $('#add-structure select, #add-structure input').val('').trigger('change');
-            $('#image').prev('label').text('');
-            $('#add-structure .modal-title').text('Add Structure');
-            structureId = undefined;
-        })
-
-        $('#category').select2({
-            theme: 'bootstrap4',
+        categorySelect.select2({
+            minimumResultsForSearch: -1,
             placeholder: 'Choose category',
-            width: '204px',
-            minimumInputLength: -1
+            allowClear: true,
+            ajax: {
+                method: 'GET',
+                url: 'structures/get-all-structure-categories',
+                cache: true,
+                delay: 500,
+                processResults: function (data) {
+                    return {
+                        results: data.map(function (item) {
+                            return {
+                                id: item.id,
+                                text: item.name
+                            };
+                        })
+                    };
+                }
+            }
         });
+
+        //  Clearing modal
+        addStructureModal.on('hidden.bs.modal', function () {
+            addStructureModal.find('select, input').val('').trigger('change');
+            $('#image').prev('label').text('');
+            addStructureModal.find('.modal-title').text('Add Structure');
+            structureId = undefined;
+            clearErrorMessages();
+        })
 
     </script>
 

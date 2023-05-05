@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 
 @Data
@@ -16,12 +17,8 @@ public class OrderResponse {
     private String productsList;
     @JsonFormat(pattern = "hh:mm dd.MM.yyyy", timezone = "UTC")
     private Instant date;
-    private DeliveryStatus deliveryStatus;
+    private String deliveryStatus;
     private String address;
-    private Integer price;
+    private BigDecimal price;
 
-    public enum DeliveryStatus {
-        IN_PROCESS,
-        DONE
-    }
 }

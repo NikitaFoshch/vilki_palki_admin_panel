@@ -8,11 +8,15 @@ import lab.space.vilki_palki.model.product.ProductUpdateRequest;
 import java.util.List;
 
 public interface ProductService {
-    List<ProductResponse> getAllProductsByOrderByCreateAt();
+    List<ProductResponse> getAllProductsSimpleDtoWithImageByOrderByCreateAt();
+
+    List<ProductResponse> getAllProductsSimpleDtoByOrderByName();
 
     Product getProduct(Long id);
 
     ProductResponse getProductDto(Long id);
+
+    ProductResponse getProductSimpleDto(Long id);
 
     void saveProduct(ProductSaveRequest request);
 

@@ -24,7 +24,6 @@ import java.util.ArrayList;
 @Slf4j
 public class AdminServiceImpl implements AdminService, UserDetailsService {
     private final AdminRepository adminRepository;
-    private final AdminMapper adminMapper;
     private final AdminSpecification adminSpecification;
 
     @Override
@@ -45,7 +44,7 @@ public class AdminServiceImpl implements AdminService, UserDetailsService {
     public AdminResponseByPage getAdminsResponseByPage(AdminRequest adminRequest) {
         log.info("---------------Get Admins Order By createAt---------------");
         final int DEFAULT_PAGE_SIZE = 5;
-        return adminMapper.toAdminsResponseByPage(
+        return AdminMapper.toAdminsResponseByPage(
                 adminRepository.findAll(adminSpecification.getAdminsByRequest(adminRequest),
                         PageRequest.of(adminRequest.getPageIndex(),
                                 DEFAULT_PAGE_SIZE,

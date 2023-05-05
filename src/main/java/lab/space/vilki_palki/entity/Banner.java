@@ -14,8 +14,8 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 public class Banner extends MappedEntity {
-    @Column(length = 50)
+    @Column(length = 50, nullable = false)
     private String name;
-    @Column(length = 150)
+    @Column(length = 150, nullable = false)
     private String image;
 }

@@ -4,19 +4,18 @@ import lab.space.vilki_palki.entity.Admin;
 import lab.space.vilki_palki.model.admin.AdminResponse;
 import lab.space.vilki_palki.model.admin.AdminResponseByPage;
 import org.springframework.data.domain.Page;
-import org.springframework.stereotype.Component;
 
-@Component
-public class AdminMapper {
-    public AdminResponseByPage toAdminsResponseByPage(Page<Admin> admins) {
+
+public interface AdminMapper {
+    static AdminResponseByPage toAdminsResponseByPage(Page<Admin> admins) {
         return AdminResponseByPage.builder()
-                .data(admins.stream().map(this::toDto).toList())
+                .data(admins.stream().map(AdminMapper::toDto).toList())
                 .pagesCount(admins.getTotalPages())
                 .itemsCount(admins.getTotalElements())
                 .build();
     }
 
-    public AdminResponse toDto(Admin admin) {
+    static AdminResponse toDto(Admin admin) {
         return AdminResponse.builder()
                 .id(admin.getId())
                 .email(admin.getEmail())

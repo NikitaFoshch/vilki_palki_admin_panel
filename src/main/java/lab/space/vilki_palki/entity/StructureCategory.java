@@ -12,6 +12,6 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class StructureCategory extends MappedEntity {
-    @Column(length = 20)
+    @Column(length = 20, nullable = false, unique = true)
     private String name;
 }

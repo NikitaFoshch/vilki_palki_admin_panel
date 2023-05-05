@@ -1,12 +1,17 @@
 package lab.space.vilki_palki.controller;
 
+import jakarta.validation.Valid;
 import lab.space.vilki_palki.model.banner.BannerResponse;
 import lab.space.vilki_palki.model.banner.BannerSaveRequest;
 import lab.space.vilki_palki.model.banner.BannerUpdateRequest;
 import lab.space.vilki_palki.service.BannerService;
+import lab.space.vilki_palki.util.ErrorMapper;
+import lab.space.vilki_palki.validator.BannerValidation;
+import lab.space.vilki_palki.validator.ImageValidation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,6 +21,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BannerController {
     private final BannerService bannerService;
+    private final BannerValidation bannerValidation;
+    private final ImageValidation imageValidation;
 
     @GetMapping({"/", ""})
     public String showBannerPage() {
@@ -23,13 +30,27 @@ public class BannerController {
     }
 
     @PostMapping("banner-save")
-    public ResponseEntity<?> saveBanner(@ModelAttribute BannerSaveRequest request) {
+    @ResponseBody
+    public ResponseEntity<?> saveBanner(@Valid @ModelAttribute BannerSaveRequest request,
+                                        BindingResult bindingResult) {
+        bannerValidation.isNameUniqueValidation(request.name(), bindingResult);
+        imageValidation.imageContentTypeValidation(request.image(),bindingResult);
+        if (bindingResult.hasErrors()) {
+            return ResponseEntity.badRequest().body(ErrorMapper.mapErrors(bindingResult));
+        }
         bannerService.saveBanner(request);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("banner-update")
-    public ResponseEntity<?> updateBanner(@ModelAttribute BannerUpdateRequest request) {
+    @ResponseBody
+    public ResponseEntity<?> updateBanner(@Valid @ModelAttribute BannerUpdateRequest request,
+                                          BindingResult bindingResult) {
+        bannerValidation.isNameUniqueValidationWithId(request.id(), request.name(), bindingResult);
+        imageValidation.imageContentTypeValidation(request.image(),bindingResult);
+        if (bindingResult.hasErrors()) {
+            return ResponseEntity.badRequest().body(ErrorMapper.mapErrors(bindingResult));
+        }
         bannerService.updateBannerById(request);
         return ResponseEntity.ok().build();
     }

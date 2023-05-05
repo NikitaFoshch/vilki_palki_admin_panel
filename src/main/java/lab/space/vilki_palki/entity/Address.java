@@ -11,9 +11,9 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class Address extends MappedEntity {
 
-    @Column(length = 100)
+    @Column(length = 100, nullable = false)
     private String street;
-    @Column(length = 10)
+    @Column(length = 10, nullable = false)
     private String numberHouse;
     @Column(length = 10)
     private String apartment;
@@ -25,6 +25,7 @@ public class Address extends MappedEntity {
     @Column(length = 500)
     private String notes;
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
 }

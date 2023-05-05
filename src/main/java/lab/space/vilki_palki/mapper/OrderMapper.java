@@ -4,33 +4,31 @@ import lab.space.vilki_palki.entity.Order;
 import lab.space.vilki_palki.model.order.OrderResponse;
 import lab.space.vilki_palki.model.order.OrderResponseByPage;
 import org.springframework.data.domain.Page;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Component
-public class OrderMapper {
-    public List<OrderResponse> toSimplifiedListDto(List<Order> orders) {
-        return orders.stream().map(this::toSimplifiedDto).toList();
+public interface OrderMapper {
+    static List<OrderResponse> toSimplifiedListDto(List<Order> orders) {
+        return orders.stream().map(OrderMapper::toSimplifiedDto).toList();
     }
 
-    public OrderResponse toSimplifiedDto(Order order) {
+    static OrderResponse toSimplifiedDto(Order order) {
         return OrderResponse.builder()
                 .id(order.getId())
                 .orderCode(order.getOrderCode())
                 .productsList(order.getProducts())
                 .date(order.getCreateAt())
-                .deliveryStatus(null)
+                .deliveryStatus(order.getDeliveryStatus().getValue())
                 .address(order.getAddress())
                 .price(order.getPrice())
                 .build();
     }
 
-    public OrderResponseByPage toOrderResponseByPage(Page<Order> order) {
+    static OrderResponseByPage toOrderResponseByPage(Page<Order> orders) {
         return OrderResponseByPage.builder()
-                .data(order.stream().map(this::toSimplifiedDto).toList())
-                .itemsCount(order.getTotalElements())
-                .pagesCount(order.getTotalPages())
+                .data(orders.stream().map(OrderMapper::toSimplifiedDto).toList())
+                .itemsCount(orders.getTotalElements())
+                .pagesCount(orders.getTotalPages())
                 .build();
     }
 
