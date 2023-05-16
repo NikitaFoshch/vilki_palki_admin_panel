@@ -9,7 +9,7 @@ import lab.space.vilki_palki.model.banner.BannerUpdateRequest;
 import lab.space.vilki_palki.repository.BannerRepository;
 import lab.space.vilki_palki.service.BannerService;
 import lab.space.vilki_palki.util.FileUtil;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ import static java.util.Objects.nonNull;
 
 @Service
 @Slf4j
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class BannerServiceImpl implements BannerService {
     private final BannerRepository bannerRepository;
 

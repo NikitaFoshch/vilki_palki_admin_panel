@@ -8,8 +8,110 @@
 
 <th:block layout:fragment="content">
 
-    <!-- this page content -->
+    <div class="row">
+        <div class="col-3">
+            <div class="small-box bg-warning">
+                <div class="inner">
+                    <h3 th:text="${numberOfProducts}"></h3>
+                    <p>Total Products</p>
+                </div>
+                <div class="icon">
+                    <i class="fa-solid fa-burger"></i>
+                </div>
+                <a href="/products" class="small-box-footer">
+                    More info <i class="fas fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="small-box bg-warning">
+                <div class="inner">
+                    <h3 th:text="${numberOfStructures}"></h3>
+                    <p>Total Ingredients</p>
+                </div>
+                <div class="icon">
+                    <i class="fa-solid fa-cubes-stacked"></i>
+                </div>
+                <a href="/structures" class="small-box-footer">
+                    More info <i class="fas fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="small-box bg-warning">
+                <div class="inner">
+                    <h3 th:text="${numberOfPromotions}"></h3>
+                    <p>Total Promotions</p>
+                </div>
+                <div class="icon">
+                    <i class="fa-solid fa-tachograph-digital"></i>
+                </div>
+                <a href="/promotions" class="small-box-footer">
+                    More info <i class="fas fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="small-box bg-warning">
+                <div class="inner">
+                    <h3 th:text="${numberOfUsers}"></h3>
+                    <p>User Registrations</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-user-plus"></i>
+                </div>
+                <a href="/users" class="small-box-footer">
+                    More info <i class="fas fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card-warning card-outline">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="far fa-chart-bar"></i>
+                        Category
+                    </h3>
 
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div th:if="${numberOfUsers==0}" class="text-center"><h1>Недостаточно информации о
+                        пользователях</h1></div>
+                    <div th:if="${numberOfUsers!=0}" id="donut-chart" style="height: 300px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card-warning card-outline">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="far fa-chart-bar"></i>
+                        Birthday Bar Chart
+                    </h3>
+
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div th:if="${numberOfUsers==0}" class="text-center"><h1>Недостаточно информации о
+                        пользователях</h1></div>
+                    <div th:if="${numberOfUsers!=0}" id="bar-chart" style="height: 300px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 </th:block>
 
 <!-- Extra Modals -->
@@ -20,8 +122,112 @@
 </th:block>
 
 <th:block layout:fragment="extra-js">
+    <script src="/js/statistics/jquery.flot.js"></script>
+    <script src="/js/statistics/jquery.flot.resize.js"></script>
+    <script src="/js/statistics/jquery.flot.pie.js"></script>
 
-    <!-- put JS here for only this page -->
+    <script>
+        $(function () {
+            /*
+             * DONUT CHART
+             * -----------
+             */
+
+            let donutData = [
+                {
+                    label: 'Struct',
+                    data: [[${numberOfStructureCategories}]],
+                    color: '#ffcb3b'
+                },
+                {
+                    label: 'Prod',
+                    data: [[${numberOfProductCategories}]],
+                    color: '#594300'
+                }
+            ];
+            $.plot('#donut-chart', donutData, {
+                series: {
+                    pie: {
+                        show: true,
+                        radius: 1,
+                        innerRadius: 0.5,
+                        label: {
+                            show: true,
+                            radius: 2 / 3,
+                            formatter: labelFormatter,
+                            threshold: 0.1
+                        }
+
+                    }
+                },
+                legend: {
+                    show: false
+                }
+            })
+            /*
+             * END DONUT CHART
+             */
+
+            /*
+         * BAR CHART
+         * ---------
+         */
+            let birthMonthData = [[${birthMonthData}]];
+            let data=[];
+            data.push([1,birthMonthData.at(0)], [2,birthMonthData.at(1)],
+                [3,birthMonthData.at(2)], [4,birthMonthData.at(3)],
+                [5,birthMonthData.at(4)], [6,birthMonthData.at(5)],
+                [7,birthMonthData.at(6)], [8,birthMonthData.at(7)],
+                [9,birthMonthData.at(8)], [10,birthMonthData.at(9)],
+                [11,birthMonthData.at(10)], [12,birthMonthData.at(11)])
+
+            let dataMonth=[];
+            dataMonth.push([1,'January'], [2,'February'],
+                [3,'March'], [4,'April'],
+                [5,'May'], [6,'June'],
+                [7,'July'], [8,'August'],
+                [9,'September'], [10,'October'],
+                [11,'November'], [12,'December'])
+            console.info(dataMonth)
+            console.info(data)
+
+            var bar_data = {
+                data : data,
+                bars: { show: true }
+            }
+            $.plot('#bar-chart', [bar_data], {
+                grid  : {
+                    borderWidth: 1,
+                    borderColor: '#f3f3f3',
+                    tickColor  : '#f3f3f3'
+                },
+                series: {
+                    bars: {
+                        show: true, barWidth: 0.5, align: 'center',
+                    },
+                },
+                colors: ['#ffc000'],
+                xaxis : {
+                    ticks: dataMonth
+                },
+                yaxis : {
+                    tickSize: 1
+                }
+            })
+            /* END BAR CHART */
+        })
+
+        /*
+         * Custom Label formatter
+         * ----------------------
+         */
+        function labelFormatter(label, series) {
+            return '<div style="font-size:13px; text-align:center; padding:2px; color: #fff; font-weight: 600;">'
+                + label
+                + '<br>'
+                + Math.round(series.percent) + '%</div>'
+        }
+    </script>
 
 </th:block>
 

@@ -10,8 +10,8 @@ import lab.space.vilki_palki.service.StructureCategoryService;
 import lab.space.vilki_palki.service.StructureService;
 import lab.space.vilki_palki.util.ErrorMapper;
 import lab.space.vilki_palki.validator.ImageValidation;
-import lab.space.vilki_palki.validator.StructureValidator;
-import lombok.RequiredArgsConstructor;
+import lab.space.vilki_palki.validator.StructureValidation;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -23,11 +23,11 @@ import java.util.List;
 
 @Controller
 @RequestMapping("structures")
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class StructureController {
     private final StructureService structureService;
     private final StructureCategoryService structureCategoryService;
-    private final StructureValidator structureValidator;
+    private final StructureValidation structureValidation;
     private final ImageValidation imageValidation;
 
     @GetMapping({"/", ""})
@@ -45,7 +45,7 @@ public class StructureController {
     @ResponseBody
     public ResponseEntity<?> saveStructure(@Valid @ModelAttribute StructureSaveRequest request,
                                            BindingResult bindingResult) {
-        structureValidator.isNameUniqueValidation(request.name(), bindingResult);
+        structureValidation.isNameUniqueValidation(request.name(), bindingResult);
         imageValidation.imageContentTypeValidation(request.image(), bindingResult);
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(ErrorMapper.mapErrors(bindingResult));
@@ -58,7 +58,7 @@ public class StructureController {
     @ResponseBody
     public ResponseEntity<?> updateStructure(@Valid @ModelAttribute StructureUpdateRequest request,
                                              BindingResult bindingResult) {
-        structureValidator.isNameUniqueValidationWithId(request.id(), request.name(), bindingResult);
+        structureValidation.isNameUniqueValidationWithId(request.id(), request.name(), bindingResult);
         imageValidation.imageContentTypeValidation(request.image(), bindingResult);
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(ErrorMapper.mapErrors(bindingResult));

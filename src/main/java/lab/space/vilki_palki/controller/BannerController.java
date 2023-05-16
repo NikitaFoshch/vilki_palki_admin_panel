@@ -8,7 +8,7 @@ import lab.space.vilki_palki.service.BannerService;
 import lab.space.vilki_palki.util.ErrorMapper;
 import lab.space.vilki_palki.validator.BannerValidation;
 import lab.space.vilki_palki.validator.ImageValidation;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -18,7 +18,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("banners")
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class BannerController {
     private final BannerService bannerService;
     private final BannerValidation bannerValidation;
@@ -34,7 +34,7 @@ public class BannerController {
     public ResponseEntity<?> saveBanner(@Valid @ModelAttribute BannerSaveRequest request,
                                         BindingResult bindingResult) {
         bannerValidation.isNameUniqueValidation(request.name(), bindingResult);
-        imageValidation.imageContentTypeValidation(request.image(),bindingResult);
+        imageValidation.imageContentTypeValidation(request.image(), bindingResult);
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(ErrorMapper.mapErrors(bindingResult));
         }
@@ -47,7 +47,7 @@ public class BannerController {
     public ResponseEntity<?> updateBanner(@Valid @ModelAttribute BannerUpdateRequest request,
                                           BindingResult bindingResult) {
         bannerValidation.isNameUniqueValidationWithId(request.id(), request.name(), bindingResult);
-        imageValidation.imageContentTypeValidation(request.image(),bindingResult);
+        imageValidation.imageContentTypeValidation(request.image(), bindingResult);
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(ErrorMapper.mapErrors(bindingResult));
         }

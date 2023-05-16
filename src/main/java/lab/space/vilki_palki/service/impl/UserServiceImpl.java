@@ -14,6 +14,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -27,6 +29,11 @@ public class UserServiceImpl implements UserService {
     public Integer getCountByAllUsers() {
         return userRepository
                 .findAll(Sort.by(Sort.Direction.DESC, "createAt")).size();
+    }
+    @Override
+    public List<User> getAllUsers() {
+        return userRepository
+                .findAll(Sort.by(Sort.Direction.DESC, "createAt"));
     }
 
 

@@ -13,7 +13,7 @@ import lab.space.vilki_palki.service.ProductTypeService;
 import lab.space.vilki_palki.service.StructureService;
 import lab.space.vilki_palki.util.ErrorMapper;
 import lab.space.vilki_palki.validator.ImageValidation;
-import lab.space.vilki_palki.validator.ProductValidator;
+import lab.space.vilki_palki.validator.ProductValidation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -31,7 +31,7 @@ public class ProductController {
     private final StructureService structureService;
     private final ProductCategoryService productCategoryService;
     private final ProductTypeService productTypeService;
-    private final ProductValidator productValidator;
+    private final ProductValidation productValidation;
     private final ImageValidation imageValidation;
 
     @GetMapping({"/", ""})
@@ -41,10 +41,10 @@ public class ProductController {
 
     @PostMapping("product-save")
     @ResponseBody
-    public ResponseEntity<?> saveBanner(@Valid @ModelAttribute ProductSaveRequest request,
+    public ResponseEntity<?> saveProduct(@Valid @ModelAttribute ProductSaveRequest request,
                                         BindingResult bindingResult) {
-        productValidator.isNameUniqueValidation(request.name(), bindingResult);
-        productValidator.isArrayValidation(request.structureIds(),bindingResult);
+        productValidation.isNameUniqueValidation(request.name(), bindingResult);
+        productValidation.isArrayValidation(request.structureIds(),bindingResult);
         imageValidation.imageContentTypeValidation(request.image(),bindingResult);
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(ErrorMapper.mapErrors(bindingResult));
@@ -55,10 +55,10 @@ public class ProductController {
 
     @PutMapping("product-update")
     @ResponseBody
-    public ResponseEntity<?> updateBanner(@Valid @ModelAttribute ProductUpdateRequest request,
+    public ResponseEntity<?> updateProduct(@Valid @ModelAttribute ProductUpdateRequest request,
                                           BindingResult bindingResult) {
-        productValidator.isNameUniqueValidationWithId(request.id(), request.name(), bindingResult);
-        productValidator.isArrayValidation(request.structureIds(),bindingResult);
+        productValidation.isNameUniqueValidationWithId(request.id(), request.name(), bindingResult);
+        productValidation.isArrayValidation(request.structureIds(),bindingResult);
         imageValidation.imageContentTypeValidation(request.image(),bindingResult);
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(ErrorMapper.mapErrors(bindingResult));
@@ -68,18 +68,18 @@ public class ProductController {
     }
 
     @DeleteMapping("product-delete/{id}")
-    public ResponseEntity<?> deleteBanner(@PathVariable Long id) {
+    public ResponseEntity<?> deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("get-all-products")
-    public ResponseEntity<List<ProductResponse>> getAllBanners() {
+    public ResponseEntity<List<ProductResponse>> getAllProducts() {
         return ResponseEntity.ok(productService.getAllProductsSimpleDtoWithImageByOrderByCreateAt());
     }
 
     @GetMapping("get-product/{id}")
-    public ResponseEntity<ProductResponse> getBannerById(@PathVariable Long id) {
+    public ResponseEntity<ProductResponse> getProductById(@PathVariable Long id) {
         return ResponseEntity.ok(productService.getProductDto(id));
     }
 

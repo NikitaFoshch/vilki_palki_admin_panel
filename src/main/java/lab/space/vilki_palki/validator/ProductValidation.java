@@ -11,7 +11,7 @@ import java.util.List;
 
 @Component
 @AllArgsConstructor
-public class ProductValidator {
+public class ProductValidation {
     private final ProductRepository productRepository;
     private final ProductService productService;
 

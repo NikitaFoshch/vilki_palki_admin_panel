@@ -5,7 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public record PromotionUpdateRequest(
         Long id,
-        @NotBlank(message = "Must be specified")
+        @NotNull(message = "Must be specified")
         @Digits(integer = 2, fraction = 0, message = "0-99")
         @Min(value = 0, message = "Must be positive")
         Long percent,

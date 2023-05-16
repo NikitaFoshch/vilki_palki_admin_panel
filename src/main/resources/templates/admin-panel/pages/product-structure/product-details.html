@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin-panel/fragments/index}">
+
+<head>
+    <title>Template</title>
+</head>
+
+<th:block layout:fragment="content">
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header vilki-mod">
+                    <h3 class="card-title text-light pt-1">Product Category Table</h3>
+
+                    <div class="card-tools  pt-1">
+                        <div class="input-group input-group-sm" style="width: 250px;">
+                            <input type="text" oninput="filterNameInput(this)" id="product-category-table-search"
+                                   class="form-control float-right"
+                                   placeholder="Search">
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-default">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-tools mr-4 pt-0">
+                        <div class="col-md-auto">
+                            <button type="button" class="btn btn-sm btn-block btn-warning" data-toggle="modal"
+                                    data-target="#add-product-category">
+                                <i class="fa-solid fa-plus pr-2"></i>
+                                Add product category
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered" id="product-categories-table">
+                        <thead>
+                        <tr>
+                            <th style="width: 10px">#</th>
+                            <th>Name</th>
+                            <th>Image name</th>
+                            <th style="width: 160px">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer clearfix vilki-mod">
+                    <div class="row">
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header vilki-mod">
+                    <h3 class="card-title text-light pt-1">Product Category Table</h3>
+
+                    <div class="card-tools  pt-1">
+                        <div class="input-group input-group-sm" style="width: 250px;">
+                            <input type="text" oninput="filterNameInput(this)" id="product-type-table-search"
+                                   class="form-control float-right"
+                                   placeholder="Search">
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-default">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-tools mr-4 pt-0">
+                        <div class="col-md-auto">
+                            <button type="button" class="btn btn-sm btn-block btn-warning" data-toggle="modal"
+                                    data-target="#add-product-type">
+                                <i class="fa-solid fa-plus pr-2"></i>
+                                Add product type
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered" id="product-type-table">
+                        <thead>
+                        <tr>
+                            <th style="width: 10px">#</th>
+                            <th>Name</th>
+                            <th style="width: 160px">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer clearfix vilki-mod">
+                    <div class="row">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</th:block>
+
+<!-- Extra Modals -->
+<th:block layout:fragment="extra-modals">
+
+    <div class="modal fade" id="add-product-category">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-warning">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add Product Category</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row d-flex justify-content-between align-items-center">
+                        <div class="mb-3 w-100">
+                            <label for="category-name">Name</label>
+                            <input type="text" class="form-control" id="category-name"
+                                   placeholder="Enter category name">
+                        </div>
+                    </div>
+                    <div class="w-100 mb-3">
+                        <label for="image">Image</label>
+                        <div class="custom-file">
+                            <label class="custom-file-label" for="image"></label>
+                            <input type="file" class="custom-file-input" id="image"
+                                   accept="image/jpeg, image/png">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancel</button>
+                    <button onclick="saveProductCategory();" type="button" class="btn btn-outline-dark">Save
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="add-product-type">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-warning">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add Product Type</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row d-flex justify-content-between align-items-center">
+                        <div class="mb-3 w-100">
+                            <label for="type-name">Name</label>
+                            <input type="text" class="form-control" id="type-name" placeholder="Enter name">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancel</button>
+                    <button onclick="saveProductType();" type="button" class="btn btn-outline-dark">Save
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="delete-product-details">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-danger">
+                <div class="modal-header">
+                    <h4 class="modal-title">Delete Entity</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete?</p>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">No</button>
+                    <a id="delete-product-button" onclick="deleteEntityById()" type="button"
+                       class="btn btn-outline-dark">Yes</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</th:block>
+
+<th:block layout:fragment="extra-js">
+    <script src="/js/bs-file-input/bs-custom-file-input.min.js"></script>
+
+    <script>
+
+        let productCategoryRequest = {
+            pageIndex: 0
+        };
+        let productTypeRequest = {
+            pageIndex: 0
+        };
+
+        let productCategoryId;
+        let productTypeId;
+        let filterTimeout;
+
+        const addProductCategoryModal = $('#add-product-category');
+        const addProductTypeModal = $('#add-product-type');
+        const deleteProductModal = $('#delete-product-details');
+
+        $(document).ready(function () {
+            getAllProductCategories();
+            bsCustomFileInput.init();
+            getAllProductType();
+        });
+
+        $(document).on('click', '.product-category', function () {
+            productCategoryId = $(this).data('id');
+            deleteProductModal.modal('show');
+        });
+        $(document).on('click', '.product-type', function () {
+            productTypeId = $(this).data('id');
+            deleteProductModal.modal('show');
+        });
+
+        function getAllProductCategories() {
+            $.ajax({
+                method: "POST",
+                url: "/product-details/get-all-product-categories",
+                dataType: 'json',
+                contentType: 'application/json',
+                data: JSON.stringify(productCategoryRequest),
+                beforeSend: function () {
+                    console.log(productCategoryRequest)
+                }
+            }).done(function (productCategoriesResponse) {
+                console.info(productCategoriesResponse);
+                const TABLE_BODY = createTable('#product-categories-table', productCategoriesResponse?.totalElements, productCategoriesResponse?.totalPages, productCategoryRequest?.pageIndex);
+                $.each(productCategoriesResponse?.content, function (index, productCategory) {
+                    const $view = '' +
+                        '<button onclick="editCategoryActionButton(' + productCategory?.id + ')" ' +
+                        'class="btn pb-0 pt-0 btn-secondary">Edit</button>';
+                    const $delete = '' +
+                        '<a class="btn pb-0 pt-0 btn-danger delete-button product-category" ' +
+                        'data-id="' + productCategory?.id + '" data-toggle="modal" data-target="#delete-product-details">Delete</a>';
+                    $(TABLE_BODY).append(
+                        '<tr>' +
+                        '    <td>' + ((index + 1) + (productCategoryRequest.pageIndex * productCategoriesResponse?.size)) + '</td>' +
+                        '    <td>' + productCategory?.name + '</td>' +
+                        '    <td>' + productCategory?.image + '</td>' +
+                        '    <td>' + $view + $delete + '</td>' +
+                        '</tr>'
+                    );
+                });
+            });
+        }
+
+        function getAllProductType() {
+            $.ajax({
+                method: "POST",
+                url: "/product-details/get-all-product-types",
+                dataType: 'json',
+                contentType: 'application/json',
+                data: JSON.stringify(productTypeRequest),
+                beforeSend: function () {
+                    console.log(productTypeRequest)
+                }
+            }).done(function (productTypeResponse) {
+                console.info(productTypeResponse);
+                const TABLE_BODY = createTable('#product-type-table', productTypeResponse?.totalElements, productTypeResponse?.totalPages, productTypeRequest?.pageIndex);
+                $.each(productTypeResponse?.content, function (index, productType) {
+                    const $view = '' +
+                        '<button onclick="editTypeActionButton(' + productType?.id + ')" ' +
+                        'class="btn pb-0 pt-0 btn-secondary">Edit</button>';
+                    const $delete = '' +
+                        '<a class="btn pb-0 pt-0 btn-danger delete-button product-type" ' +
+                        'data-id="' + productType?.id + '" data-toggle="modal" data-target="#delete-product-details">Delete</a>';
+                    $(TABLE_BODY).append(
+                        '<tr>' +
+                        '    <td>' + ((index + 1) + (productTypeRequest.pageIndex * productTypeResponse?.size)) + '</td>' +
+                        '    <td>' + productType?.name + '</td>' +
+                        '    <td>' + $view + $delete + '</td>' +
+                        '</tr>'
+                    );
+                });
+            });
+        }
+
+        //  Page click action
+        $(document).on('click', 'a.page-link', function () {
+            const pageBtn = $(this);
+            const whichTable = $(pageBtn).parents('div.card').find('table').attr('id');
+            if (whichTable === 'product-categories-table') {
+                if ($(this).parent('li.page-item').hasClass('prev')) {
+                    productCategoryRequest.pageIndex = --productCategoryRequest.pageIndex;
+                } else if ($(pageBtn).parent('li.page-item').hasClass('next')) {
+                    productCategoryRequest.pageIndex = ++productCategoryRequest.pageIndex;
+                } else {
+                    productCategoryRequest.pageIndex = Number($(pageBtn).text()) - 1;
+                }
+                getAllProductCategories();
+            } else if (whichTable === 'product-type-table'){
+                if ($(pageBtn).parent('li.page-item').hasClass('prev')) {
+                    productTypeRequest.pageIndex = --productTypeRequest.pageIndex;
+                } else if ($(pageBtn).parent('li.page-item').hasClass('next')) {
+                    productTypeRequest.pageIndex = ++productTypeRequest.pageIndex;
+                } else {
+                    productTypeRequest.pageIndex = Number($(pageBtn).text()) - 1;
+                }
+                getAllProductType();
+            }
+        });
+
+        function filterNameInput(input) {
+            clearInterval(filterTimeout)
+            filterTimeout = setTimeout(() => {
+                if ($(input).attr('id') === 'product-category-table-search') {
+                    productCategoryRequest.query = $(input).val();
+                    productCategoryRequest.pageIndex = 0;
+                    getAllProductCategories();
+                } else if ($(input).attr('id') === 'product-type-table-search') {
+                    productTypeRequest.query = $(input).val();
+                    productTypeRequest.pageIndex = 0;
+                    getAllProductType();
+                }
+            }, 1000)
+        }
+
+        function saveProductCategory() {
+            let productCategorySaveRequest = new FormData();
+            const file = $('#image')[0].files[0];
+            if (productCategoryId) productCategorySaveRequest.append('id', productCategoryId);
+            productCategorySaveRequest.append('name', $('#category-name').val());
+            if (file) {
+                productCategorySaveRequest.append('image', file);
+            }
+            $.ajax({
+                method: productCategoryId ? 'PUT' : "POST",
+                url: productCategoryId ? '/product-details/product-category-update' : '/product-details/product-category-save',
+                contentType: false,
+                processData: false,
+                data: productCategorySaveRequest,
+                beforeSend: function () {
+                    console.log(productCategorySaveRequest)
+                    clearErrorMessages();
+                }
+            }).done(function () {
+                addProductCategoryModal.modal('hide');
+                getAllProductCategories();
+            }).fail(function (response) {
+                console.error(response);
+                const errors = response.responseJSON;
+                if (errors.name) errorMessage($('#category-name'), errors.name)
+                if (errors.image) errorMessage($('#image'), errors.image)
+            })
+        }
+
+        function saveProductType() {
+            let productTypeSaveRequest = {
+                id: undefined,
+                name: undefined
+            };
+            if (productTypeId) productTypeSaveRequest.id =  productTypeId;
+            productTypeSaveRequest.name =  $('#type-name').val();
+            $.ajax({
+                method: productTypeId ? 'PUT' : "POST",
+                url: productTypeId ? '/product-details/product-type-update' : '/product-details/product-type-save',
+                contentType: 'application/json',
+                data: JSON.stringify(productTypeSaveRequest),
+                beforeSend: function () {
+                    console.log(productTypeSaveRequest)
+                    clearErrorMessages();
+                }
+            }).done(function () {
+                addProductTypeModal.modal('hide');
+                getAllProductType();
+            }).fail(function (response) {
+                console.error(response);
+                const errors = response.responseJSON;
+                if (errors.name) errorMessage($('#type-name'), errors.name)
+            })
+        }
+
+        function editCategoryActionButton(id) {
+            productCategoryId = id;
+            $.ajax({
+                method: "GET",
+                url: "/product-details/get-product-category/" + id,
+                dataType: 'json'
+            }).done(function (product) {
+                console.info(product);
+                $('#category-name').val(product?.name);
+            });
+            addProductCategoryModal.find('.modal-title').text('Edit Product Category');
+            addProductCategoryModal.modal('show');
+        }
+        
+        function editTypeActionButton(id) {
+            productTypeId = id;
+            $.ajax({
+                method: "GET",
+                url: "/product-details/get-product-type/" + id,
+                dataType: 'json'
+            }).done(function (product) {
+                console.info(product);
+                $('#type-name').val(product?.name);
+            });
+            addProductTypeModal.find('.modal-title').text('Edit Product Type');
+            addProductTypeModal.modal('show');
+        }
+
+        function deleteEntityById() {
+            if (productCategoryId !== undefined){
+                $.ajax({
+                    method: "DELETE",
+                    url: '/product-details/delete-product-category/' + productCategoryId,
+                    contentType: 'application/json',
+                }).done(function () {
+                    deleteProductModal.modal('hide');
+                    productCategoryId = undefined;
+                    getAllProductCategories();
+
+                }).fail(function (response) {
+                    productCategoryId = undefined;
+                    console.error(response);
+                });
+            } else if (productTypeId !== undefined){
+                $.ajax({
+                    method: "DELETE",
+                    url: '/product-details/delete-product-type/' + productTypeId,
+                    contentType: 'application/json',
+                }).done(function () {
+                    deleteProductModal.modal('hide');
+                    productTypeId = undefined;
+                    getAllProductType();
+
+                }).fail(function (response) {
+                    productTypeId = undefined;
+                    console.error(response);
+                });
+            }
+
+        }
+
+
+        //  Clearing modal
+        addProductCategoryModal.on('hidden.bs.modal', function () {
+            addProductCategoryModal.find(' input').val('').trigger('change');
+            $('#image').prev('label').text('');
+            addProductCategoryModal.find('.modal-title').text('Add Product Category');
+            productCategoryId = undefined;
+            clearErrorMessages();
+        });
+
+        addProductTypeModal.on('hidden.bs.modal', function () {
+            addProductTypeModal.find(' input').val('').trigger('change');
+            addProductTypeModal.find('.modal-title').text('Add Product Type');
+            productTypeId = undefined;
+            clearErrorMessages();
+        });
+
+    </script>
+
+</th:block>
+
+</html>

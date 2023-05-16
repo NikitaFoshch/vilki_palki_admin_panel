@@ -314,8 +314,10 @@
 
         $(document).on('hidden.bs.modal', '#save-product', function () {
             $('#save-product select, #save-product input, #save-product textarea , #save-product div select').val('').trigger('change');
+            $('#save-product div select.select2').val([]).trigger('change')
             $('#image').prev('label').text('');
             $('#save-product .modal-title').text('Add Product');
+            $('#save-product div select.select2 option').remove();
             productId = undefined;
             clearErrorMessages();
         })

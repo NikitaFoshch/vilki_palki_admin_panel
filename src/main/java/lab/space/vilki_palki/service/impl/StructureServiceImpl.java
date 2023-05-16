@@ -65,7 +65,6 @@ public class StructureServiceImpl implements StructureService {
 
     @Override
     public void saveStructure(StructureSaveRequest request) {
-
         Structure structure = new Structure()
                 .setName(request.name())
                 .setStructureCategory(structureCategoryService.getStructureCategoryById(request.structureCategoryId()))

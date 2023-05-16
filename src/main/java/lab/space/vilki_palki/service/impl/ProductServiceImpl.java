@@ -18,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -98,7 +99,7 @@ public class ProductServiceImpl implements ProductService {
                 .setPrice(request.price())
                 .setDescription(request.description())
                 .setName(request.name());
-        List<Structure> structures = product.getStructures();
+        List<Structure> structures = new ArrayList<>(product.getStructures());
         structures.clear();
         structures.addAll(request.structureIds().stream().map(structureService::getById).toList());
         product.setStructures(structures);

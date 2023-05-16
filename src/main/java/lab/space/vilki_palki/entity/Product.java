@@ -25,13 +25,13 @@ public class Product extends MappedEntity {
     private String description;
     @Column(length = 150, nullable = false)
     private String image;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "product_category_id", nullable = false)
     private ProductCategory productCategory;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "product_type_id", nullable = false)
     private ProductType productType;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.MERGE)
     private List<Structure> structures;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "product_id")

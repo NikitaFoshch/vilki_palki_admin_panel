@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin-panel/fragments/index}">
+
+<head>
+  <title>Template</title>
+</head>
+
+<th:block layout:fragment="content">
+
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header vilki-mod">
+          <h3 class="card-title text-light pt-1">Structure Category Table</h3>
+
+          <div class="card-tools  pt-1">
+            <div class="input-group input-group-sm" style="width: 250px;">
+              <input type="text" oninput="filterNameInput(this)" id="structure-table-search"
+                     class="form-control float-right"
+                     placeholder="Search">
+              <div class="input-group-append">
+                <button type="submit" class="btn btn-default">
+                  <i class="fas fa-search"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="card-tools mr-4 pt-0">
+            <div class="col-md-auto">
+              <button type="button" class="btn btn-sm btn-block btn-warning" data-toggle="modal"
+                      data-target="#add-structure-category">
+                <i class="fa-solid fa-plus pr-2"></i>
+                Add structure category
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <table class="table table-bordered" id="structure-categories-table">
+            <thead>
+            <tr>
+              <th style="width: 10px">#</th>
+              <th>Name</th>
+              <th style="width: 160px">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
+        <div class="card-footer clearfix vilki-mod">
+          <div class="row">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</th:block>
+
+<!-- Extra Modals -->
+<th:block layout:fragment="extra-modals">
+
+  <div class="modal fade" id="add-structure-category">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content bg-warning">
+        <div class="modal-header">
+          <h4 class="modal-title">Add Structure</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row d-flex justify-content-between align-items-center">
+            <div class="mb-3 w-100">
+              <label for="name">Name</label>
+              <input type="text" class="form-control" id="name" placeholder="Enter name">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancel</button>
+          <button onclick="saveStructureCategory();" type="button" class="btn btn-outline-dark">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="delete-structure-category">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content bg-danger">
+        <div class="modal-header">
+          <h4 class="modal-title">Delete Entity</h4>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to delete?</p>
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-outline-dark" data-dismiss="modal">No</button>
+          <a id="delete-structure-button" onclick="deleteStructureCategoryById()" type="button"
+             class="btn btn-outline-dark">Yes</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</th:block>
+
+<th:block layout:fragment="extra-js">
+
+  <script>
+
+    let structureCategoriesRequest = {
+      pageIndex: 0
+    };
+
+    let structureId;
+    let filterTimeout;
+
+    const addStructureModal = $('#add-structure-category');
+    const deleteStructureModal = $('#delete-structure-category');
+
+    $(document).ready(function () {
+      getAllStructureCategories();
+      bsCustomFileInput.init();
+    });
+
+    $(document).on('click', '.delete-button', function () {
+      structureId = $(this).data('id');
+      deleteStructureModal.modal('show');
+    });
+
+    function getAllStructureCategories() {
+      $.ajax({
+        method: "POST",
+        url: "/structure-details/get-all-structure-categories",
+        dataType: 'json',
+        contentType: 'application/json',
+        data: JSON.stringify(structureCategoriesRequest),
+        beforeSend: function () {
+          console.log(structureCategoriesRequest)
+        }
+      }).done(function (structureCategoriesResponse) {
+        console.info(structureCategoriesResponse);
+        const TABLE_BODY = createTable('#structure-categories-table', structureCategoriesResponse?.totalElements, structureCategoriesResponse?.totalPages, structureCategoriesRequest?.pageIndex);
+        $.each(structureCategoriesResponse?.content, function (index, structureCategories) {
+          const $view = '' +
+                  '<button onclick="editActionButton(' + structureCategories?.id + ')" ' +
+                  'class="btn pb-0 pt-0 btn-secondary">Edit</button>';
+          const $delete = '' +
+                  '<a class="btn pb-0 pt-0 btn-danger delete-button" ' +
+                  'data-id="' + structureCategories?.id + '" data-toggle="modal" data-target="#delete-structure-categories">Delete</a>';
+          $(TABLE_BODY).append(
+                  '<tr>' +
+                  '    <td>' + ((index + 1) + (structureCategoriesRequest.pageIndex * structureCategoriesResponse?.size)) + '</td>' +
+                  '    <td>' + structureCategories?.name + '</td>' +
+                  '    <td>' + $view + $delete + '</td>' +
+                  '</tr>'
+          );
+        });
+      });
+    }
+
+    //  Page click action
+    $(document).on('click', 'a.page-link', function () {
+      const pageBtn = $(this);
+      const whichTable = $(pageBtn).parents('div.card').find('table').attr('id');
+      if (whichTable === 'structure-categories-table') {
+        if ($(this).parent('li.page-item').hasClass('prev')) {
+          structureCategoriesRequest.pageIndex = --structureCategoriesRequest.pageIndex;
+        } else if ($(pageBtn).parent('li.page-item').hasClass('next')) {
+          structureCategoriesRequest.pageIndex = ++structureCategoriesRequest.pageIndex;
+        } else {
+          structureCategoriesRequest.pageIndex = Number($(pageBtn).text()) - 1;
+        }
+        getAllStructureCategories();
+      }
+    });
+
+    function filterNameInput(input) {
+      clearInterval(filterTimeout)
+      filterTimeout = setTimeout(() => {
+        if ($(input).attr('id') === 'structure-table-search') {
+          structureCategoriesRequest.query = $(input).val();
+          structureCategoriesRequest.pageIndex = 0;
+          getAllStructureCategories();
+        }
+      }, 1000)
+    }
+
+    function saveStructureCategory() {
+      let structureCategoriesSaveRequest = {
+        id: undefined,
+        name: undefined
+      };
+      if (structureId) structureCategoriesSaveRequest.id =  structureId;
+      structureCategoriesSaveRequest.name =  $('#name').val();
+      $.ajax({
+        method: structureId ? 'PUT' : "POST",
+        url: structureId ? '/structure-details/structure-category-update' : '/structure-details/structure-category-save',
+        contentType: 'application/json',
+        data: JSON.stringify(structureCategoriesSaveRequest),
+        beforeSend: function () {
+          console.log(structureCategoriesSaveRequest)
+          clearErrorMessages();
+        }
+      }).done(function () {
+        addStructureModal.modal('hide');
+        getAllStructureCategories();
+      }).fail(function (response) {
+        console.error(response);
+        const errors = response.responseJSON;
+        if (errors.name) errorMessage($('#name'), errors.name)
+      })
+    }
+
+    function editActionButton(id) {
+      structureId = id;
+      $.ajax({
+        method: "GET",
+        url: "/structure-details/get-structure-category/" + id,
+        dataType: 'json'
+      }).done(function (structure) {
+        console.info(structure);
+        $('#name').val(structure?.name);
+      });
+      addStructureModal.find('.modal-title').text('Edit Structure');
+      addStructureModal.modal('show');
+    }
+
+    function deleteStructureCategoryById() {
+      $.ajax({
+        method: "DELETE",
+        url: '/structure-details/delete-structure-category/' + structureId,
+        contentType: 'application/json',
+      }).done(function () {
+        deleteStructureModal.modal('hide');
+        structureId = undefined;
+        getAllStructureCategories();
+
+      }).fail(function (response) {
+        structureId = undefined;
+        console.error(response);
+      })
+    }
+    
+
+    //  Clearing modal
+    addStructureModal.on('hidden.bs.modal', function () {
+      addStructureModal.find('select, input').val('').trigger('change');
+      $('#image').prev('label').text('');
+      addStructureModal.find('.modal-title').text('Add Structure');
+      structureId = undefined;
+      clearErrorMessages();
+    })
+
+  </script>
+
+</th:block>
+
+</html>

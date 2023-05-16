@@ -3,11 +3,16 @@ package lab.space.vilki_palki.service.impl;
 import jakarta.persistence.EntityNotFoundException;
 import lab.space.vilki_palki.entity.StructureCategory;
 import lab.space.vilki_palki.mapper.StructureCategoryMapper;
+import lab.space.vilki_palki.model.structure_category.StructureCategoryRequest;
 import lab.space.vilki_palki.model.structure_category.StructureCategoryResponse;
+import lab.space.vilki_palki.model.structure_category.StructureCategorySaveRequest;
+import lab.space.vilki_palki.model.structure_category.StructureCategoryUpdateRequest;
 import lab.space.vilki_palki.repository.StructureCategoryRepository;
 import lab.space.vilki_palki.service.StructureCategoryService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +23,7 @@ import java.util.List;
 @Slf4j
 public class StructureCategoryServiceImpl implements StructureCategoryService {
     private final StructureCategoryRepository repository;
+    private final StructureCategorySpecification structureCategorySpecification;
 
     @Override
 
@@ -37,5 +43,31 @@ public class StructureCategoryServiceImpl implements StructureCategoryService {
                 .stream()
                 .map(StructureCategoryMapper::toDto)
                 .toList();
+    }
+
+    @Override
+    public Page<StructureCategoryResponse> getAllStructureCategoriesByOrderByCreateAt(StructureCategoryRequest request) {
+        final int DEFAULT_PAGE_SIZE = 10;
+        return repository.findAll(structureCategorySpecification.getStructureCategoriesByRequest(request),
+                PageRequest.of(request.getPageIndex(), DEFAULT_PAGE_SIZE)).map(StructureCategoryMapper::toDto);
+    }
+
+    @Override
+    public void saveStructureCategory(StructureCategorySaveRequest request) {
+        StructureCategory structureCategory = new StructureCategory()
+                .setName(request.name());
+        repository.save(structureCategory);
+    }
+
+    @Override
+    public void updateStructureCategory(StructureCategoryUpdateRequest request) {
+        StructureCategory structureCategory = getStructureCategoryById(request.id())
+                .setName(request.name());
+        repository.save(structureCategory);
+    }
+
+    @Override
+    public void deleteStructureCategoryById(Long id) {
+        repository.delete(getStructureCategoryById(id));
     }
 }

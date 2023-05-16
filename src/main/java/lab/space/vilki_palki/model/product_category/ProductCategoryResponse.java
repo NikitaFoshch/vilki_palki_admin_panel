@@ -7,6 +7,7 @@ import lombok.Builder;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public record ProductCategoryResponse(
         Long id,
-        String name
+        String name,
+        String image
 ) {
 }
