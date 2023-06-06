@@ -40,7 +40,11 @@ public class ProductMapper {
                 .price(product.getPrice())
                 .productCategory(productCategoryService.getProductCategoryToSimpleDto(product.getProductCategory().getId()))
                 .productType(productTypeService.getProductTypeToDto(product.getProductType().getId()))
-                .structures(product.getStructures().stream().map(structure -> structureService.getStructureSimpleDtoById(structure.getId())).toList())
+                .structures(
+                        product.getStructures()
+                                .stream()
+                                .map(structure -> structureService.getStructureSimpleDtoById(structure.getId())).toList()
+                )
                 .build();
     }
 }

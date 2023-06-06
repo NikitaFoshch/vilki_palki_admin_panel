@@ -6,6 +6,7 @@ import jakarta.persistence.Table;
 import lab.space.vilki_palki.entity.common.MappedEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -16,6 +17,7 @@ import java.util.Collection;
 @Table(name = "admin")
 @Data
 @EqualsAndHashCode(callSuper = true)
+@Accessors(chain = true)
 public class Admin extends MappedEntity implements UserDetails {
     @Column(length = 50, nullable = false)
     private String firstname;

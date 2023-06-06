@@ -54,8 +54,12 @@ public class PromotionsServiceImpl implements PromotionService {
                 .setPercent(request.percent())
                 .setProduct(productService.getProduct(request.productId()))
                 .setTotalPrice(
-                        (productService.getProduct(request.productId())
-                                .getPrice().multiply(new BigDecimal(request.percent()).movePointLeft(2))
+                        (productService.getProduct(request.productId()).getPrice().subtract(
+                                productService.getProduct(request.productId())
+                                        .getPrice().multiply(
+                                                new BigDecimal(request.percent()).movePointLeft(2)
+                                        )
+                                )
                         )
                 )
                 .setName(request.name());
@@ -72,8 +76,12 @@ public class PromotionsServiceImpl implements PromotionService {
                 .setPercent(request.percent())
                 .setProduct(productService.getProduct(request.productId()))
                 .setTotalPrice(
-                        (productService.getProduct(request.productId())
-                                .getPrice().multiply(new BigDecimal(request.percent()).movePointLeft(2))
+                        (productService.getProduct(request.productId()).getPrice().subtract(
+                                productService.getProduct(request.productId())
+                                        .getPrice().multiply(
+                                                new BigDecimal(request.percent()).movePointLeft(2)
+                                        )
+                                )
                         )
                 )
                 .setName(request.name());

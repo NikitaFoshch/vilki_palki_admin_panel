@@ -1,0 +1,21 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: Vilki-Palki
+  datasource:
+    url: jdbc:postgresql://localhost:5432/vilki-palki-test-1
+    username: postgres
+    password: password
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    database: postgresql
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 50MB

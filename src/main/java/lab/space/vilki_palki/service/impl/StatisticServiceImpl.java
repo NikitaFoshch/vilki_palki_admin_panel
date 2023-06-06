@@ -62,7 +62,9 @@ public class StatisticServiceImpl implements StatisticService {
             int count = 0;
 
             for (User user : users) {
-                if (i == user.getBirthday().atZone(ZoneId.systemDefault()).getMonthValue()) count++;
+                if (user.getBirthday()!=null){
+                    if (i == user.getBirthday().atZone(ZoneId.systemDefault()).getMonthValue()) count++;
+                }
             }
             month.add(count);
         }
