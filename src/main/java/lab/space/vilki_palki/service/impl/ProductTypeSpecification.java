@@ -1,6 +1,6 @@
 package lab.space.vilki_palki.service.impl;
 
-import jakarta.persistence.criteria.Predicate;
+import javax.persistence.criteria.Predicate;
 import lab.space.vilki_palki.entity.ProductType;
 import lab.space.vilki_palki.model.product_type.ProductTypeRequest;
 import org.springframework.data.jpa.domain.Specification;

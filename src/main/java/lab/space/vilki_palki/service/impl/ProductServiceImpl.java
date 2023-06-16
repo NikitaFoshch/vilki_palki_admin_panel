@@ -1,6 +1,6 @@
 package lab.space.vilki_palki.service.impl;
 
-import jakarta.persistence.EntityNotFoundException;
+import javax.persistence.EntityNotFoundException;
 import lab.space.vilki_palki.entity.Product;
 import lab.space.vilki_palki.entity.Structure;
 import lab.space.vilki_palki.mapper.ProductMapper;

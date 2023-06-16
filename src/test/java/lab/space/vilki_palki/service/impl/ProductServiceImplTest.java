@@ -12,8 +12,10 @@ import lab.space.vilki_palki.service.ProductCategoryService;
 import lab.space.vilki_palki.service.ProductTypeService;
 import lab.space.vilki_palki.service.StructureService;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mock.web.MockMultipartFile;
@@ -25,7 +27,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 class ProductServiceImplTest {
 
     @Mock
@@ -143,7 +145,6 @@ class ProductServiceImplTest {
         Structure structure = new Structure();
         structure.setId(1L);
         when(productRepository.findById(request.id())).thenReturn(Optional.of(product));
-        when(structureRepository.findById(1L)).thenReturn(Optional.of(structure));
         productService.updateProductById(request);
 
         verify(productRepository, times(1)).save(any(Product.class));

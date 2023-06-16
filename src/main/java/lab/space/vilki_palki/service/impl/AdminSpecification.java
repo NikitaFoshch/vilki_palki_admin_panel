@@ -1,6 +1,6 @@
 package lab.space.vilki_palki.service.impl;
 
-import jakarta.persistence.criteria.Predicate;
+import javax.persistence.criteria.Predicate;
 import lab.space.vilki_palki.entity.Admin;
 import lab.space.vilki_palki.model.admin.AdminRequest;
 import org.springframework.data.jpa.domain.Specification;

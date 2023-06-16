@@ -1,6 +1,6 @@
 package lab.space.vilki_palki.model.promotion;
 
-import jakarta.validation.constraints.*;
+import javax.validation.constraints.*;
 import org.springframework.web.multipart.MultipartFile;
 
 public record PromotionUpdateRequest(

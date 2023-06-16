@@ -7,8 +7,10 @@ import lab.space.vilki_palki.model.product_category.ProductCategorySaveRequest;
 import lab.space.vilki_palki.model.product_category.ProductCategoryUpdateRequest;
 import lab.space.vilki_palki.repository.ProductCategoryRepository;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.Page;
@@ -26,7 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 class ProductCategoryServiceImplTest {
     @Mock
     private ProductCategoryRepository productCategoryRepository;

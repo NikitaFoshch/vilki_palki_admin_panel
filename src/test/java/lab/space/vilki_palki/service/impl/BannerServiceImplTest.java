@@ -7,8 +7,10 @@ import lab.space.vilki_palki.model.banner.BannerSaveRequest;
 import lab.space.vilki_palki.model.banner.BannerUpdateRequest;
 import lab.space.vilki_palki.repository.BannerRepository;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.Sort;
@@ -20,7 +22,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 class BannerServiceImplTest {
 
     @Mock

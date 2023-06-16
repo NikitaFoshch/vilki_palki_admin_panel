@@ -1,6 +1,6 @@
 package lab.space.vilki_palki.controller;
 
-import jakarta.validation.Valid;
+
 import lab.space.vilki_palki.model.banner.BannerResponse;
 import lab.space.vilki_palki.model.banner.BannerSaveRequest;
 import lab.space.vilki_palki.model.banner.BannerUpdateRequest;
@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller

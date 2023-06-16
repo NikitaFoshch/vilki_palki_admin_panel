@@ -5,9 +5,9 @@ spring:
   application:
     name: Vilki-Palki
   datasource:
-    url: jdbc:postgresql://localhost:5432/avada_sl_j1
-    username: avada_sl_j1
-    password: PSagTbAFNW
+    url: jdbc:postgresql://localhost:5432/avada_slj_vp
+    username: avada_slj_vp
+    password: mgBOTd2tBb
     driver-class-name: org.postgresql.Driver
   mail:
     host: smtp.gmail.com
@@ -29,3 +29,15 @@ spring:
     multipart:
       max-file-size: 20MB
       max-request-size: 50MB
+
+logging:
+  file:
+    name: /home/avada/web/kino.avada-media-dev1.od.ua/logging/vp-admin/logs.log
+  level:
+    org:
+      hibernate: info
+      springframework: info
+    root: info
+  logback:
+    rollingpolicy:
+      max-file-size: 10MB

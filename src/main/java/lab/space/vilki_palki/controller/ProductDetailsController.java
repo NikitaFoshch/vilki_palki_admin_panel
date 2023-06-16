@@ -1,6 +1,6 @@
 package lab.space.vilki_palki.controller;
 
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 import lab.space.vilki_palki.model.product_category.ProductCategoryRequest;
 import lab.space.vilki_palki.model.product_category.ProductCategoryResponse;
 import lab.space.vilki_palki.model.product_category.ProductCategorySaveRequest;

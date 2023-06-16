@@ -4,8 +4,10 @@ import lab.space.vilki_palki.entity.ProductType;
 import lab.space.vilki_palki.repository.ProductTypeRepository;
 import lab.space.vilki_palki.service.ProductTypeService;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
@@ -14,7 +16,7 @@ import org.springframework.validation.FieldError;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 class ProductTypeValidationTest {
 
     @Mock
@@ -57,7 +59,6 @@ class ProductTypeValidationTest {
         BindingResult bindingResult = new BeanPropertyBindingResult(null, null);
 
         when(productTypeRepository.existsByName(name)).thenReturn(false);
-        when(productTypeService.getProductTypeById(id)).thenReturn(new ProductType().setName("AnotherName"));
 
         productTypeValidation.isNameUniqueValidationWithId(id, name, bindingResult);
 

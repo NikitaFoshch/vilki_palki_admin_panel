@@ -1,7 +1,7 @@
 package lab.space.vilki_palki.model.product_type;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 public record ProductTypeSaveRequest(
         @NotBlank(message = "Must be specified")

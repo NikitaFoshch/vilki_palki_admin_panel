@@ -1,6 +1,6 @@
 package lab.space.vilki_palki.model.product;
 
-import jakarta.validation.constraints.*;
+import javax.validation.constraints.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;

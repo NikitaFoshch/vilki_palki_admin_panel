@@ -4,8 +4,10 @@ import lab.space.vilki_palki.entity.StructureCategory;
 import lab.space.vilki_palki.repository.StructureCategoryRepository;
 import lab.space.vilki_palki.service.StructureCategoryService;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
@@ -14,7 +16,7 @@ import org.springframework.validation.FieldError;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 class StructureCategoryValidationTest {
 
     @Mock
@@ -57,7 +59,6 @@ class StructureCategoryValidationTest {
         BindingResult bindingResult = new BeanPropertyBindingResult(null, null);
 
         when(structureCategoryRepository.existsByName(name)).thenReturn(false);
-        when(structureCategoryService.getStructureCategoryById(id)).thenReturn(new StructureCategory().setName("AnotherName"));
 
         structureCategoryValidation.isNameUniqueValidationWithId(id, name, bindingResult);
 

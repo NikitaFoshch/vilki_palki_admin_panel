@@ -1,6 +1,6 @@
 package lab.space.vilki_palki.service.impl;
 
-import jakarta.persistence.EntityNotFoundException;
+import javax.persistence.EntityNotFoundException;
 import lab.space.vilki_palki.entity.Admin;
 import lab.space.vilki_palki.mapper.AdminMapper;
 import lab.space.vilki_palki.model.admin.AdminRequest;

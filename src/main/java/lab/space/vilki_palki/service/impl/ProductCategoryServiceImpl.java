@@ -1,6 +1,6 @@
 package lab.space.vilki_palki.service.impl;
 
-import jakarta.persistence.EntityNotFoundException;
+import javax.persistence.EntityNotFoundException;
 import lab.space.vilki_palki.entity.ProductCategory;
 import lab.space.vilki_palki.mapper.ProductCategoryMapper;
 import lab.space.vilki_palki.model.product_category.ProductCategoryRequest;
