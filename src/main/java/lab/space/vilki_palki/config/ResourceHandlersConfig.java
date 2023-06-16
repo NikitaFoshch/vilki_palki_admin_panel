@@ -10,8 +10,9 @@ import java.nio.file.Paths;
 public class ResourceHandlersConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        //Добавление пути к загруженным фото
         registry.addResourceHandler("/files/**")
                 .addResourceLocations("file:///" + Paths.get("files").toFile().getAbsolutePath() + "/");
+        registry.addResourceHandler("/static/**")
+                .addResourceLocations("classpath:/static/");
     }
 }
