@@ -17,6 +17,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -42,7 +43,7 @@ public class StructureCategoryServiceImpl implements StructureCategoryService {
         return repository.findAll(Sort.by(Sort.Direction.ASC, "name"))
                 .stream()
                 .map(StructureCategoryMapper::toDto)
-                .toList();
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -55,14 +56,14 @@ public class StructureCategoryServiceImpl implements StructureCategoryService {
     @Override
     public void saveStructureCategory(StructureCategorySaveRequest request) {
         StructureCategory structureCategory = new StructureCategory()
-                .setName(request.name());
+                .setName(request.getName());
         repository.save(structureCategory);
     }
 
     @Override
     public void updateStructureCategory(StructureCategoryUpdateRequest request) {
-        StructureCategory structureCategory = getStructureCategoryById(request.id())
-                .setName(request.name());
+        StructureCategory structureCategory = getStructureCategoryById(request.getId())
+                .setName(request.getName());
         repository.save(structureCategory);
     }
 

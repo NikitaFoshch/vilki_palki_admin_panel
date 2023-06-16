@@ -17,6 +17,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -41,7 +42,7 @@ public class ProductTypeServiceImpl implements ProductTypeService {
         return repository.findAll(Sort.by(Sort.Direction.ASC, "name"))
                 .stream()
                 .map(ProductTypeMapper::toDto)
-                .toList();
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -54,14 +55,14 @@ public class ProductTypeServiceImpl implements ProductTypeService {
     @Override
     public void saveProductType(ProductTypeSaveRequest request) {
         ProductType productType = new ProductType()
-                .setName(request.name());
+                .setName(request.getName());
         repository.save(productType);
     }
 
     @Override
     public void updateProductType(ProductTypeUpdateRequest request) {
-        ProductType productType = getProductTypeById(request.id())
-                .setName(request.name());
+        ProductType productType = getProductTypeById(request.getId())
+                .setName(request.getName());
         repository.save(productType);
     }
 

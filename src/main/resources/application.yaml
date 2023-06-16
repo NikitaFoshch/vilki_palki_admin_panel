@@ -1,5 +1,7 @@
 server:
   port: 7575
+  servlet:
+    context-path: /Vilki_Palki_Admin
 
 spring:
   application:
@@ -19,6 +21,9 @@ spring:
       mail.smtp.starttls.enable: true
       mail.smtp.starttls.required: true
     protocol: smtp
+  web:
+    resources:
+      static-locations: classpath:/files/,classpath:/static/
 
   jpa:
     hibernate:

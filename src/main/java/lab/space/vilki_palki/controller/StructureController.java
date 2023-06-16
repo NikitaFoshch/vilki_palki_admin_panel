@@ -45,8 +45,8 @@ public class StructureController {
     @ResponseBody
     public ResponseEntity<?> saveStructure(@Valid @ModelAttribute StructureSaveRequest request,
                                            BindingResult bindingResult) {
-        structureValidation.isNameUniqueValidation(request.name(), bindingResult);
-        imageValidation.imageContentTypeValidation(request.image(), bindingResult);
+        structureValidation.isNameUniqueValidation(request.getName(), bindingResult);
+        imageValidation.imageContentTypeValidation(request.getImage(), bindingResult);
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(ErrorMapper.mapErrors(bindingResult));
         }
@@ -58,8 +58,8 @@ public class StructureController {
     @ResponseBody
     public ResponseEntity<?> updateStructure(@Valid @ModelAttribute StructureUpdateRequest request,
                                              BindingResult bindingResult) {
-        structureValidation.isNameUniqueValidationWithId(request.id(), request.name(), bindingResult);
-        imageValidation.imageContentTypeValidation(request.image(), bindingResult);
+        structureValidation.isNameUniqueValidationWithId(request.getId(), request.getName(), bindingResult);
+        imageValidation.imageContentTypeValidation(request.getImage(), bindingResult);
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(ErrorMapper.mapErrors(bindingResult));
         }

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static java.util.Objects.nonNull;
 
@@ -31,7 +32,7 @@ public class BannerServiceImpl implements BannerService {
         return bannerRepository.findAll(Sort.by(Sort.Direction.DESC, "createAt"))
                 .stream()
                 .map(BannerMapper::toDto)
-                .toList();
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -50,13 +51,13 @@ public class BannerServiceImpl implements BannerService {
     @Override
     public void saveBanner(BannerSaveRequest request) {
         log.info("---------------Save Banner---------------");
-        Banner banner = new Banner().setName(request.name());
+        Banner banner = new Banner().setName(request.getName());
 
-        if (nonNull(request.image())
-                && nonNull(request.image().getOriginalFilename())
-                && !request.image().getOriginalFilename().equals("")) {
-            final String newFileName = UUID.randomUUID() + request.image().getOriginalFilename();
-            FileUtil.saveFile(newFileName, request.image());
+        if (nonNull(request.getImage())
+                && nonNull(request.getImage().getOriginalFilename())
+                && !request.getImage().getOriginalFilename().equals("")) {
+            final String newFileName = UUID.randomUUID() + request.getImage().getOriginalFilename();
+            FileUtil.saveFile(newFileName, request.getImage());
             banner.setImage(newFileName);
         }
         bannerRepository.save(banner);
@@ -67,12 +68,12 @@ public class BannerServiceImpl implements BannerService {
     @Override
     public void updateBannerById(BannerUpdateRequest request) {
         log.info("---------------Save Update---------------");
-        Banner banner = getBannerById(request.id()).setName(request.name());
-        if (nonNull(request.image())
-                && nonNull(request.image().getOriginalFilename())
-                && !request.image().getOriginalFilename().equals("")) {
-            final String newFileName = UUID.randomUUID() + request.image().getOriginalFilename();
-            FileUtil.saveFile(newFileName, request.image());
+        Banner banner = getBannerById(request.getId()).setName(request.getName());
+        if (nonNull(request.getImage())
+                && nonNull(request.getImage().getOriginalFilename())
+                && !request.getImage().getOriginalFilename().equals("")) {
+            final String newFileName = UUID.randomUUID() + request.getImage().getOriginalFilename();
+            FileUtil.saveFile(newFileName, request.getImage());
             FileUtil.deleteFile(banner.getImage());
             banner.setImage(newFileName);
         }

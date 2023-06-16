@@ -37,8 +37,8 @@ public class PromotionsController {
     @ResponseBody
     public ResponseEntity<?> savePromotion(@Valid @ModelAttribute PromotionSaveRequest request,
                                            BindingResult bindingResult) {
-        promotionValidation.isNameUniqueValidation(request.name(), bindingResult);
-        imageValidation.imageContentTypeValidation(request.image(), bindingResult);
+        promotionValidation.isNameUniqueValidation(request.getName(), bindingResult);
+        imageValidation.imageContentTypeValidation(request.getImage(), bindingResult);
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(ErrorMapper.mapErrors(bindingResult));
         }
@@ -50,8 +50,8 @@ public class PromotionsController {
     @ResponseBody
     public ResponseEntity<?> updatePromotion(@Valid @ModelAttribute PromotionUpdateRequest request,
                                              BindingResult bindingResult) {
-        promotionValidation.isNameUniqueValidationWithId(request.id(), request.name(), bindingResult);
-        imageValidation.imageContentTypeValidation(request.image(), bindingResult);
+        promotionValidation.isNameUniqueValidationWithId(request.getId(), request.getName(), bindingResult);
+        imageValidation.imageContentTypeValidation(request.getImage(), bindingResult);
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(ErrorMapper.mapErrors(bindingResult));
         }

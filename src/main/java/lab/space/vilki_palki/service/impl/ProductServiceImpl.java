@@ -1,6 +1,5 @@
 package lab.space.vilki_palki.service.impl;
 
-import javax.persistence.EntityNotFoundException;
 import lab.space.vilki_palki.entity.Product;
 import lab.space.vilki_palki.entity.Structure;
 import lab.space.vilki_palki.mapper.ProductMapper;
@@ -18,9 +17,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static java.util.Objects.nonNull;
 
@@ -40,7 +41,7 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findAll(Sort.by(Sort.Direction.DESC, "createAt"))
                 .stream()
                 .map(productMapper::toSimpleDtoWithImage)
-                .toList();
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -48,7 +49,7 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findAll(Sort.by(Sort.Direction.DESC, "name"))
                 .stream()
                 .map(productMapper::toSimpleDto)
-                .toList();
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -72,39 +73,39 @@ public class ProductServiceImpl implements ProductService {
     public void saveProduct(ProductSaveRequest request) {
 
         Product product = new Product()
-                .setProductInfo(request.productInfo())
-                .setProductCategory(productCategoryService.getProductCategoryById(request.productsCategoryId()))
-                .setProductType(productTypeService.getProductTypeById(request.productsTypeId()))
-                .setPrice(request.price())
-                .setDescription(request.description())
+                .setProductInfo(request.getProductInfo())
+                .setProductCategory(productCategoryService.getProductCategoryById(request.getProductsCategoryId()))
+                .setProductType(productTypeService.getProductTypeById(request.getProductsTypeId()))
+                .setPrice(request.getPrice())
+                .setDescription(request.getDescription())
                 .setStructures(
-                        request.structureIds()
+                        request.getStructureIds()
                                 .stream()
                                 .map(structureService::getById)
-                                .toList()
+                                .collect(Collectors.toList())
                 )
-                .setName(request.name());
-        final String newFileName = UUID.randomUUID() + request.image().getOriginalFilename();
-        FileUtil.saveFile(newFileName, request.image());
+                .setName(request.getName());
+        final String newFileName = UUID.randomUUID() + request.getImage().getOriginalFilename();
+        FileUtil.saveFile(newFileName, request.getImage());
         product.setImage(newFileName);
         productRepository.save(product);
     }
 
     @Override
     public void updateProductById(ProductUpdateRequest request) {
-        Product product = getProduct(request.id())
-                .setProductInfo(request.productInfo())
-                .setProductCategory(productCategoryService.getProductCategoryById(request.productsCategoryId()))
-                .setProductType(productTypeService.getProductTypeById(request.productsTypeId()))
-                .setPrice(request.price())
-                .setDescription(request.description())
-                .setName(request.name());
+        Product product = getProduct(request.getId())
+                .setProductInfo(request.getProductInfo())
+                .setProductCategory(productCategoryService.getProductCategoryById(request.getProductsCategoryId()))
+                .setProductType(productTypeService.getProductTypeById(request.getProductsTypeId()))
+                .setPrice(request.getPrice())
+                .setDescription(request.getDescription())
+                .setName(request.getName());
         List<Structure> structures = new ArrayList<>(product.getStructures());
         structures.clear();
-        structures.addAll(request.structureIds().stream().map(structureService::getById).toList());
+        structures.addAll(request.getStructureIds().stream().map(structureService::getById).collect(Collectors.toList()));
         product.setStructures(structures);
-        final String newFileName = UUID.randomUUID() + request.image().getOriginalFilename();
-        FileUtil.saveFile(newFileName, request.image());
+        final String newFileName = UUID.randomUUID() + request.getImage().getOriginalFilename();
+        FileUtil.saveFile(newFileName, request.getImage());
         FileUtil.deleteFile(product.getImage());
         product.setImage(newFileName);
         productRepository.save(product);

@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static java.util.Objects.nonNull;
 
@@ -50,7 +51,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
         return repository.findAll(Sort.by(Sort.Direction.ASC, "name"))
                 .stream()
                 .map(ProductCategoryMapper::toDto)
-                .toList();
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -63,9 +64,9 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
     @Override
     public void saveProductCategory(ProductCategorySaveRequest request) {
         ProductCategory productCategory = new ProductCategory()
-                .setName(request.name());
-        final String newFileName = UUID.randomUUID() + request.image().getOriginalFilename();
-        FileUtil.saveFile(newFileName, request.image());
+                .setName(request.getName());
+        final String newFileName = UUID.randomUUID() + request.getImage().getOriginalFilename();
+        FileUtil.saveFile(newFileName, request.getImage());
         FileUtil.deleteFile(productCategory.getImage());
         productCategory.setImage(newFileName);
         repository.save(productCategory);
@@ -74,10 +75,10 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
 
     @Override
     public void updateProductCategory(ProductCategoryUpdateRequest request) {
-        ProductCategory productCategory = getProductCategoryById(request.id())
-                .setName(request.name());
-        final String newFileName = UUID.randomUUID() + request.image().getOriginalFilename();
-        FileUtil.saveFile(newFileName, request.image());
+        ProductCategory productCategory = getProductCategoryById(request.getId())
+                .setName(request.getName());
+        final String newFileName = UUID.randomUUID() + request.getImage().getOriginalFilename();
+        FileUtil.saveFile(newFileName, request.getImage());
         FileUtil.deleteFile(productCategory.getImage());
         productCategory.setImage(newFileName);
         repository.save(productCategory);

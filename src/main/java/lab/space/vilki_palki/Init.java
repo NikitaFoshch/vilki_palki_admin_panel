@@ -22,6 +22,8 @@ public class Init implements CommandLineRunner {
                     new Admin()
                             .setEmail("bob@gmail.com")
                             .setPassword("$2a$12$75IrwcjJ19FF4XxE7P2mROGRME9LFsRax.muaQN7IafZ1m4/dcknO")
+                            .setFirstname("Bob")
+                            .setLastname("Bobito")
             );
             log.info("Initial admin Created");
         }else log.info("Admin found");

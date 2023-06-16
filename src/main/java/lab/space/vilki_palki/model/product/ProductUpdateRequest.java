@@ -1,35 +1,37 @@
 package lab.space.vilki_palki.model.product;
 
 import javax.validation.constraints.*;
+
+import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 import java.util.List;
 
-public record ProductUpdateRequest(
-        Long id,
+@Data
+public class ProductUpdateRequest{
+        private Long id;
         @NotBlank(message = "Must be specified")
         @Size(max = 100, message = "Must be no more than {max} symbols")
-        String name,
+        private String name;
         @NotBlank(message = "Must be specified")
         @Size(max = 500, message = "Must be no more than {max} symbols")
-        String productInfo,
+        private String productInfo;
         @NotNull(message = "Must be specified")
         @Digits(integer = 5, fraction = 0, message = "0-99999")
         @Min(value = 0, message = "Must be positive")
-        BigDecimal price,
+        private BigDecimal price;
         @NotBlank(message = "Must be specified")
         @Size(max = 2000, message = "Must be no more than {max} symbols")
-        String description,
+        private String description;
         @NotNull(message = "Must be specified")
-        MultipartFile image,
-        @NotNull(message = "Must be specified")
-        @Min(value = 0)
-        Long productsCategoryId,
+        private MultipartFile image;
         @NotNull(message = "Must be specified")
         @Min(value = 0)
-        Long productsTypeId,
+        private Long productsCategoryId;
         @NotNull(message = "Must be specified")
-        List<Long> structureIds
-) {
+        @Min(value = 0)
+        private Long productsTypeId;
+        @NotNull(message = "Must be specified")
+        private List<Long> structureIds;
 }

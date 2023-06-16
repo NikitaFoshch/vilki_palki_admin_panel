@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static java.util.Objects.nonNull;
 
@@ -60,18 +61,18 @@ public class StructureServiceImpl implements StructureService {
         return structureRepository.findAll(Sort.by(Sort.Direction.ASC,"name"))
                 .stream()
                 .map(structureMapper::toSimpleDto)
-                .toList();
+                .collect(Collectors.toList());
     }
 
     @Override
     public void saveStructure(StructureSaveRequest request) {
         Structure structure = new Structure()
-                .setName(request.name())
-                .setStructureCategory(structureCategoryService.getStructureCategoryById(request.structureCategoryId()))
-                .setWeight(request.weight())
-                .setPrice(request.price());
-        final String newFileName = UUID.randomUUID() + request.image().getOriginalFilename();
-        FileUtil.saveFile(newFileName, request.image());
+                .setName(request.getName())
+                .setStructureCategory(structureCategoryService.getStructureCategoryById(request.getStructureCategoryId()))
+                .setWeight(request.getWeight())
+                .setPrice(request.getPrice());
+        final String newFileName = UUID.randomUUID() + request.getImage().getOriginalFilename();
+        FileUtil.saveFile(newFileName, request.getImage());
         structure.setImage(newFileName);
         structureRepository.save(structure);
     }
@@ -79,13 +80,13 @@ public class StructureServiceImpl implements StructureService {
     @Override
     public void updateStructure(StructureUpdateRequest request) {
 
-        Structure structure = getById(request.id())
-                .setName(request.name())
-                .setStructureCategory(structureCategoryService.getStructureCategoryById(request.structureCategoryId()))
-                .setWeight(request.weight())
-                .setPrice(request.price());
-            final String newFileName = UUID.randomUUID() + request.image().getOriginalFilename();
-            FileUtil.saveFile(newFileName, request.image());
+        Structure structure = getById(request.getId())
+                .setName(request.getName())
+                .setStructureCategory(structureCategoryService.getStructureCategoryById(request.getStructureCategoryId()))
+                .setWeight(request.getWeight())
+                .setPrice(request.getPrice());
+            final String newFileName = UUID.randomUUID() + request.getImage().getOriginalFilename();
+            FileUtil.saveFile(newFileName, request.getImage());
             FileUtil.deleteFile(structure.getImage());
             structure.setImage(newFileName);
         structureRepository.save(structure);

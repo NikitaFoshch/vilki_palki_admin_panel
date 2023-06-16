@@ -47,8 +47,8 @@ public class ProductDetailsController {
     @ResponseBody
     public ResponseEntity<?> saveProductCategory(@Valid @ModelAttribute ProductCategorySaveRequest request,
                                          BindingResult bindingResult) {
-        productCategoryValidation.isNameUniqueValidation(request.name(), bindingResult);
-        imageValidation.imageContentTypeValidation(request.image(), bindingResult);
+        productCategoryValidation.isNameUniqueValidation(request.getName(), bindingResult);
+        imageValidation.imageContentTypeValidation(request.getImage(), bindingResult);
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(ErrorMapper.mapErrors(bindingResult));
         }
@@ -60,8 +60,8 @@ public class ProductDetailsController {
     @ResponseBody
     public ResponseEntity<?> updateProductCategory(@Valid @ModelAttribute ProductCategoryUpdateRequest request,
                                                    BindingResult bindingResult) {
-        productCategoryValidation.isNameUniqueValidationWithId(request.id(), request.name(), bindingResult);
-        imageValidation.imageContentTypeValidation(request.image(), bindingResult);
+        productCategoryValidation.isNameUniqueValidationWithId(request.getId(), request.getName(), bindingResult);
+        imageValidation.imageContentTypeValidation(request.getImage(), bindingResult);
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(ErrorMapper.mapErrors(bindingResult));
         }
@@ -90,7 +90,7 @@ public class ProductDetailsController {
     @ResponseBody
     public ResponseEntity<?> saveProductType(@Valid @RequestBody ProductTypeSaveRequest request,
                                          BindingResult bindingResult) {
-        productTypeValidation.isNameUniqueValidation(request.name(), bindingResult);
+        productTypeValidation.isNameUniqueValidation(request.getName(), bindingResult);
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(ErrorMapper.mapErrors(bindingResult));
         }
@@ -102,7 +102,7 @@ public class ProductDetailsController {
     @ResponseBody
     public ResponseEntity<?> updateProductType(@Valid @RequestBody ProductTypeUpdateRequest request,
                                                    BindingResult bindingResult) {
-        productTypeValidation.isNameUniqueValidationWithId(request.id(), request.name(), bindingResult);
+        productTypeValidation.isNameUniqueValidationWithId(request.getId(), request.getName(), bindingResult);
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(ErrorMapper.mapErrors(bindingResult));
         }

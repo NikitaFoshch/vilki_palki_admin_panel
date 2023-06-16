@@ -5,9 +5,8 @@ import lombok.Builder;
 
 @Builder
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public record BannerResponse(
-        Long id,
-        String name,
-        String image
-) {
+public class BannerResponse{
+    private Long id;
+    private String name;
+    private String image;
 }

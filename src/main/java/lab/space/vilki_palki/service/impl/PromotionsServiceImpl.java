@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static java.util.Objects.nonNull;
 
@@ -34,7 +35,7 @@ public class PromotionsServiceImpl implements PromotionService {
         return promotionRepository.findAll(Sort.by(Sort.Direction.DESC, "createAt"))
                 .stream().
                 map(promotionMapper::toSimpleDto)
-                .toList();
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -51,20 +52,20 @@ public class PromotionsServiceImpl implements PromotionService {
     @Override
     public void savePromotion(PromotionSaveRequest request) {
         Promotion promotion = new Promotion()
-                .setPercent(request.percent())
-                .setProduct(productService.getProduct(request.productId()))
+                .setPercent(request.getPercent())
+                .setProduct(productService.getProduct(request.getProductId()))
                 .setTotalPrice(
-                        (productService.getProduct(request.productId()).getPrice().subtract(
-                                productService.getProduct(request.productId())
+                        (productService.getProduct(request.getProductId()).getPrice().subtract(
+                                productService.getProduct(request.getProductId())
                                         .getPrice().multiply(
-                                                new BigDecimal(request.percent()).movePointLeft(2)
+                                                new BigDecimal(request.getPercent()).movePointLeft(2)
                                         )
                                 )
                         )
                 )
-                .setName(request.name());
-        final String newFileName = UUID.randomUUID() + request.image().getOriginalFilename();
-        FileUtil.saveFile(newFileName, request.image());
+                .setName(request.getName());
+        final String newFileName = UUID.randomUUID() + request.getImage().getOriginalFilename();
+        FileUtil.saveFile(newFileName, request.getImage());
         FileUtil.deleteFile(promotion.getImage());
         promotion.setImage(newFileName);
         promotionRepository.save(promotion);
@@ -72,21 +73,21 @@ public class PromotionsServiceImpl implements PromotionService {
 
     @Override
     public void updatePromotionById(PromotionUpdateRequest request) {
-        Promotion promotion = getPromotionById(request.id())
-                .setPercent(request.percent())
-                .setProduct(productService.getProduct(request.productId()))
+        Promotion promotion = getPromotionById(request.getId())
+                .setPercent(request.getPercent())
+                .setProduct(productService.getProduct(request.getProductId()))
                 .setTotalPrice(
-                        (productService.getProduct(request.productId()).getPrice().subtract(
-                                productService.getProduct(request.productId())
+                        (productService.getProduct(request.getProductId()).getPrice().subtract(
+                                productService.getProduct(request.getProductId())
                                         .getPrice().multiply(
-                                                new BigDecimal(request.percent()).movePointLeft(2)
+                                                new BigDecimal(request.getPercent()).movePointLeft(2)
                                         )
                                 )
                         )
                 )
-                .setName(request.name());
-        final String newFileName = UUID.randomUUID() + request.image().getOriginalFilename();
-        FileUtil.saveFile(newFileName, request.image());
+                .setName(request.getName());
+        final String newFileName = UUID.randomUUID() + request.getImage().getOriginalFilename();
+        FileUtil.saveFile(newFileName, request.getImage());
         FileUtil.deleteFile(promotion.getImage());
         promotion.setImage(newFileName);
         promotionRepository.save(promotion);

@@ -37,7 +37,7 @@ public class StructureDetailsController {
     @ResponseBody
     public ResponseEntity<?> saveStructureCategory(@Valid @RequestBody StructureCategorySaveRequest request,
                                            BindingResult bindingResult) {
-        structureCategoryValidation.isNameUniqueValidation(request.name(), bindingResult);
+        structureCategoryValidation.isNameUniqueValidation(request.getName(), bindingResult);
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(ErrorMapper.mapErrors(bindingResult));
         }
@@ -49,7 +49,7 @@ public class StructureDetailsController {
     @ResponseBody
     public ResponseEntity<?> updateStructureCategory(@Valid @RequestBody StructureCategoryUpdateRequest request,
                                              BindingResult bindingResult) {
-        structureCategoryValidation.isNameUniqueValidationWithId(request.id(), request.name(), bindingResult);
+        structureCategoryValidation.isNameUniqueValidationWithId(request.getId(), request.getName(), bindingResult);
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(ErrorMapper.mapErrors(bindingResult));
         }

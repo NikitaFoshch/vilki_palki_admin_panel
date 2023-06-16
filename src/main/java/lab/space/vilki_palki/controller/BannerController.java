@@ -34,8 +34,8 @@ public class BannerController {
     @ResponseBody
     public ResponseEntity<?> saveBanner(@Valid @ModelAttribute BannerSaveRequest request,
                                         BindingResult bindingResult) {
-        bannerValidation.isNameUniqueValidation(request.name(), bindingResult);
-        imageValidation.imageContentTypeValidation(request.image(), bindingResult);
+        bannerValidation.isNameUniqueValidation(request.getName(), bindingResult);
+        imageValidation.imageContentTypeValidation(request.getImage(), bindingResult);
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(ErrorMapper.mapErrors(bindingResult));
         }
@@ -47,8 +47,8 @@ public class BannerController {
     @ResponseBody
     public ResponseEntity<?> updateBanner(@Valid @ModelAttribute BannerUpdateRequest request,
                                           BindingResult bindingResult) {
-        bannerValidation.isNameUniqueValidationWithId(request.id(), request.name(), bindingResult);
-        imageValidation.imageContentTypeValidation(request.image(), bindingResult);
+        bannerValidation.isNameUniqueValidationWithId(request.getId(), request.getName(), bindingResult);
+        imageValidation.imageContentTypeValidation(request.getImage(), bindingResult);
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(ErrorMapper.mapErrors(bindingResult));
         }
