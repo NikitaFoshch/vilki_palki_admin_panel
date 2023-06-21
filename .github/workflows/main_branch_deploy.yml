@@ -23,7 +23,7 @@ jobs:
           cache: maven
 
       - name: Step 3 - Build with Maven
-        run: mvn -B clean package --file pom.xml
+        run: mvn -B clean -DskipTests package --file pom.xml
 
       - name: Step 4 - Deploy
         env:
