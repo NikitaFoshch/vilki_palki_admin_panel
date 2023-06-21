@@ -6,11 +6,12 @@ import lab.space.vilki_palki.model.address.AddressResponseByPage;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 public interface AddressMapper {
     static List<AddressResponse> toSimplifiedListDto(List<Address> addresses) {
-        return addresses.stream().map(AddressMapper::toSimplifiedDto).toList();
+        return addresses.stream().map(AddressMapper::toSimplifiedDto).collect(Collectors.toList());
     }
 
     static AddressResponse toSimplifiedDto(Address address) {
@@ -28,7 +29,7 @@ public interface AddressMapper {
 
     static AddressResponseByPage toAddressResponseByPage(Page<Address> addresses) {
         return AddressResponseByPage.builder()
-                .data(addresses.stream().map(AddressMapper::toSimplifiedDto).toList())
+                .data(addresses.stream().map(AddressMapper::toSimplifiedDto).collect(Collectors.toList()))
                 .itemsCount(addresses.getTotalElements())
                 .pagesCount(addresses.getTotalPages())
                 .build();

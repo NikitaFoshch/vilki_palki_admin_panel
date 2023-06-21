@@ -132,7 +132,7 @@
 
 <th:block layout:fragment="extra-js">
 
-    <script src="/js/bs-file-input/bs-custom-file-input.min.js"></script>
+    <script th:src="@{/js/bs-file-input/bs-custom-file-input.min.js}"></script>
     <script>
 
         let structureRequest = {
@@ -159,7 +159,7 @@
         function getAllStructures() {
             $.ajax({
                 method: "POST",
-                url: "/structures/get-all-structure",
+                url: "/Vilki_Palki_Admin/structures/get-all-structure",
                 dataType: 'json',
                 contentType: 'application/json',
                 data: JSON.stringify(structureRequest),
@@ -232,7 +232,7 @@
             }
             $.ajax({
                 method: structureId ? 'PUT' : "POST",
-                url: structureId ? '/structures/structure-update' : '/structures/structure-save',
+                url: structureId ? '/Vilki_Palki_Admin/structures/structure-update' : '/Vilki_Palki_Admin/structures/structure-save',
                 contentType: false,
                 processData: false,
                 data: structureSaveRequest,
@@ -257,7 +257,7 @@
             structureId = id;
             $.ajax({
                 method: "GET",
-                url: "/structures/get-structure/" + id,
+                url: "/Vilki_Palki_Admin/structures/get-structure/" + id,
                 dataType: 'json'
             }).done(function (structure) {
                 console.info(structure);
@@ -273,7 +273,7 @@
         function deleteStructureById() {
             $.ajax({
                 method: "DELETE",
-                url: '/structures/delete-structure/' + structureId,
+                url: '/Vilki_Palki_Admin/structures/delete-structure/' + structureId,
                 contentType: 'application/json',
             }).done(function () {
                 deleteStructureModal.modal('hide');
@@ -292,7 +292,7 @@
             allowClear: true,
             ajax: {
                 method: 'GET',
-                url: 'structures/get-all-structure-categories',
+                url: '/Vilki_Palki_Admin/structures/get-all-structure-categories',
                 cache: true,
                 delay: 500,
                 processResults: function (data) {

@@ -18,7 +18,7 @@
                 <div class="icon">
                     <i class="fa-solid fa-burger"></i>
                 </div>
-                <a href="/products" class="small-box-footer">
+                <a th:href="@{/products}" class="small-box-footer">
                     More info <i class="fas fa-arrow-circle-right"></i>
                 </a>
             </div>
@@ -32,7 +32,7 @@
                 <div class="icon">
                     <i class="fa-solid fa-cubes-stacked"></i>
                 </div>
-                <a href="/structures" class="small-box-footer">
+                <a th:href="@{/structures}" class="small-box-footer">
                     More info <i class="fas fa-arrow-circle-right"></i>
                 </a>
             </div>
@@ -46,7 +46,7 @@
                 <div class="icon">
                     <i class="fa-solid fa-tachograph-digital"></i>
                 </div>
-                <a href="/promotions" class="small-box-footer">
+                <a th:href="@{/promotions}" class="small-box-footer">
                     More info <i class="fas fa-arrow-circle-right"></i>
                 </a>
             </div>
@@ -60,7 +60,7 @@
                 <div class="icon">
                     <i class="fas fa-user-plus"></i>
                 </div>
-                <a href="/users" class="small-box-footer">
+                <a th:href="@{/users}" class="small-box-footer">
                     More info <i class="fas fa-arrow-circle-right"></i>
                 </a>
             </div>
@@ -122,9 +122,9 @@
 </th:block>
 
 <th:block layout:fragment="extra-js">
-    <script src="/js/statistics/jquery.flot.js"></script>
-    <script src="/js/statistics/jquery.flot.resize.js"></script>
-    <script src="/js/statistics/jquery.flot.pie.js"></script>
+    <script th:src="@{/js/statistics/jquery.flot.js}"></script>
+    <script th:src="@{/js/statistics/jquery.flot.resize.js}"></script>
+    <script th:src="@{/js/statistics/jquery.flot.pie.js}"></script>
 
     <script>
         $(function () {

@@ -8,6 +8,8 @@ import lab.space.vilki_palki.service.StructureService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.stream.Collectors;
+
 @Component
 @AllArgsConstructor
 public class ProductMapper {
@@ -43,7 +45,7 @@ public class ProductMapper {
                 .structures(
                         product.getStructures()
                                 .stream()
-                                .map(structure -> structureService.getStructureSimpleDtoById(structure.getId())).toList()
+                                .map(structure -> structureService.getStructureSimpleDtoById(structure.getId())).collect(Collectors.toList())
                 )
                 .build();
     }

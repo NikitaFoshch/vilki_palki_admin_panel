@@ -101,7 +101,7 @@
         function getAllBanners() {
             $.ajax({
                 method: "GET",
-                url: "/banners/get-all-banners",
+                url: "/Vilki_Palki_Admin/banners/get-all-banners",
                 dataType: 'json',
                 contentType: 'application/json'
             }).done(function (bannersResponse) {
@@ -116,7 +116,7 @@
                         '    <a type="button" onclick="editActionButton(' + banner?.id + ')" >' +
                         '       <div class="row">' +
                         '           <div class="col-md-12 text-center pr-4 pl-4">' +
-                        '               <img src="' + image + '" class="product-image w-100" height="300"  alt="Banner Image">' +
+                        '               <img src="/Vilki_Palki_Admin' + image + '" class="product-image w-100" height="300"  alt="Banner Image">' +
                         '           </div>' +
                         '       </div>' +
                         '       <div class="row pt-2">' +
@@ -139,7 +139,7 @@
             }
             $.ajax({
                 method: bannerId ? 'PUT' : "POST",
-                url: bannerId ? '/banners/banner-update' : '/banners/banner-save',
+                url: bannerId ? '/Vilki_Palki_Admin/banners/banner-update' : '/Vilki_Palki_Admin/banners/banner-save',
                 contentType: false,
                 processData: false,
                 data: bannerRequest,
@@ -162,7 +162,7 @@
             bannerId = id;
             $.ajax({
                 method: "GET",
-                url: "/banners/get-banner/" + id,
+                url: "/Vilki_Palki_Admin/banners/get-banner/" + id,
                 dataType: 'json'
             }).done(function (banner) {
                 console.info(banner);
@@ -175,7 +175,7 @@
         function deleteBanner() {
             $.ajax({
                 method: "DELETE",
-                url: '/banners/banner-delete/' + bannerId,
+                url: '/Vilki_Palki_Admin/banners/banner-delete/' + bannerId,
                 contentType: 'application/json'
             }).done(function () {
                 $('#delete-banner').modal('hide');

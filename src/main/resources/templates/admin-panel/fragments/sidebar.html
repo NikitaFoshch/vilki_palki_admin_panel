@@ -1,6 +1,6 @@
 <aside class="main-sidebar sidebar-dark vilki-mod elevation-4">
-    <a href="/statistics" class="brand-link ml-2">
-        <img src="/img/img_1.png" alt="AdminLTE Logo" class="brand-image elevation-3 brand-image-xl">
+    <a th:href="@{/statistics}" class="brand-link ml-2">
+        <img th:src="@{/img/img_1.png}" alt="AdminLTE Logo" class="brand-image elevation-3 brand-image-xl">
         <span class="brand-text font-weight-light text-light text-lg ml-2"> Vilki-Palki</span>
     </a>
     <div class="sidebar sidebar-dark vilki-mod">
@@ -9,7 +9,7 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview"
                 data-accordion="false">
                 <li class="nav-item">
-                    <a href="/statistics" class="nav-link">
+                    <a th:href="@{/statistics}" class="nav-link">
                         <i class="fa-solid fa-chart-simple fa-xl"></i>
                         <p class="ml-2">
                             STATISTICS
@@ -17,7 +17,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="/banners" class="nav-link">
+                    <a th:href="@{/banners}" class="nav-link">
                         <i class="fa-solid fa-image fa-xl"></i>
                         <p class="ml-2">
                             BANNERS
@@ -25,7 +25,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="/orders" class="nav-link">
+                    <a th:href="@{/orders}" class="nav-link">
                         <i class="fa-solid fa-cart-shopping fa-xl"></i>
                         <p class="ml-2">
                             ORDERS
@@ -53,7 +53,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="/products" class="nav-link">
+                            <a th:href="@{/products}" class="nav-link">
                                 <i class="far fa-dot-circle nav-icon ml-4"></i>
                                 <p class="ml-2">
                                     PRODUCTS
@@ -61,7 +61,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/product-details" class="nav-link">
+                            <a th:href="@{/product-details}" class="nav-link">
                                 <i class="far fa-dot-circle nav-icon ml-4"></i>
                                 <p class="ml-2">
                                     PRODUCT DETAIL
@@ -69,7 +69,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/structures" class="nav-link">
+                            <a th:href="@{/structures}" class="nav-link">
                                 <i class="far fa-dot-circle nav-icon ml-4"></i>
                                 <p class="ml-2">
                                     STRUCTURES
@@ -77,7 +77,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/structure-details" class="nav-link">
+                            <a th:href="@{/structure-details}" class="nav-link">
                                 <i class="far fa-dot-circle nav-icon ml-4"></i>
                                 <p class="ml-2">
                                     STRUCTURE DETAIL
@@ -88,7 +88,7 @@
 
                 </li>
                 <li class="nav-item">
-                    <a href="/promotions" class="nav-link">
+                    <a th:href="@{/promotions}" class="nav-link">
                         <i class="fa-brands fa-product-hunt fa-xl"></i>
                         <p class="ml-2">
                             PROMOTIONS
@@ -96,7 +96,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="/users" class="nav-link">
+                    <a th:href="@{/users}" class="nav-link">
                         <i class="fa-regular fa-user fa-xl"></i>
                         <p class="ml-2">
                             USERS

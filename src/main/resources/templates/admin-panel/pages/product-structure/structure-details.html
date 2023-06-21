@@ -130,7 +130,7 @@
     function getAllStructureCategories() {
       $.ajax({
         method: "POST",
-        url: "/structure-details/get-all-structure-categories",
+        url: "/Vilki_Palki_Admin/structure-details/get-all-structure-categories",
         dataType: 'json',
         contentType: 'application/json',
         data: JSON.stringify(structureCategoriesRequest),
@@ -194,7 +194,7 @@
       structureCategoriesSaveRequest.name =  $('#name').val();
       $.ajax({
         method: structureId ? 'PUT' : "POST",
-        url: structureId ? '/structure-details/structure-category-update' : '/structure-details/structure-category-save',
+        url: structureId ? '/Vilki_Palki_Admin/structure-details/structure-category-update' : '/Vilki_Palki_Admin/structure-details/structure-category-save',
         contentType: 'application/json',
         data: JSON.stringify(structureCategoriesSaveRequest),
         beforeSend: function () {
@@ -215,7 +215,7 @@
       structureId = id;
       $.ajax({
         method: "GET",
-        url: "/structure-details/get-structure-category/" + id,
+        url: "/Vilki_Palki_Admin/structure-details/get-structure-category/" + id,
         dataType: 'json'
       }).done(function (structure) {
         console.info(structure);
@@ -228,7 +228,7 @@
     function deleteStructureCategoryById() {
       $.ajax({
         method: "DELETE",
-        url: '/structure-details/delete-structure-category/' + structureId,
+        url: '/Vilki_Palki_Admin/structure-details/delete-structure-category/' + structureId,
         contentType: 'application/json',
       }).done(function () {
         deleteStructureModal.modal('hide');

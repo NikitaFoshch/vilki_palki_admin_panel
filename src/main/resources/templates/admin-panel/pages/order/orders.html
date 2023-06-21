@@ -152,7 +152,7 @@
         function getAllActiveOrders() {
             $.ajax({
                 method: "POST",
-                url: '/orders/get-active-orders-by-request',
+                url: '/Vilki_Palki_Admin/orders/get-active-orders-by-request',
                 contentType: 'application/json',
                 data: JSON.stringify(orderActiveRequest),
                 beforeSend: function () {
@@ -185,7 +185,7 @@
         function getAllCompleteOrders() {
             $.ajax({
                 method: "POST",
-                url: '/orders/get-completed-orders-by-request',
+                url: '/Vilki_Palki_Admin/orders/get-completed-orders-by-request',
                 contentType: 'application/json',
                 data: JSON.stringify(orderCompleteRequest),
                 beforeSend: function () {
@@ -218,7 +218,7 @@
             if (activeOrderId !== undefined) {
                 $.ajax({
                     method: "DELETE",
-                    url: "/orders/delete-order/" + activeOrderId,
+                    url: "/Vilki_Palki_Admin/orders/delete-order/" + activeOrderId,
                     contentType: 'application/json'
                 }).done(function () {
                     $('#confirm-delete').modal('hide');
@@ -231,7 +231,7 @@
             } else if (completeOrderId !== undefined) {
                 $.ajax({
                     method: "DELETE",
-                    url: "/orders/delete-order/" + completeOrderId,
+                    url: "/Vilki_Palki_Admin/orders/delete-order/" + completeOrderId,
                     contentType: 'application/json'
                 }).done(function () {
                     $('#confirm-delete').modal('hide');

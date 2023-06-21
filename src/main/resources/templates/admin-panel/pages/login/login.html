@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="/css/adminlte/adminlte.min.css">
-    <link rel="stylesheet" href="/css/background/background-login.css">
+    <link rel="stylesheet" th:href="@{/css/adminlte/adminlte.min.css}">
+    <link rel="stylesheet" th:href="@{/css/background/background-login.css}">
 </head>
 <body class="hold-transition sidebar-mini background">
 <div class="row">
     <div class="col-12">
         <div class="row pb-3">
-            <img src="/img/img.png" class="mx-auto">
+            <img th:src="@{/img/img.png}" class="mx-auto">
         </div>
         <form method="POST" th:action="@{/login}">
             <div class="row pt-5">

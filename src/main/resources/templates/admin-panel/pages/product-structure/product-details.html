@@ -181,7 +181,7 @@
 </th:block>
 
 <th:block layout:fragment="extra-js">
-    <script src="/js/bs-file-input/bs-custom-file-input.min.js"></script>
+    <script th:src="@{/js/bs-file-input/bs-custom-file-input.min.js}"></script>
 
     <script>
 
@@ -218,7 +218,7 @@
         function getAllProductCategories() {
             $.ajax({
                 method: "POST",
-                url: "/product-details/get-all-product-categories",
+                url: "/Vilki_Palki_Admin/product-details/get-all-product-categories",
                 dataType: 'json',
                 contentType: 'application/json',
                 data: JSON.stringify(productCategoryRequest),
@@ -250,7 +250,7 @@
         function getAllProductType() {
             $.ajax({
                 method: "POST",
-                url: "/product-details/get-all-product-types",
+                url: "/Vilki_Palki_Admin/product-details/get-all-product-types",
                 dataType: 'json',
                 contentType: 'application/json',
                 data: JSON.stringify(productTypeRequest),
@@ -328,7 +328,7 @@
             }
             $.ajax({
                 method: productCategoryId ? 'PUT' : "POST",
-                url: productCategoryId ? '/product-details/product-category-update' : '/product-details/product-category-save',
+                url: productCategoryId ? '/Vilki_Palki_Admin/product-details/product-category-update' : '/Vilki_Palki_Admin/product-details/product-category-save',
                 contentType: false,
                 processData: false,
                 data: productCategorySaveRequest,
@@ -356,7 +356,7 @@
             productTypeSaveRequest.name =  $('#type-name').val();
             $.ajax({
                 method: productTypeId ? 'PUT' : "POST",
-                url: productTypeId ? '/product-details/product-type-update' : '/product-details/product-type-save',
+                url: productTypeId ? '/Vilki_Palki_Admin/product-details/product-type-update' : '/Vilki_Palki_Admin/product-details/product-type-save',
                 contentType: 'application/json',
                 data: JSON.stringify(productTypeSaveRequest),
                 beforeSend: function () {
@@ -377,7 +377,7 @@
             productCategoryId = id;
             $.ajax({
                 method: "GET",
-                url: "/product-details/get-product-category/" + id,
+                url: "/Vilki_Palki_Admin/product-details/get-product-category/" + id,
                 dataType: 'json'
             }).done(function (product) {
                 console.info(product);
@@ -391,7 +391,7 @@
             productTypeId = id;
             $.ajax({
                 method: "GET",
-                url: "/product-details/get-product-type/" + id,
+                url: "/Vilki_Palki_Admin/product-details/get-product-type/" + id,
                 dataType: 'json'
             }).done(function (product) {
                 console.info(product);
@@ -405,7 +405,7 @@
             if (productCategoryId !== undefined){
                 $.ajax({
                     method: "DELETE",
-                    url: '/product-details/delete-product-category/' + productCategoryId,
+                    url: '/Vilki_Palki_Admin/product-details/delete-product-category/' + productCategoryId,
                     contentType: 'application/json',
                 }).done(function () {
                     deleteProductModal.modal('hide');
@@ -419,7 +419,7 @@
             } else if (productTypeId !== undefined){
                 $.ajax({
                     method: "DELETE",
-                    url: '/product-details/delete-product-type/' + productTypeId,
+                    url: '/Vilki_Palki_Admin/product-details/delete-product-type/' + productTypeId,
                     contentType: 'application/json',
                 }).done(function () {
                     deleteProductModal.modal('hide');

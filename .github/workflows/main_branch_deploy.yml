@@ -1,0 +1,34 @@
+name: Main branch testing & deploy
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Step 1 - Checkout master branch from GitHub
+        uses: actions/checkout@v3
+
+      - name: Step 2 - Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: 11
+          distribution: adopt
+          cache: maven
+
+      - name: Step 3 - Build with Maven
+        run: mvn -B clean package --file pom.xml
+
+      - name: Step 4 - Deploy
+        env:
+          LOGIN: ${{ secrets.TOMCAT_USERNAME }}
+          PASSWORD: ${{ secrets.TOMCAT_PASSWORD }}
+        run:
+          cd target
+          curl -T Vilki_Palki_Admin.war "http://$LOGIN:$PASSWORD@slj.avada-media-dev1.od.ua/manager/text/deploy?&path=/opt/tomcat/webapps/&update=true"

@@ -158,7 +158,7 @@
         function getAllOrders() {
             $.ajax({
                 method: "POST",
-                url: '/users/get-all-orders-by-user-id',
+                url: '/Vilki_Palki_Admin/users/get-all-orders-by-user-id',
                 contentType: 'application/json',
                 data: JSON.stringify(orderRequest),
                 beforeSend: function () {
@@ -190,7 +190,7 @@
         function getAllAddress() {
             $.ajax({
                 method: "POST",
-                url: "/users/get-all-address-by-user-id",
+                url: "/Vilki_Palki_Admin/users/get-all-address-by-user-id",
                 dataType: 'json',
                 contentType: 'application/json',
                 data: JSON.stringify(addressRequest),
@@ -225,7 +225,7 @@
             if (orderId !== undefined) {
                 $.ajax({
                     method: "DELETE",
-                    url: "/users/delete-order/" + orderId,
+                    url: "/Vilki_Palki_Admin/users/delete-order/" + orderId,
                     contentType: 'application/json'
                 }).done(function () {
                     $('#confirm-delete').modal('hide');
@@ -238,7 +238,7 @@
             } else if (addressId !== undefined) {
                 $.ajax({
                     method: "DELETE",
-                    url: "/users/delete-address/" + addressId,
+                    url: "/Vilki_Palki_Admin/users/delete-address/" + addressId,
                     contentType: 'application/json'
                 }).done(function () {
                     $('#confirm-delete').modal('hide');
