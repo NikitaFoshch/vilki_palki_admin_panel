@@ -12,7 +12,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -59,7 +58,7 @@ class StructureCategoryServiceImplTest {
         Long structureCategoryId = 1L;
         StructureCategory structureCategory = new StructureCategory().setName("Bober");
         structureCategory.setId(1L);
-        StructureCategoryResponse expectedResponse = new StructureCategoryResponse(1L, "Bober");
+        StructureCategoryResponse expectedResponse = StructureCategoryResponse.builder().id(1L).name("Bober").build();
 
         when(repository.findById(structureCategoryId)).thenReturn(Optional.of(structureCategory));
 
@@ -77,8 +76,8 @@ class StructureCategoryServiceImplTest {
         structureCategories.get(1).setId(2L);
         structureCategories.get(1).setName("5435");
         List<StructureCategoryResponse> responses = List.of(
-                new StructureCategoryResponse(1L, "123"),
-                new StructureCategoryResponse(2L, "5435")
+                StructureCategoryResponse.builder().id(1L).name("123").build(),
+                StructureCategoryResponse.builder().id(2L).name("5435").build()
         );
 
         when(repository.findAll(Sort.by(Sort.Direction.ASC, "name"))).thenReturn(structureCategories);
@@ -112,7 +111,8 @@ class StructureCategoryServiceImplTest {
 
     @Test
     void saveStructureCategory() {
-        StructureCategorySaveRequest request = new StructureCategorySaveRequest("Name");
+        StructureCategorySaveRequest request = new StructureCategorySaveRequest();
+        request.setName("Name");
 
         structureCategoryService.saveStructureCategory(request);
 
@@ -121,11 +121,13 @@ class StructureCategoryServiceImplTest {
 
     @Test
     void updateStructureCategory() {
-        StructureCategoryUpdateRequest request = new StructureCategoryUpdateRequest(1L, "Name");
+        StructureCategoryUpdateRequest request = new StructureCategoryUpdateRequest();
+        request.setId(1L);
+        request.setName("Name");
         StructureCategory structureCategory = new StructureCategory().setName("name");
         structureCategory.setId(1L);
 
-        when(repository.findById(request.id())).thenReturn(Optional.of(structureCategory));
+        when(repository.findById(request.getId())).thenReturn(Optional.of(structureCategory));
 
         structureCategoryService.updateStructureCategory(request);
 

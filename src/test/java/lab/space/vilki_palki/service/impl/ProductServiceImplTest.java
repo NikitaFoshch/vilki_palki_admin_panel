@@ -16,7 +16,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mock.web.MockMultipartFile;
 
@@ -72,11 +71,11 @@ class ProductServiceImplTest {
         Long id = 1L;
         Product product = new Product().setName("Bober");
         product.setId(1L);
-        ProductResponse expectedResponse = new ProductResponse(
-                1L, "Bober", BigDecimal.valueOf(1),
-                "fqaf", "fqef", "qwdrwq",
-                null, null, null
-        );
+        ProductResponse expectedResponse = ProductResponse.builder()
+                .id(1L)
+                .name("Bober")
+                .price(BigDecimal.valueOf(1))
+                .build();
         when(productRepository.findById(id)).thenReturn(Optional.of(product));
         when(productMapper.toDto(product)).thenReturn(expectedResponse);
 
@@ -90,11 +89,11 @@ class ProductServiceImplTest {
         Long id = 1L;
         Product product = new Product().setName("Bober");
         product.setId(1L);
-        ProductResponse expectedResponse = new ProductResponse(
-                1L, "Bober", BigDecimal.valueOf(1),
-                "fqaf", "fqef", "qwdrwq",
-                null, null, null
-        );
+        ProductResponse expectedResponse = ProductResponse.builder()
+                .id(1L)
+                .name("Bober")
+                .price(BigDecimal.valueOf(1))
+                .build();
         when(productRepository.findById(id)).thenReturn(Optional.of(product));
         when(productMapper.toSimpleDto(product)).thenReturn(expectedResponse);
 
@@ -107,16 +106,16 @@ class ProductServiceImplTest {
     void saveProduct() throws Exception {
         ClassPathResource resource = new ClassPathResource("img/img.png");
         MockMultipartFile image = new MockMultipartFile("image", "image", "imag/png", resource.getInputStream());
-        ProductSaveRequest request = new ProductSaveRequest(
-                "Name",
-                "hgfdh",
-                BigDecimal.valueOf(1),
-                "adsf",
-                image,
-                1L,
-                1L,
-                List.of(1L, 2L)
-        );
+        ProductSaveRequest request = new ProductSaveRequest();
+        List<Long> number = List.of(1L, 2L);
+        request.setName("Name");
+        request.setImage(image);
+        request.setProductInfo("foofof");
+        request.setPrice(BigDecimal.valueOf(100L));
+        request.setDescription("sgsAg");
+        request.setProductsCategoryId(1L);
+        request.setProductsTypeId(1L);
+        request.setStructureIds(number);
 
         productService.saveProduct(request);
 
@@ -128,23 +127,23 @@ class ProductServiceImplTest {
         ClassPathResource resource = new ClassPathResource("img/img.png");
         MockMultipartFile image = new MockMultipartFile("image", "image", "imag/png", resource.getInputStream());
         List<Long> number = List.of(1L, 2L);
-        ProductUpdateRequest request = new ProductUpdateRequest(
-                1L,
-                "Name",
-                "hgfdh",
-                BigDecimal.valueOf(1),
-                "adsf",
-                image,
-                1L,
-                1L,
-                number
-        );
+        ProductUpdateRequest request = new ProductUpdateRequest();
+        request.setId(1L);
+        request.setName("Name");
+        request.setImage(image);
+        request.setProductInfo("foofof");
+        request.setPrice(BigDecimal.valueOf(100L));
+        request.setDescription("sgsAg");
+        request.setProductsCategoryId(1L);
+        request.setProductsTypeId(1L);
+        request.setStructureIds(number);
+
         Product product = new Product();
         product.setId(1L);
         product.setStructures(List.of(new Structure(), new Structure()));
         Structure structure = new Structure();
         structure.setId(1L);
-        when(productRepository.findById(request.id())).thenReturn(Optional.of(product));
+        when(productRepository.findById(request.getId())).thenReturn(Optional.of(product));
         productService.updateProductById(request);
 
         verify(productRepository, times(1)).save(any(Product.class));

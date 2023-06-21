@@ -65,21 +65,20 @@ public class StructureControllerTest {
     void saveStructure() throws Exception {
         ClassPathResource resource = new ClassPathResource("img/img.png");
         MockMultipartFile image = new MockMultipartFile("image", "image", "image/png", resource.getInputStream());
-        StructureSaveRequest request = new StructureSaveRequest(
-                "Structure 1",
-                1L,
-                100,
-                BigDecimal.valueOf(100),
-                image
-        );
+        StructureSaveRequest request = new StructureSaveRequest();
+        request.setName("Structure 1");
+        request.setStructureCategoryId(1L);
+        request.setWeight(100);
+        request.setPrice(BigDecimal.valueOf(100));
+        request.setImage(image);
 
         mockMvc.perform(
                 multipart(DEFAULT_PATH + "/structure-save")
                         .file(image)
-                        .param("name", request.name())
-                        .param("structureCategoryId", String.valueOf(request.structureCategoryId()))
-                        .param("weight", String.valueOf(request.weight()))
-                        .param("price", String.valueOf(request.price()))
+                        .param("name", request.getName())
+                        .param("structureCategoryId", String.valueOf(request.getStructureCategoryId()))
+                        .param("weight", String.valueOf(request.getWeight()))
+                        .param("price", String.valueOf(request.getPrice()))
         ).andDo(print()).andExpect(status().isOk());
     }
 
@@ -87,23 +86,22 @@ public class StructureControllerTest {
     void updateStructure() throws Exception {
         ClassPathResource resource = new ClassPathResource("img/img.png");
         MockMultipartFile image = new MockMultipartFile("image", "image", "image/png", resource.getInputStream());
-        StructureUpdateRequest request = new StructureUpdateRequest(
-                1L,
-                "Structure 1",
-                1L,
-                100,
-                BigDecimal.valueOf(100),
-                image
-        );
+        StructureUpdateRequest request = new StructureUpdateRequest();
+        request.setId(1L);
+        request.setName("Structure 1");
+        request.setStructureCategoryId(1L);
+        request.setWeight(100);
+        request.setPrice(BigDecimal.valueOf(100));
+        request.setImage(image);
 
         mockMvc.perform(
                 multipart(HttpMethod.PUT, DEFAULT_PATH + "/structure-update")
                         .file(image)
-                        .param("name", request.name())
-                        .param("structureCategoryId", String.valueOf(request.structureCategoryId()))
-                        .param("weight", String.valueOf(request.weight()))
-                        .param("price", String.valueOf(request.price()))
-                        .param("price", String.valueOf(request.id()))
+                        .param("name", request.getName())
+                        .param("structureCategoryId", String.valueOf(request.getStructureCategoryId()))
+                        .param("weight", String.valueOf(request.getWeight()))
+                        .param("price", String.valueOf(request.getPrice()))
+                        .param("price", String.valueOf(request.getId()))
         ).andDo(print()).andExpect(status().isOk());
     }
 

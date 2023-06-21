@@ -11,7 +11,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -55,7 +54,7 @@ class ProductCategoryServiceImplTest {
         Long productCategoryId = 1L;
         ProductCategory productCategory = new ProductCategory().setName("AFK").setImage("ALD");
         productCategory.setId(productCategoryId);
-        ProductCategoryResponse expectedResponse = new ProductCategoryResponse(1L, "AFK", "ALD");
+        ProductCategoryResponse expectedResponse = ProductCategoryResponse.builder().id(1L).name("AFK").image("ALD").build();
         when(productCategoryRepository.findById(productCategoryId)).thenReturn(Optional.of(productCategory));
 
         ProductCategoryResponse response = productCategoryService.getProductCategoryToDto(productCategory.getId());
@@ -69,7 +68,7 @@ class ProductCategoryServiceImplTest {
         Long productCategoryId = 1L;
         ProductCategory productCategory = new ProductCategory().setName("AFK").setImage("ALD");
         productCategory.setId(productCategoryId);
-        ProductCategoryResponse expectedResponse = new ProductCategoryResponse(1L, "AFK", "ALD");
+        ProductCategoryResponse expectedResponse = ProductCategoryResponse.builder().id(1L).name("AFK").image("ALD").build();
         when(productCategoryRepository.findById(productCategoryId)).thenReturn(Optional.of(productCategory));
 
         ProductCategoryResponse response = productCategoryService.getProductCategoryToSimpleDto(productCategory.getId());
@@ -120,7 +119,9 @@ class ProductCategoryServiceImplTest {
     void saveProductCategory() throws Exception {
         ClassPathResource resource = new ClassPathResource("img/img.png");
         MockMultipartFile image = new MockMultipartFile("image", "image", "imag/png", resource.getInputStream());
-        ProductCategorySaveRequest request = new ProductCategorySaveRequest("Name", image);
+        ProductCategorySaveRequest request = new ProductCategorySaveRequest();
+        request.setName("Name");
+        request.setImage(image);
 
         productCategoryService.saveProductCategory(request);
 
@@ -131,11 +132,14 @@ class ProductCategoryServiceImplTest {
     void updateProductCategory() throws Exception {
         ClassPathResource resource = new ClassPathResource("img/img.png");
         MockMultipartFile image = new MockMultipartFile("image", "image", "imag/png", resource.getInputStream());
-        ProductCategoryUpdateRequest request = new ProductCategoryUpdateRequest(1L, "Name", image);
+        ProductCategoryUpdateRequest request = new ProductCategoryUpdateRequest();
+        request.setId(1L);
+        request.setName("Name");
+        request.setImage(image);
         ProductCategory productCategory = new ProductCategory().setName("name").setImage("ima");
         productCategory.setId(1L);
 
-        when(productCategoryRepository.findById(request.id())).thenReturn(Optional.of(productCategory));
+        when(productCategoryRepository.findById(request.getId())).thenReturn(Optional.of(productCategory));
 
         productCategoryService.updateProductCategory(request);
 

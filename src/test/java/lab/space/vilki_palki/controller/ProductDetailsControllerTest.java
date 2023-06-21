@@ -69,15 +69,14 @@ public class ProductDetailsControllerTest {
     void saveProductCategory() throws Exception {
         ClassPathResource imageResource = new ClassPathResource("img/img.png");
         MockMultipartFile image = new MockMultipartFile("image", "image", "image/png", imageResource.getInputStream());
-        ProductCategorySaveRequest request = new ProductCategorySaveRequest(
-                "Product 1",
-                image
-        );
+        ProductCategorySaveRequest request = new ProductCategorySaveRequest();
+        request.setImage(image);
+        request.setName("Product 1");
 
 
         mockMvc.perform(multipart(DEFAULT_PATH + "/product-category-save")
                         .file(image)
-                        .param("name", request.name())
+                        .param("name", request.getName())
                 )
                 .andDo(print())
                 .andExpect(status().isOk());
@@ -87,16 +86,14 @@ public class ProductDetailsControllerTest {
     void updateProductCategory() throws Exception {
         ClassPathResource imageResource = new ClassPathResource("img/img.png");
         MockMultipartFile image = new MockMultipartFile("image", "image", "image/png", imageResource.getInputStream());
-        ProductCategoryUpdateRequest request = new ProductCategoryUpdateRequest(
-                1L,
-                "Product 1",
-                image
-        );
-
+        ProductCategoryUpdateRequest request = new ProductCategoryUpdateRequest();
+        request.setId(1L);
+        request.setImage(image);
+        request.setName("Product 1");
 
         mockMvc.perform(multipart(HttpMethod.PUT, DEFAULT_PATH + "/product-category-update")
                         .file(image)
-                        .param("name", request.name())
+                        .param("name", request.getName())
                 )
                 .andDo(print())
                 .andExpect(status().isOk());

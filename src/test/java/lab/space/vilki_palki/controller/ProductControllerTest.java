@@ -59,27 +59,26 @@ public class ProductControllerTest {
     void testSaveProduct() throws Exception {
         ClassPathResource imageResource = new ClassPathResource("img/img.png");
         MockMultipartFile image = new MockMultipartFile("image", "image", "image/png", imageResource.getInputStream());
-        ProductSaveRequest request = new ProductSaveRequest(
-                "Product 1",
-                "Info",
-                BigDecimal.valueOf(100),
-                "Description",
-                image,
-                1L,
-                1L,
-                List.of(1L)
-        );
+        ProductSaveRequest request = new ProductSaveRequest();
+        request.setName("Product 1");
+        request.setProductInfo("Info");
+        request.setPrice(BigDecimal.valueOf(100));
+        request.setDescription("Description");
+        request.setImage(image);
+        request.setProductsCategoryId(1L);
+        request.setProductsTypeId(1L);
+        request.setStructureIds(List.of(1L));
 
 
         mockMvc.perform(multipart(DEFAULT_PATH + "/product-save")
                         .file(image)
-                        .param("name", request.name())
-                        .param("productInfo", request.productInfo())
-                        .param("price", String.valueOf(request.price()))
-                        .param("description", request.description())
-                        .param("productsCategoryId", String.valueOf(request.productsCategoryId()))
-                        .param("productsTypeId", String.valueOf(request.productsTypeId()))
-                        .param("structureIds", String.valueOf(request.structureIds().get(0)))
+                        .param("name", request.getName())
+                        .param("productInfo", request.getProductInfo())
+                        .param("price", String.valueOf(request.getPrice()))
+                        .param("description", request.getDescription())
+                        .param("productsCategoryId", String.valueOf(request.getProductsCategoryId()))
+                        .param("productsTypeId", String.valueOf(request.getProductsTypeId()))
+                        .param("structureIds", String.valueOf(request.getStructureIds().get(0)))
                 )
 
                 .andDo(print())
@@ -92,30 +91,28 @@ public class ProductControllerTest {
     void testUpdateProduct() throws Exception {
         ClassPathResource imageResource = new ClassPathResource("img/img.png");
         MockMultipartFile image = new MockMultipartFile("image", "image", "image/png", imageResource.getInputStream());
-        ProductUpdateRequest request = new ProductUpdateRequest(
-                1L,
-                "Product 2",
-                "Info2",
-                BigDecimal.valueOf(100),
-                "Description2",
-                image,
-                1L,
-                1L,
-                List.of(1L)
-        );
-
+        ProductUpdateRequest request = new ProductUpdateRequest();
+        request.setId(1L);
+        request.setName("Product 1");
+        request.setProductInfo("Info");
+        request.setPrice(BigDecimal.valueOf(100));
+        request.setDescription("Description");
+        request.setImage(image);
+        request.setProductsCategoryId(1L);
+        request.setProductsTypeId(1L);
+        request.setStructureIds(List.of(1L));
 
         mockMvc.perform(
                         multipart(HttpMethod.PUT, DEFAULT_PATH + "/product-update")
                                 .file(image)
-                                .param("name", request.name())
-                                .param("productInfo", request.productInfo())
-                                .param("price", String.valueOf(request.price()))
-                                .param("description", request.description())
-                                .param("productsCategoryId", String.valueOf(request.productsCategoryId()))
-                                .param("productsTypeId", String.valueOf(request.productsTypeId()))
-                                .param("structureIds", String.valueOf(request.structureIds().get(0)))
-                                .param("id", String.valueOf(request.id()))
+                                .param("name", request.getName())
+                                .param("productInfo", request.getProductInfo())
+                                .param("price", String.valueOf(request.getPrice()))
+                                .param("description", request.getDescription())
+                                .param("productsCategoryId", String.valueOf(request.getProductsCategoryId()))
+                                .param("productsTypeId", String.valueOf(request.getProductsTypeId()))
+                                .param("structureIds", String.valueOf(request.getStructureIds().get(0)))
+                                .param("id", String.valueOf(request.getId()))
                 )
                 .andDo(print())
                 .andExpect(status().isOk());

@@ -50,20 +50,19 @@ public class PromotionsControllerTest {
     void savePromotion() throws Exception {
         ClassPathResource resource = new ClassPathResource("img/img.png");
         MockMultipartFile image = new MockMultipartFile("image", "image", "image/png", resource.getInputStream());
-        PromotionSaveRequest request = new PromotionSaveRequest(
-                50L,
-                "Promotion",
-                1000,
-                image,
-                1L
-        );
+        PromotionSaveRequest request = new PromotionSaveRequest();
+        request.setPercent(50L);
+        request.setName("Promotion");
+        request.setTotalPrice(1000);
+        request.setProductId(1L);
+        request.setImage(image);
 
         mockMvc.perform(multipart(DEFAULT_PATH + "/promotion-save")
                 .file(image)
-                .param("percent", String.valueOf(request.percent()))
-                .param("name", request.name())
-                .param("totalPrice", String.valueOf(request.totalPrice()))
-                .param("productId", String.valueOf(request.productId()))
+                .param("percent", String.valueOf(request.getPercent()))
+                .param("name", request.getName())
+                .param("totalPrice", String.valueOf(request.getTotalPrice()))
+                .param("productId", String.valueOf(request.getProductId()))
         ).andDo(print()).andExpect(status().isOk());
     }
 
@@ -71,22 +70,21 @@ public class PromotionsControllerTest {
     void updatePromotion() throws Exception {
         ClassPathResource resource = new ClassPathResource("img/img.png");
         MockMultipartFile image = new MockMultipartFile("image", "image", "image/png", resource.getInputStream());
-        PromotionUpdateRequest request = new PromotionUpdateRequest(
-                1L,
-                5L,
-                "Promotion",
-                1000,
-                image,
-                1L
-        );
+        PromotionUpdateRequest request = new PromotionUpdateRequest();
+        request.setId(1L);
+        request.setPercent(50L);
+        request.setName("Promotion");
+        request.setTotalPrice(1000);
+        request.setProductId(1L);
+        request.setImage(image);
 
         mockMvc.perform(multipart(HttpMethod.PUT, DEFAULT_PATH + "/promotion-update")
                 .file(image)
-                .param("percent", String.valueOf(request.percent()))
-                .param("name", request.name())
-                .param("totalPrice", String.valueOf(request.totalPrice()))
-                .param("productId", String.valueOf(request.productId()))
-                .param("id", String.valueOf(request.id()))
+                .param("percent", String.valueOf(request.getPercent()))
+                .param("name", request.getName())
+                .param("totalPrice", String.valueOf(request.getTotalPrice()))
+                .param("productId", String.valueOf(request.getProductId()))
+                .param("id", String.valueOf(request.getId()))
         ).andDo(print()).andExpect(status().isOk());
     }
 

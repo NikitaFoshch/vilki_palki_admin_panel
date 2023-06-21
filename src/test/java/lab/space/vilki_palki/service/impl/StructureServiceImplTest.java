@@ -14,7 +14,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -51,7 +50,7 @@ class StructureServiceImplTest {
         Long id = 1L;
         Structure structure = new Structure().setName("Bober").setImage("bober");
         structure.setId(1L);
-        StructureResponse expectedResponse = new StructureResponse(1L, "Bober", null, null, null, "bober");
+        StructureResponse expectedResponse = StructureResponse.builder().id(1L).name("Bober").image("bober").build();
         when(structureRepository.findById(id)).thenReturn(Optional.of(structure));
         when(structureMapper.toDto(structure)).thenReturn(expectedResponse);
 
@@ -65,7 +64,7 @@ class StructureServiceImplTest {
         Long id = 1L;
         Structure structure = new Structure().setName("Bober").setImage("bober");
         structure.setId(1L);
-        StructureResponse expectedResponse = new StructureResponse(1L, "Bober", null, null, null, "bober");
+        StructureResponse expectedResponse = StructureResponse.builder().id(1L).name("Bober").image("bober").build();
         when(structureRepository.findById(id)).thenReturn(Optional.of(structure));
         when(structureMapper.toSimpleDto(structure)).thenReturn(expectedResponse);
 
@@ -118,9 +117,9 @@ class StructureServiceImplTest {
         structures.add(new Structure());
         structures.add(new Structure());
         List<StructureResponse> responses = List.of(
-                new StructureResponse(1L, "123", null, null, null, null),
-                new StructureResponse(2L, "5435", null, null, null, null),
-                new StructureResponse(3L, "33", null, null, null, null)
+                StructureResponse.builder().id(1L).name("123").build(),
+                StructureResponse.builder().id(2L).name("5435").build(),
+                StructureResponse.builder().id(3L).name("33").build()
         );
 
         when(structureRepository.findAll(Sort.by(Sort.Direction.ASC, "name"))).thenReturn(structures);
@@ -139,9 +138,12 @@ class StructureServiceImplTest {
     void saveStructure() throws Exception {
         ClassPathResource resource = new ClassPathResource("img/img.png");
         MockMultipartFile image = new MockMultipartFile("image", "image", "imag/png", resource.getInputStream());
-        StructureSaveRequest request = new StructureSaveRequest("Name", 1L, null, null, image);
+        StructureSaveRequest request = new StructureSaveRequest();
+        request.setImage(image);
+        request.setName("Name");
+        request.setStructureCategoryId(1L);
         StructureCategory structureCategory = new StructureCategory();
-        when(structureCategoryService.getStructureCategoryById(request.structureCategoryId())).thenReturn(structureCategory);
+        when(structureCategoryService.getStructureCategoryById(request.getStructureCategoryId())).thenReturn(structureCategory);
 
         structureService.saveStructure(request);
 
@@ -152,12 +154,16 @@ class StructureServiceImplTest {
     void updateStructure() throws Exception {
         ClassPathResource resource = new ClassPathResource("img/img.png");
         MockMultipartFile image = new MockMultipartFile("image", "image", "imag/png", resource.getInputStream());
-        StructureUpdateRequest request = new StructureUpdateRequest(1L, "Name", 1L, null, null, image);
+        StructureUpdateRequest request = new StructureUpdateRequest();
+        request.setId(1L);
+        request.setImage(image);
+        request.setName("Name");
+        request.setStructureCategoryId(1L);
         Structure structure = new Structure();
         structure.setId(1L);
         StructureCategory structureCategory = new StructureCategory();
-        when(structureCategoryService.getStructureCategoryById(request.structureCategoryId())).thenReturn(structureCategory);
-        when(structureRepository.findById(request.id())).thenReturn(Optional.of(structure));
+        when(structureCategoryService.getStructureCategoryById(request.getStructureCategoryId())).thenReturn(structureCategory);
+        when(structureRepository.findById(request.getId())).thenReturn(Optional.of(structure));
 
         structureService.updateStructure(request);
 

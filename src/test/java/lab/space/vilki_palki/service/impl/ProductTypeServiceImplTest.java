@@ -11,7 +11,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -52,11 +51,11 @@ class ProductTypeServiceImplTest {
         Long id = 1L;
         ProductType productType = new ProductType().setName("Bober");
         productType.setId(1L);
-        ProductTypeResponse expectedResponse = new ProductTypeResponse(1L, "Bober");
+        ProductTypeResponse expectedResponse = ProductTypeResponse.builder().id(1L).name("Bober").build();
         when(repository.findById(id)).thenReturn(Optional.of(productType));
-        //  When
+
         ProductTypeResponse response = productTypeService.getProductTypeToDto(productType.getId());
-        //  Then
+
         assertEquals(expectedResponse, response);
     }
 
@@ -68,8 +67,8 @@ class ProductTypeServiceImplTest {
         productTypes.get(1).setId(2L);
         productTypes.get(1).setName("5435");
         List<ProductTypeResponse> response = List.of(
-                new ProductTypeResponse(1L, "123"),
-                new ProductTypeResponse(2L, "5435")
+                ProductTypeResponse.builder().id(1L).name("123").build(),
+                ProductTypeResponse.builder().id(2L).name("5435").build()
         );
 
         when(repository.findAll(Sort.by(Sort.Direction.ASC, "name"))).thenReturn(productTypes);
@@ -101,7 +100,8 @@ class ProductTypeServiceImplTest {
 
     @Test
     void saveProductType() {
-        ProductTypeSaveRequest request = new ProductTypeSaveRequest("Name");
+        ProductTypeSaveRequest request = new ProductTypeSaveRequest();
+        request.setName("Name");
 
         productTypeService.saveProductType(request);
 
@@ -110,11 +110,13 @@ class ProductTypeServiceImplTest {
 
     @Test
     void updateProductType() {
-        ProductTypeUpdateRequest request = new ProductTypeUpdateRequest(1L, "Name");
+        ProductTypeUpdateRequest request = new ProductTypeUpdateRequest();
+        request.setId(1L);
+        request.setName("Name");
         ProductType productType = new ProductType().setName("name");
         productType.setId(1L);
 
-        when(repository.findById(request.id())).thenReturn(Optional.of(productType));
+        when(repository.findById(request.getId())).thenReturn(Optional.of(productType));
 
         productTypeService.updateProductType(request);
 

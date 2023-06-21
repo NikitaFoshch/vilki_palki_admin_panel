@@ -53,12 +53,14 @@ public class BannerControllerTest {
     void testSaveBanner() throws Exception {
         ClassPathResource imageResource = new ClassPathResource("img/img.png");
         MockMultipartFile image = new MockMultipartFile("image", "image", "image/png", imageResource.getInputStream());
-        BannerSaveRequest request = new BannerSaveRequest("Banner 1", image);
+        BannerSaveRequest request = new BannerSaveRequest();
+        request.setImage(image);
+        request.setName("name");
 
         mockMvc.perform(
                         multipart("/banners/banner-save")
                                 .file(image)
-                                .param("name", request.name())
+                                .param("name", request.getName())
                 )
                 .andExpect(status().isOk());
     }
@@ -68,13 +70,16 @@ public class BannerControllerTest {
     void testUpdateBanner() throws Exception {
         ClassPathResource imageResource = new ClassPathResource("img/img.png");
         MockMultipartFile image = new MockMultipartFile("image", "image", "image/png", imageResource.getInputStream());
-        BannerUpdateRequest request = new BannerUpdateRequest(1L, "Banner 2", image);
+        BannerUpdateRequest request = new BannerUpdateRequest();
+        request.setId(1L);
+        request.setName("Banner 2");
+        request.setImage(image);
 
         mockMvc.perform(
                         multipart(HttpMethod.PUT, "/banners/banner-update")
                                 .file(image)
-                                .param("name", request.name())
-                                .param("id", String.valueOf(request.id()))
+                                .param("name", request.getName())
+                                .param("id", String.valueOf(request.getId()))
                 )
                 .andExpect(status().isOk());
     }
