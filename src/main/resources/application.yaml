@@ -34,7 +34,7 @@ spring:
 
 logging:
   file:
-    name: /home/avada/web/kino.avada-media-dev1.od.ua/logging/vp-admin/logs.log
+    name: /home/avada/web/slj.avada-media-dev1.od.ua/slj/vp/admin.log
   level:
     org:
       hibernate: info
