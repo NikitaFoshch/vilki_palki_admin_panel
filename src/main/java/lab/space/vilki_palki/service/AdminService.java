@@ -13,6 +13,5 @@ public interface AdminService {
 
     Admin getAdminById(Long id);
 
-
     void deleteAdminById(Long id);
 }

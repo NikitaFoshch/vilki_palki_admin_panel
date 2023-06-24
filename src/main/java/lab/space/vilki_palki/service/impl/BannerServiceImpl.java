@@ -32,6 +32,7 @@ public class BannerServiceImpl implements BannerService {
         return bannerRepository.findAll(Sort.by(Sort.Direction.DESC, "createAt"))
                 .stream()
                 .map(BannerMapper::toDto)
+
                 .collect(Collectors.toList());
     }
 
