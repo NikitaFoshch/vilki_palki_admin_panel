@@ -26,6 +26,10 @@ jobs:
         run: mvn -B clean package --file pom.xml
 
       - name: Step 4 - Deploy
+        env:
+          LOGIN: ${{ secrets.TOMCAT_USERNAME }}
+          PASSWORD: ${{ secrets.TOMCAT_PASSWORD }}
+
         run: |
           cd target
-          curl -T Vilki_Palki_Admin.war "http://${{ secrets.TOMCAT_USERNAME }}:${{ secrets.TOMCAT_PASSWORD }}@slj.avada-media-dev1.od.ua/manager/text/deploy?&path=/opt/tomcat/webapps/&update=true"
+          curl -T Vilki_Palki_Admin.war "http://$LOGIN:$PASSWORD@slj.avada-media-dev1.od.ua/manager/text/deploy?&path=/opt/tomcat/webapps/&update=true"
