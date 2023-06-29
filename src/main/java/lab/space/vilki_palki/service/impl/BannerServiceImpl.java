@@ -28,11 +28,7 @@ public class BannerServiceImpl implements BannerService {
 
     @Override
     public List<BannerResponse> getAllBannersByOrderByCreateAt() {
-        List<BannerResponse> bannerResponses = bannerRepository.findAll(Sort.by(Sort.Direction.DESC, "createAt"))
-                .stream()
-                .map(BannerMapper::toDto)
-                .collect(Collectors.toList());
-        log.info("---------------Get All Banners Order By createAt---------------" + bannerResponses);
+        log.info("---------------Get All Banners Order By createAt---------------");
         return bannerRepository.findAll(Sort.by(Sort.Direction.DESC, "createAt"))
                 .stream()
                 .map(BannerMapper::toDto)
