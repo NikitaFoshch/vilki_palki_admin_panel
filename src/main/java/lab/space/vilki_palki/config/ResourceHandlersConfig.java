@@ -10,8 +10,8 @@ import java.nio.file.Paths;
 public class ResourceHandlersConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/home/avada/web/slj.avada-media-dev1.od.ua/slj/vp/files/**")
-                .addResourceLocations("file:///" + Paths.get("files").toFile().getAbsolutePath() + "/");
+        registry.addResourceHandler("/files/**")
+                .addResourceLocations("file:///" + Paths.get("home/avada/web/slj.avada-media-dev1.od.ua/slj/vp/files").toFile().getAbsolutePath() + "/");
         registry.addResourceHandler("/static/**")
                 .addResourceLocations("classpath:/static/");
     }
