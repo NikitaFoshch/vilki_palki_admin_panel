@@ -33,7 +33,7 @@ public class FileUtil {
 
     public static void deleteFile(String filename) {
         if (filename != null) {
-            File file = new File(DIRECTORY + "\\" + filename);
+            File file = new File(DIRECTORY + "/" + filename);
             if (file.exists()) {
                 file.delete();
             } else {
@@ -44,7 +44,7 @@ public class FileUtil {
 
     public static File getFile(String filename) {
         if (filename != null) {
-            File file = new File(DIRECTORY + "\\" + filename);
+            File file = new File(DIRECTORY + "/" + filename);
             if (file.exists()) {
                 return file;
             } else {
