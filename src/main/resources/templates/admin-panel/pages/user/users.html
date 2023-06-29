@@ -169,7 +169,7 @@
                 const TABLE_BODY = createTable('#users-table', usersResponse?.totalElements, usersResponse?.totalPages, userRequest?.pageIndex);
                 $.each(usersResponse?.content, function (index, user) {
                     const $view = '' +
-                        '<a th:href="@{/users/user-details/' + user?.id + '}" class="btn pb-0 pt-0 btn-secondary">Details</a>';
+                        '<a th:href="/Vilki_Palki_Admin/users/user-details/' + user?.id + '" class="btn pb-0 pt-0 btn-secondary">Details</a>';
                     const $delete = '' +
                         '<a class="btn pb-0 pt-0 btn-danger user" ' +
                         'data-id="' + user?.id + '" data-toggle="modal" data-target="#confirm-delete">Delete</a>';
