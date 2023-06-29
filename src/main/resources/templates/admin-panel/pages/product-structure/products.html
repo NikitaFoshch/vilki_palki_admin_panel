@@ -137,7 +137,7 @@
                 console.info(productsResponse);
                 $('#product-blocks').empty();
                 $.each(productsResponse, function (index, product) {
-                    const image = product?.image ? '/files/' + product?.image : '/img/no-image.jpg';
+                    const image = product?.image ? '/home/avada/web/slj.avada-media-dev1.od.ua/slj/vp/files/' + product?.image : '/img/no-image.jpg';
                     $('#product-blocks').append(
                         '<div class="col-md-3 col-form-label">' +
                         '    <a class="delete " type="button"' +
@@ -145,7 +145,7 @@
                         '    <a type="button" onclick="editActionButton(' + product?.id + ')" >' +
                         '       <div class="row">' +
                         '           <div class="col-md-12 text-center pr-4 pl-4">' +
-                        '               <img src="../vp' + image + '" class="product-image w-100" height="300"  alt="Product Image">' +
+                        '               <img src="' + image + '" class="product-image w-100" height="300"  alt="Product Image">' +
                         '           </div>' +
                         '       </div>' +
                         '       <div class="row pt-2">' +
