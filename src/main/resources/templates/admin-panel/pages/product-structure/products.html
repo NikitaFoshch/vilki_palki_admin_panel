@@ -137,7 +137,7 @@
                 console.info(productsResponse);
                 $('#product-blocks').empty();
                 $.each(productsResponse, function (index, product) {
-                    const image = product?.image ? '/files/' + product?.image : '/img/no-image.jpg';
+                    const image = product?.image ? '/Vilki_Palki_Admin/files/' + product?.image : '/img/no-image.jpg';
                     $('#product-blocks').append(
                         '<div class="col-md-3 col-form-label">' +
                         '    <a class="delete " type="button"' +
