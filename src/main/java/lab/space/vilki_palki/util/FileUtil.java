@@ -37,7 +37,7 @@ public class FileUtil {
             if (file.exists()) {
                 file.delete();
             } else {
-                log.error("File Not Deleted");
+                log.error("File Not Deleted  -  " + file);
             }
         } else log.warn("Filename Is Empty");
     }
