@@ -13,7 +13,7 @@ import java.nio.file.StandardCopyOption;
 
 @Slf4j
 public class FileUtil {
-    private final static Path DIRECTORY = Paths.get("files/");
+    private final static Path DIRECTORY = Paths.get("/home/avada/web/slj.avada-media-dev1.od.ua/slj/vp/files");
 
     public static void saveFile(String filename, MultipartFile multipartFile) {
         if (!Files.exists(DIRECTORY)) {
