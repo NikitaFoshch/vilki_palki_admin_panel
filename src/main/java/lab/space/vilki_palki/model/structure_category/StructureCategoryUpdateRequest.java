@@ -9,6 +9,6 @@ import javax.validation.constraints.Size;
 public class StructureCategoryUpdateRequest {
     private Long id;
     @NotBlank(message = "Must be specified")
-    @Size(max = 100, message = "Must be no more than {max} symbols")
+    @Size(max = 20, message = "Must be no more than {max} symbols")
     private String name;
 }

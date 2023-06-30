@@ -16,8 +16,9 @@ public class StructureUpdateRequest{
         @Min(1)
         private Long structureCategoryId;
         @NotNull(message = "Must be specified")
-        @Digits(integer = 5, fraction = 0, message = "Weight must be specified in grams")
+        @Digits(integer = 5, fraction = 0, message = "Weight must be specified in grams(0-99999)")
         @Min(value = 0, message = "Must be positive")
+        @Max(value = 99999,message = "Weight must be specified in grams(0-99999)")
         private Integer weight;
         @NotNull(message = "Must be specified")
         @Digits(integer = 5, fraction = 0, message = "0-99999")
