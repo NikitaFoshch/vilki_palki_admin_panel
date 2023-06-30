@@ -23,7 +23,7 @@ public class Structure extends MappedEntity {
     private BigDecimal price;
     @Column(length = 150, nullable = false)
     private String image;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "structure_category_id", nullable = false)
     private StructureCategory structureCategory;
 }
