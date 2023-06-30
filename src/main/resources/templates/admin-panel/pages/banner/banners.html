@@ -142,6 +142,9 @@
                 contentType: false,
                 processData: false,
                 data: bannerRequest,
+                beforeSend: function () {
+                    clearErrorMessages();
+                }
             }).done(function () {
                 $('#save-banner').modal('hide');
                 getAllBanners();
@@ -175,7 +178,7 @@
                 $('#delete-banner').modal('hide');
                 bannerId = undefined;
                 getAllBanners()
-
+                clearErrorMessages();
             }).fail(function (response) {
                 console.error(response);
                 bannerId = undefined;
