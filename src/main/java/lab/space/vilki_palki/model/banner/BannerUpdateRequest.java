@@ -13,6 +13,5 @@ public class BannerUpdateRequest{
         @NotBlank(message = "Must be specified")
         @Size(max = 50, message = "Must be no more than {max} symbols")
         String name;
-        @NotNull(message = "Must be specified")
         MultipartFile image;
 }
