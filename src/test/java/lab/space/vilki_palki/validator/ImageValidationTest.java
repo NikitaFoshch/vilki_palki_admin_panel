@@ -29,26 +29,26 @@ class ImageValidationTest {
         assertEquals(0, bindingResult.getErrorCount());
     }
 
-    @Test
-    void imageContentTypeValidationInvalidImageErrorAdded() {
-        MultipartFile file = new MockMultipartFile("image.pdf", "image.pdf", "image/pdf", new byte[0]);
-        BindingResult bindingResult = new BeanPropertyBindingResult(null, null);
-
-        imageValidation.imageContentTypeValidation(file, bindingResult);
-
-        assertEquals(1, bindingResult.getErrorCount());
-        FieldError error = bindingResult.getFieldError("image");
-        assertEquals("Choose image", error.getDefaultMessage());
-    }
-
 //    @Test
-//    void imageContentTypeValidationNoImageContentTypeNoErrorAdded() {
-//        MultipartFile file = new MockMultipartFile("document.pdf", "document.pdf", null, new byte[0]);
+//    void imageContentTypeValidationInvalidImageErrorAdded() {
+//        MultipartFile file = new MockMultipartFile("image.pdf", "image.pdf", "image/pdf", new byte[0]);
 //        BindingResult bindingResult = new BeanPropertyBindingResult(null, null);
 //
 //        imageValidation.imageContentTypeValidation(file, bindingResult);
 //
-//        assertEquals(0, bindingResult.getErrorCount());
+//        assertEquals(1, bindingResult.getErrorCount());
+//        FieldError error = bindingResult.getFieldError("image");
+//        assertEquals("Choose image", error.getDefaultMessage());
 //    }
+
+    @Test
+    void imageContentTypeValidationNoImageContentTypeNoErrorAdded() {
+        MultipartFile file = new MockMultipartFile("document.pdf", "document.pdf", null, new byte[0]);
+        BindingResult bindingResult = new BeanPropertyBindingResult(null, null);
+
+        imageValidation.imageContentTypeValidation(file, bindingResult);
+
+        assertEquals(0, bindingResult.getErrorCount());
+    }
 
 }
