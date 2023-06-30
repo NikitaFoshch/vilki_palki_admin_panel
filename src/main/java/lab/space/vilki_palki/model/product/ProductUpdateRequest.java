@@ -24,7 +24,6 @@ public class ProductUpdateRequest{
         @NotBlank(message = "Must be specified")
         @Size(max = 2000, message = "Must be no more than {max} symbols")
         private String description;
-        @NotNull(message = "Must be specified")
         private MultipartFile image;
         @NotNull(message = "Must be specified")
         @Min(value = 0)

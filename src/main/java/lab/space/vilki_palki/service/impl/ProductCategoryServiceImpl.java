@@ -1,6 +1,5 @@
 package lab.space.vilki_palki.service.impl;
 
-import javax.persistence.EntityNotFoundException;
 import lab.space.vilki_palki.entity.ProductCategory;
 import lab.space.vilki_palki.mapper.ProductCategoryMapper;
 import lab.space.vilki_palki.model.product_category.ProductCategoryRequest;
@@ -17,6 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -77,10 +77,14 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
     public void updateProductCategory(ProductCategoryUpdateRequest request) {
         ProductCategory productCategory = getProductCategoryById(request.getId())
                 .setName(request.getName());
-        final String newFileName = UUID.randomUUID() + request.getImage().getOriginalFilename();
-        FileUtil.saveFile(newFileName, request.getImage());
-        FileUtil.deleteFile(productCategory.getImage());
-        productCategory.setImage(newFileName);
+        if (nonNull(request.getImage())
+                && nonNull(request.getImage().getOriginalFilename())
+                && !request.getImage().getOriginalFilename().equals("")) {
+            final String newFileName = UUID.randomUUID() + request.getImage().getOriginalFilename();
+            FileUtil.saveFile(newFileName, request.getImage());
+            FileUtil.deleteFile(productCategory.getImage());
+            productCategory.setImage(newFileName);
+        }
         repository.save(productCategory);
 
     }

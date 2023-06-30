@@ -1,6 +1,5 @@
 package lab.space.vilki_palki.service.impl;
 
-import javax.persistence.EntityNotFoundException;
 import lab.space.vilki_palki.entity.Structure;
 import lab.space.vilki_palki.mapper.StructureMapper;
 import lab.space.vilki_palki.model.structure.StructureRequest;
@@ -18,6 +17,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -58,7 +58,7 @@ public class StructureServiceImpl implements StructureService {
 
     @Override
     public List<StructureResponse> getAllProductStructuresByOrderByName() {
-        return structureRepository.findAll(Sort.by(Sort.Direction.ASC,"name"))
+        return structureRepository.findAll(Sort.by(Sort.Direction.ASC, "name"))
                 .stream()
                 .map(structureMapper::toSimpleDto)
                 .collect(Collectors.toList());
@@ -85,10 +85,14 @@ public class StructureServiceImpl implements StructureService {
                 .setStructureCategory(structureCategoryService.getStructureCategoryById(request.getStructureCategoryId()))
                 .setWeight(request.getWeight())
                 .setPrice(request.getPrice());
+        if (nonNull(request.getImage())
+                && nonNull(request.getImage().getOriginalFilename())
+                && !request.getImage().getOriginalFilename().equals("")) {
             final String newFileName = UUID.randomUUID() + request.getImage().getOriginalFilename();
             FileUtil.saveFile(newFileName, request.getImage());
             FileUtil.deleteFile(structure.getImage());
             structure.setImage(newFileName);
+        }
         structureRepository.save(structure);
     }
 

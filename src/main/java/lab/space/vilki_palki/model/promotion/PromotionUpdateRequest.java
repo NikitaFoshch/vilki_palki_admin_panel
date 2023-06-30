@@ -16,7 +16,6 @@ public class PromotionUpdateRequest{
         private String name;
         @Min(value = 0, message = "Must be positive")
         private Integer totalPrice;
-        @NotNull(message = "Must be specified")
         private MultipartFile image;
         @NotNull(message = "Must be specified")
         @Min(value = 0)

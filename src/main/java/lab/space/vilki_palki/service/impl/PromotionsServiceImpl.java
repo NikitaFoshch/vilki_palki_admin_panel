@@ -1,6 +1,5 @@
 package lab.space.vilki_palki.service.impl;
 
-import javax.persistence.EntityNotFoundException;
 import lab.space.vilki_palki.entity.Promotion;
 import lab.space.vilki_palki.mapper.PromotionMapper;
 import lab.space.vilki_palki.model.promotion.PromotionResponse;
@@ -15,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
@@ -60,7 +60,7 @@ public class PromotionsServiceImpl implements PromotionService {
                                         .getPrice().multiply(
                                                 new BigDecimal(request.getPercent()).movePointLeft(2)
                                         )
-                                )
+                        )
                         )
                 )
                 .setName(request.getName());
@@ -82,14 +82,18 @@ public class PromotionsServiceImpl implements PromotionService {
                                         .getPrice().multiply(
                                                 new BigDecimal(request.getPercent()).movePointLeft(2)
                                         )
-                                )
+                        )
                         )
                 )
                 .setName(request.getName());
-        final String newFileName = UUID.randomUUID() + request.getImage().getOriginalFilename();
-        FileUtil.saveFile(newFileName, request.getImage());
-        FileUtil.deleteFile(promotion.getImage());
-        promotion.setImage(newFileName);
+        if (nonNull(request.getImage())
+                && nonNull(request.getImage().getOriginalFilename())
+                && !request.getImage().getOriginalFilename().equals("")) {
+            final String newFileName = UUID.randomUUID() + request.getImage().getOriginalFilename();
+            FileUtil.saveFile(newFileName, request.getImage());
+            FileUtil.deleteFile(promotion.getImage());
+            promotion.setImage(newFileName);
+        }
         promotionRepository.save(promotion);
     }
 

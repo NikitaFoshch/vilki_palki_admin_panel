@@ -104,10 +104,14 @@ public class ProductServiceImpl implements ProductService {
         structures.clear();
         structures.addAll(request.getStructureIds().stream().map(structureService::getById).collect(Collectors.toList()));
         product.setStructures(structures);
-        final String newFileName = UUID.randomUUID() + request.getImage().getOriginalFilename();
-        FileUtil.saveFile(newFileName, request.getImage());
-        FileUtil.deleteFile(product.getImage());
-        product.setImage(newFileName);
+        if (nonNull(request.getImage())
+                && nonNull(request.getImage().getOriginalFilename())
+                && !request.getImage().getOriginalFilename().equals("")) {
+            final String newFileName = UUID.randomUUID() + request.getImage().getOriginalFilename();
+            FileUtil.saveFile(newFileName, request.getImage());
+            FileUtil.deleteFile(product.getImage());
+            product.setImage(newFileName);
+        }
         productRepository.save(product);
     }
 
