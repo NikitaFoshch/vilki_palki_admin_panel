@@ -222,11 +222,7 @@
                 dataType: 'json',
                 contentType: 'application/json',
                 data: JSON.stringify(productCategoryRequest),
-                beforeSend: function () {
-                    console.log(productCategoryRequest)
-                }
             }).done(function (productCategoriesResponse) {
-                console.info(productCategoriesResponse);
                 const TABLE_BODY = createTable('#product-categories-table', productCategoriesResponse?.totalElements, productCategoriesResponse?.totalPages, productCategoryRequest?.pageIndex);
                 $.each(productCategoriesResponse?.content, function (index, productCategory) {
                     const $view = '' +
@@ -254,11 +250,7 @@
                 dataType: 'json',
                 contentType: 'application/json',
                 data: JSON.stringify(productTypeRequest),
-                beforeSend: function () {
-                    console.log(productTypeRequest)
-                }
             }).done(function (productTypeResponse) {
-                console.info(productTypeResponse);
                 const TABLE_BODY = createTable('#product-type-table', productTypeResponse?.totalElements, productTypeResponse?.totalPages, productTypeRequest?.pageIndex);
                 $.each(productTypeResponse?.content, function (index, productType) {
                     const $view = '' +
@@ -333,7 +325,6 @@
                 processData: false,
                 data: productCategorySaveRequest,
                 beforeSend: function () {
-                    console.log(productCategorySaveRequest)
                     clearErrorMessages();
                 }
             }).done(function () {
@@ -360,7 +351,6 @@
                 contentType: 'application/json',
                 data: JSON.stringify(productTypeSaveRequest),
                 beforeSend: function () {
-                    console.log(productTypeSaveRequest)
                     clearErrorMessages();
                 }
             }).done(function () {
@@ -380,7 +370,6 @@
                 url: "/Vilki_Palki_Admin/product-details/get-product-category/" + id,
                 dataType: 'json'
             }).done(function (product) {
-                console.info(product);
                 $('#category-name').val(product?.name);
             });
             addProductCategoryModal.find('.modal-title').text('Edit Product Category');
@@ -394,7 +383,6 @@
                 url: "/Vilki_Palki_Admin/product-details/get-product-type/" + id,
                 dataType: 'json'
             }).done(function (product) {
-                console.info(product);
                 $('#type-name').val(product?.name);
             });
             addProductTypeModal.find('.modal-title').text('Edit Product Type');

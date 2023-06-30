@@ -55,7 +55,8 @@
                         </div>
                         <div class="mb-3">
                             <label for="price">Price</label>
-                            <input type="number" class="form-control" id="price" placeholder="Enter price">
+                            <input type="text" class="form-control" id="price" placeholder="Enter price"
+                                   oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1');">
                         </div>
                     </div>
 
@@ -134,7 +135,6 @@
                 dataType: 'json',
                 contentType: 'application/json',
             }).done(function (productsResponse) {
-                console.info(productsResponse);
                 $('#product-blocks').empty();
                 $.each(productsResponse, function (index, product) {
                     const image = product?.image ? '/Vilki_Palki_Admin/files/' + product?.image : '/img/no-image.jpg';
@@ -212,7 +212,6 @@
                 url: "/Vilki_Palki_Admin/products/get-product/" + id,
                 dataType: 'json'
             }).done(function (product) {
-                console.info(product);
                 $('#name').val(product?.name);
                 $('#price').val(product?.price);
                 $('#description').val(product?.description);

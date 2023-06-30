@@ -80,13 +80,15 @@
                         </div>
                         <div class="mb-3">
                             <label for="price">Price</label>
-                            <input type="number" class="form-control" id="price" placeholder="Enter structure">
+                            <input type="text" class="form-control" id="price" placeholder="Enter structure"
+                                   oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1');">
                         </div>
                     </div>
                     <div class="row d-flex justify-content-between align-items-center">
                         <div class="mb-3">
                             <label for="weight">Weight</label>
-                            <input type="number" class="form-control" id="weight" placeholder="Enter price">
+                            <input type="text" class="form-control" id="weight" placeholder="Enter price"
+                                   oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1');">
                         </div>
                         <div class="mb-3">
                             <label for="category">Category</label>
@@ -163,11 +165,7 @@
                 dataType: 'json',
                 contentType: 'application/json',
                 data: JSON.stringify(structureRequest),
-                beforeSend: function () {
-                    console.log(structureRequest)
-                }
             }).done(function (structuresResponse) {
-                console.info(structuresResponse);
                 const TABLE_BODY = createTable('#structure-table', structuresResponse?.totalElements, structuresResponse?.totalPages, structureRequest?.pageIndex);
                 $.each(structuresResponse?.content, function (index, structure) {
                     const $view = '' +
@@ -260,10 +258,10 @@
                 url: "/Vilki_Palki_Admin/structures/get-structure/" + id,
                 dataType: 'json'
             }).done(function (structure) {
-                console.info(structure);
                 $('#name').val(structure?.name);
                 $('#weight').val(structure?.weight);
                 $('#price').val(structure?.price);
+                $('#image').val(structure?.image);
                 categorySelect.append('<option selected value="' + structure?.structureCategory?.id + '">' + structure?.structureCategory?.name + '</option>');
             });
             addStructureModal.find('.modal-title').text('Edit Structure');

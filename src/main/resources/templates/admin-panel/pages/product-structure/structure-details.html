@@ -134,11 +134,7 @@
         dataType: 'json',
         contentType: 'application/json',
         data: JSON.stringify(structureCategoriesRequest),
-        beforeSend: function () {
-          console.log(structureCategoriesRequest)
-        }
       }).done(function (structureCategoriesResponse) {
-        console.info(structureCategoriesResponse);
         const TABLE_BODY = createTable('#structure-categories-table', structureCategoriesResponse?.totalElements, structureCategoriesResponse?.totalPages, structureCategoriesRequest?.pageIndex);
         $.each(structureCategoriesResponse?.content, function (index, structureCategories) {
           const $view = '' +
@@ -198,7 +194,6 @@
         contentType: 'application/json',
         data: JSON.stringify(structureCategoriesSaveRequest),
         beforeSend: function () {
-          console.log(structureCategoriesSaveRequest)
           clearErrorMessages();
         }
       }).done(function () {
@@ -218,7 +213,6 @@
         url: "/Vilki_Palki_Admin/structure-details/get-structure-category/" + id,
         dataType: 'json'
       }).done(function (structure) {
-        console.info(structure);
         $('#name').val(structure?.name);
       });
       addStructureModal.find('.modal-title').text('Edit Structure');
@@ -234,7 +228,6 @@
         deleteStructureModal.modal('hide');
         structureId = undefined;
         getAllStructureCategories();
-
       }).fail(function (response) {
         structureId = undefined;
         console.error(response);

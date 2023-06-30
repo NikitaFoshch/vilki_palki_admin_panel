@@ -161,11 +161,7 @@
                 url: '/Vilki_Palki_Admin/users/get-all-orders-by-user-id',
                 contentType: 'application/json',
                 data: JSON.stringify(orderRequest),
-                beforeSend: function () {
-                    console.log(orderRequest)
-                }
             }).done(function (orderResponse) {
-                console.info(orderResponse);
                 const TABLE_BODY = createTable('#orders-table', orderResponse?.itemsCount, orderResponse?.pagesCount, orderRequest?.pageIndex);
                 $.each(orderResponse?.data, function (index, order) {
                     const $delete = '' +
@@ -194,11 +190,7 @@
                 dataType: 'json',
                 contentType: 'application/json',
                 data: JSON.stringify(addressRequest),
-                beforeSend: function () {
-                    console.log(addressRequest)
-                }
             }).done(function (addressResponse) {
-                console.info(addressResponse);
                 const TABLE_BODY = createTable('#address-table', addressResponse?.itemsCount, addressResponse?.pagesCount, addressRequest?.pageIndex);
                 $.each(addressResponse?.data, function (index, address) {
                     const $delete = '' +

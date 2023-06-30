@@ -44,7 +44,8 @@
                             <div class="row">
                                 <div class="form-group">
                                     <label for="percent">Percent</label>
-                                    <input type="number" class="form-control" id="percent" placeholder="Enter percent">
+                                    <input type="text" class="form-control" id="percent" placeholder="Enter percent"
+                                           oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1');">
                                 </div>
                             </div>
                         </div>
@@ -119,7 +120,6 @@
                 dataType: 'json',
                 contentType: 'application/json',
             }).done(function (promotionsResponse) {
-                console.info(promotionsResponse);
                 $('#promotion-blocks').empty();
                 $.each(promotionsResponse, function (index, promotion) {
                     const image = promotion?.image ? '/files/' + promotion?.image : '/img/no-image.jpg';
@@ -185,7 +185,6 @@
                 url: "/Vilki_Palki_Admin/promotions/get-promotion/" + id,
                 dataType: 'json'
             }).done(function (promotion) {
-                console.info(promotion);
                 $('#name').val(promotion?.name);
                 $('#percent').val(promotion?.percent);
                 $('#product').append('<option selected value="' + promotion?.product?.id + '">' + promotion?.product?.name + '</option>');
