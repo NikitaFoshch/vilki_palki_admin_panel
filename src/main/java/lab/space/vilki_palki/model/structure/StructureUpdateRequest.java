@@ -24,6 +24,5 @@ public class StructureUpdateRequest{
         @Digits(integer = 5, fraction = 0, message = "0-99999")
         @Min(value = 0, message = "Must be positive")
         private BigDecimal price;
-        @NotNull(message = "Must be specified")
         private MultipartFile image;
 }
