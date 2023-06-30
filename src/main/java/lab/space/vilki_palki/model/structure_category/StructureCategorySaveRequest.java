@@ -8,6 +8,6 @@ import javax.validation.constraints.Size;
 @Data
 public class StructureCategorySaveRequest {
     @NotBlank(message = "Must be specified")
-    @Size(max = 20, message = "Must be no more than {max} symbols")
+    @Size(max = 19, message = "Must be no more than {max} symbols")
     private String name;
 }

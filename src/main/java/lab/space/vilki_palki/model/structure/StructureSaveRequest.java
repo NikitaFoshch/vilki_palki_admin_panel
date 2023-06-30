@@ -17,7 +17,6 @@ public class StructureSaveRequest{
         @NotNull(message = "Must be specified")
         @Digits(integer = 5, fraction = 0, message = "Weight must be specified in grams(0-9999)")
         @Min(value = 0, message = "Must be positive")
-        @Size(max = 5, message = "Weight must be specified in grams(0-9999)")
         private Integer weight;
         @NotNull(message = "Must be specified")
         @Digits(integer = 5, fraction = 0, message = "0-99999")
