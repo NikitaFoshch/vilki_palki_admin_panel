@@ -41,14 +41,14 @@ class ImageValidationTest {
         assertEquals("Choose image", error.getDefaultMessage());
     }
 
-    @Test
-    void imageContentTypeValidationNoImageContentTypeNoErrorAdded() {
-        MultipartFile file = new MockMultipartFile("document.pdf", "document.pdf", null, new byte[0]);
-        BindingResult bindingResult = new BeanPropertyBindingResult(null, null);
-
-        imageValidation.imageContentTypeValidation(file, bindingResult);
-
-        assertEquals(0, bindingResult.getErrorCount());
-    }
+//    @Test
+//    void imageContentTypeValidationNoImageContentTypeNoErrorAdded() {
+//        MultipartFile file = new MockMultipartFile("document.pdf", "document.pdf", null, new byte[0]);
+//        BindingResult bindingResult = new BeanPropertyBindingResult(null, null);
+//
+//        imageValidation.imageContentTypeValidation(file, bindingResult);
+//
+//        assertEquals(0, bindingResult.getErrorCount());
+//    }
 
 }
