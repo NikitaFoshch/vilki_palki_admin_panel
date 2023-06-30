@@ -10,9 +10,9 @@ import java.util.List;
 @Component
 public class ImageValidation {
     public void imageContentTypeValidation(MultipartFile file, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) return;
+        if (bindingResult.hasErrors() || file.isEmpty()) return;
         final String contentType = file.getContentType();
-        if (!List.of("image/png", "image/jpg", "image/jpeg").contains(contentType)) {
+        if (contentType != null && !List.of("image/png", "image/jpg", "image/jpeg").contains(contentType)) {
             bindingResult.addError(new FieldError("StructureUpdateRequest", "image", "Choose image"));
         }
     }
