@@ -261,7 +261,6 @@
                 $('#name').val(structure?.name);
                 $('#weight').val(structure?.weight);
                 $('#price').val(structure?.price);
-                $('#image').val(structure?.image);
                 $('#category').append('<option selected value="' + structure?.structureCategory?.id + '">' + structure?.structureCategory?.name + '</option>');
             });
             addStructureModal.find('.modal-title').text('Edit Structure');
