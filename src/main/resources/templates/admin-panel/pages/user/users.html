@@ -143,6 +143,7 @@
                 contentType: 'application/json',
                 data: JSON.stringify(userRequest),
             }).done(function (usersResponse) {
+                console.info(usersResponse)
                 const TABLE_BODY = createTable('#users-table', usersResponse?.totalElements, usersResponse?.totalPages, userRequest?.pageIndex);
                 $.each(usersResponse?.content, function (index, user) {
                     const $view = '' +
@@ -171,7 +172,7 @@
                 contentType: 'application/json',
                 data: JSON.stringify(adminRequest),
             }).done(function (adminsResponse) {
-                console.log(adminsResponse)
+                console.info(adminsResponse)
                 const TABLE_BODY = createTable('#admins-table', adminsResponse?.itemsCount, adminsResponse?.pagesCount, adminRequest?.pageIndex);
                 $.each(adminsResponse?.data, function (index, admin) {
                     $(TABLE_BODY).append(
