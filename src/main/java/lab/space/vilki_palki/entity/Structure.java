@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Table(name = "structures")
@@ -26,6 +27,6 @@ public class Structure extends MappedEntity {
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "structure_category_id", nullable = false)
     private StructureCategory structureCategory;
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private Product product;
+    @ManyToMany(cascade = CascadeType.PERSIST,mappedBy = "structure")
+    private List<Product> product;
 }
