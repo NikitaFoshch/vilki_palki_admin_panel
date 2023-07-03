@@ -1,10 +1,131 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin-panel/fragments/index}">
 
-</body>
+<head>
+    <title>Users</title>
+</head>
+
+<th:block layout:fragment="content">
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header vilki-mod">
+                    <h3 class="card-title text-light">Admins Table | Total number:
+                        <th:block th:text="${adminsCount}"></th:block>
+                    </h3>
+                    <div class="card-tools">
+                        <div class="input-group input-group-sm" style="width: 250px;">
+                            <input type="text" oninput="filterNameInput(this)" id="admins-table-search"
+                                   class="form-control float-right"
+                                   placeholder="Search">
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-default">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <table class="table table-bordered" id="admins-table">
+                        <thead>
+                        <tr>
+                            <th style="width: 10px">#</th>
+                            <th>Email</th>
+                            <th>Firstname</th>
+                            <th>Lastname</th>
+                            <th>Security level</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.card-body -->
+                <div class="card-footer clearfix vilki-mod">
+                    <div class="row">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</th:block>
+
+<!-- Extra Modals -->
+<th:block layout:fragment="extra-modals">
+</th:block>
+
+<th:block layout:fragment="extra-js">
+
+    <script>
+
+        const defaultItemCount = 5;
+        let adminRequest = {};
+        adminRequest.pageIndex = 0;
+        let filterTimeout;
+        let adminId;
+
+        $(document).ready(function () {
+            getAllAdmins();
+        });
+
+        $(document).on('click', '.admin', function () {
+            adminId = $(this).data('id');
+            $('#confirm-delete').modal('show');
+        });
+
+        function getAllAdmins() {
+            $.ajax({
+                method: "POST",
+                url: "/Vilki_Palki_Admin/admins/get-all-admins",
+                dataType: 'json',
+                contentType: 'application/json',
+                data: JSON.stringify(adminRequest),
+            }).done(function (adminsResponse) {
+                console.info(adminsResponse)
+                const TABLE_BODY = createTable('#admins-table', adminsResponse?.itemsCount, adminsResponse?.pagesCount, adminRequest?.pageIndex);
+                $.each(adminsResponse?.data, function (index, admin) {
+                    $(TABLE_BODY).append(
+                        '<tr>' +
+                        '    <td>' + ((index + 1) + (adminRequest.pageIndex * defaultItemCount)) + '</td>' +
+                        '    <td>' + (admin?.email ? admin?.email : '-') + '</td>' +
+                        '    <td>' + (admin?.firstname ? admin?.firstname : '-') + '</td>' +
+                        '    <td>' + (admin?.lastname ? admin?.lastname : '-') + '</td>' +
+                        '    <td>' + (admin?.securityLevel ? admin?.securityLevel : '-') + '</td>' +
+                        '</tr>'
+                    );
+                });
+            });
+        }
+
+        //  Page click action
+        $(document).on('click', 'a.page-link', function () {
+            const pageBtn = $(this);
+                if ($(pageBtn).parent('li.page-item').hasClass('prev')) {
+                    adminRequest.pageIndex = --adminRequest.pageIndex;
+                } else if ($(pageBtn).parent('li.page-item').hasClass('next')) {
+                    adminRequest.pageIndex = ++adminRequest.pageIndex;
+                } else {
+                    adminRequest.pageIndex = Number($(pageBtn).text()) - 1;
+                }
+                getAllAdmins();
+        });
+
+        function filterNameInput(input) {
+            clearInterval(filterTimeout)
+            filterTimeout = setTimeout(() => {
+                adminRequest.query = $(input).val();
+                adminRequest.pageIndex = 0;
+                getAllAdmins();
+            }, 1000)
+        }
+
+    </script>
+
+</th:block>
+
 </html>

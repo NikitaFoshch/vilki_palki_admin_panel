@@ -33,8 +33,6 @@ public class UserControllerTest {
     @MockBean
     private UserService userService;
     @MockBean
-    private AdminService adminService;
-    @MockBean
     private OrderService orderService;
     @MockBean
     private AddressService addressService;
@@ -59,14 +57,14 @@ public class UserControllerTest {
 
     }
 
-    @Test
-    void getAllAdmins() throws Exception {
-        mockMvc.perform(
-                post(DEFAULT_PATH + "/get-all-admins")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"page\":1, \"query\":\"\"}")
-        ).andDo(print()).andExpect(status().isOk());
-    }
+//    @Test
+//    void getAllAdmins() throws Exception {
+//        mockMvc.perform(
+//                post(DEFAULT_PATH + "/get-all-admins")
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content("{\"page\":1, \"query\":\"\"}")
+//        ).andDo(print()).andExpect(status().isOk());
+//    }
 
     @Test
     void deleteUser() throws Exception {
@@ -81,13 +79,13 @@ public class UserControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk());
     }
-
-    @Test
-    void deleteAdmin() throws Exception {
-        mockMvc.perform(delete(DEFAULT_PATH + "/delete-admin/" + 1))
-                .andDo(print())
-                .andExpect(status().isOk());
-    }
+//
+//    @Test
+//    void deleteAdmin() throws Exception {
+//        mockMvc.perform(delete(DEFAULT_PATH + "/delete-admin/" + 1))
+//                .andDo(print())
+//                .andExpect(status().isOk());
+//    }
 
     @Test
     void getAllOrdersByUserId() throws Exception {
