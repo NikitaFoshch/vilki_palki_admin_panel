@@ -53,6 +53,14 @@
         pageIndex = Number(pageIndex) + 1;
         itemsCount = Number(itemsCount);
 
+        $(TABLE_PAGINATION_ROW).append(
+            $($(colDiv).addClass('pagination-info'))
+                .append('[[#{pages.table.entriesInfo}]]'
+                    .replace('X', ((pageIndex - 1) * 10 + 1))
+                    .replace('Y', Math.min(pageIndex * 10, itemsCount))
+                    .replace('Z', itemsCount))
+        );
+
         $(TABLE_PAGINATION_ROW).append($(colDiv).append(paginationList));
         const paginationListPath = $(TABLE_PAGINATION_ROW).find('ul.pagination');
 
