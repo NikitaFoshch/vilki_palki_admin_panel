@@ -31,7 +31,7 @@ public class Product extends MappedEntity {
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "product_type_id", nullable = false)
     private ProductType productType;
-    @ManyToMany(cascade = CascadeType.REMOVE)
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "products_strucutres",
             joinColumns = @JoinColumn(name = "products_id"),
