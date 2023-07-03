@@ -23,7 +23,7 @@ import java.util.List;
 public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final OrderSpecification orderSpecification;
-    private final int DEFAULT_PAGE_SIZE = 5;
+    private final int DEFAULT_PAGE_SIZE = 10;
 
 
     @Override

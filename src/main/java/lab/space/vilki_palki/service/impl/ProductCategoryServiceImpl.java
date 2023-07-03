@@ -56,7 +56,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
 
     @Override
     public Page<ProductCategoryResponse> getAllProductCategoriesByOrderByCreateAt(ProductCategoryRequest request) {
-        final int DEFAULT_PAGE_SIZE = 5;
+        final int DEFAULT_PAGE_SIZE = 10;
         return repository.findAll(productCategorySpecification.getProductCategoriesByRequest(request),
                 PageRequest.of(request.getPageIndex(), DEFAULT_PAGE_SIZE)).map(ProductCategoryMapper::toDto);
     }

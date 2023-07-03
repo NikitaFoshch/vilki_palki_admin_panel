@@ -37,7 +37,7 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public AddressResponseByPage getAddressesByPageByUserId(AddressRequest addressRequest) {
-        final int DEFAULT_PAGE_SIZE = 5;
+        final int DEFAULT_PAGE_SIZE = 10;
         return AddressMapper.toAddressResponseByPage(
                 addressRepository.findAll(addressSpecification.getAddressesByRequest(addressRequest),
                         PageRequest.of(addressRequest.getPageIndex(), DEFAULT_PAGE_SIZE)));

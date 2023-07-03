@@ -43,7 +43,7 @@ public class AdminServiceImpl implements AdminService, UserDetailsService {
     @Override
     public AdminResponseByPage getAdminsResponseByPage(AdminRequest adminRequest) {
         log.info("---------------Get Admins Order By createAt---------------");
-        final int DEFAULT_PAGE_SIZE = 5;
+        final int DEFAULT_PAGE_SIZE = 10;
         return AdminMapper.toAdminsResponseByPage(
                 adminRepository.findAll(adminSpecification.getAdminsByRequest(adminRequest),
                         PageRequest.of(adminRequest.getPageIndex(),

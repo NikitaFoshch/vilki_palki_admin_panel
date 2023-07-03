@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Page<UserResponse> getUsersByPage(UserRequest userRequest) {
-        final int DEFAULT_PAGE_SIZE = 5;
+        final int DEFAULT_PAGE_SIZE = 10;
         return userRepository.findAll(userSpecification.getUsersByRequest(userRequest),
                 PageRequest.of(userRequest.getPageIndex(), DEFAULT_PAGE_SIZE)).map(userMapper::toDto);
     }

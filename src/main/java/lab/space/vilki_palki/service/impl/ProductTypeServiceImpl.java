@@ -47,7 +47,7 @@ public class ProductTypeServiceImpl implements ProductTypeService {
 
     @Override
     public Page<ProductTypeResponse> getAllProductTypesByOrderByCreateAt(ProductTypeRequest request) {
-        final int DEFAULT_PAGE_SIZE = 5;
+        final int DEFAULT_PAGE_SIZE = 10;
         return repository.findAll(productTypeSpecification.getProductTypesByRequest(request),
                 PageRequest.of(request.getPageIndex(), DEFAULT_PAGE_SIZE)).map(ProductTypeMapper::toDto);
     }

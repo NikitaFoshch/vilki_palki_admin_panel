@@ -12,7 +12,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header vilki-mod">
-                    <h3 class="card-title text-light">Users | Total number:
+                    <h3 class="card-title text-light">Users Table | Total number:
                         <th:block th:text="${usersCount}"></th:block>
                     </h3>
                     <div class="card-tools">
@@ -67,7 +67,6 @@
 
     <script>
 
-        const defaultItemCount = 5;
         let userRequest = {};
         userRequest.pageIndex = 0;
         let filterTimeout;
@@ -75,6 +74,7 @@
 
         $(document).ready(function () {
             getAllUsers();
+            getAllAdmins();
         });
 
         $(document).on('click', '.user', function () {
