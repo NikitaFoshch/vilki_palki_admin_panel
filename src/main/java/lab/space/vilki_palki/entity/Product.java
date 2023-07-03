@@ -31,7 +31,12 @@ public class Product extends MappedEntity {
     @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "product_type_id", nullable = false)
     private ProductType productType;
-    @ManyToMany(cascade = CascadeType.MERGE)
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    @JoinTable(
+            name = "products_strucutres",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "structure_id")
+    )
     private List<Structure> structures;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "product_id")

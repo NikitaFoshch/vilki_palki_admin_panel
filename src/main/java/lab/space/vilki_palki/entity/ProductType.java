@@ -1,8 +1,7 @@
 package lab.space.vilki_palki.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+
 import lab.space.vilki_palki.entity.common.MappedEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -16,4 +15,6 @@ import lombok.experimental.Accessors;
 public class ProductType extends MappedEntity {
     @Column(length = 100,nullable = false)
     private String name;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "productType")
+    private Product product;
 }
