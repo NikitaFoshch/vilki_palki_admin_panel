@@ -41,4 +41,6 @@ public class Product extends MappedEntity {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "product_id")
     private List<ShoppingCart> shoppingCarts;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "product")
+    private Promotion promotion;
 }
