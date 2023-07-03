@@ -30,7 +30,7 @@ public class PromotionsController {
 
     @GetMapping({"/", ""})
     public String showPromotionsPage() {
-        return "/admin-panel/pages/promotions/promotions";
+        return "/admin-panel/pages/promotion/promotions";
     }
 
     @PostMapping("promotion-save")

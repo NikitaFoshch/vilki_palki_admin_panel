@@ -22,6 +22,6 @@ public class StatisticsController {
         model.addAttribute("numberOfStructureCategories", statisticService.getCountOfStructureCategories());
         model.addAttribute("numberOfProductCategories", statisticService.getCountOfProductCategories());
         model.addAttribute("birthMonthData", statisticService.getAllBirthMonth());
-        return "/admin-panel/pages/statistics/statistics";
+        return "/admin-panel/pages/statistic/statistics";
     }
 }
