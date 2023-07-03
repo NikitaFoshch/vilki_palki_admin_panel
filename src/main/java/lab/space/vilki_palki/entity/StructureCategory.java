@@ -18,6 +18,6 @@ import java.util.List;
 public class StructureCategory extends MappedEntity {
     @Column(length = 20, nullable = false, unique = true)
     private String name;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "structureCategory")
     private List<Structure> structure;
 }

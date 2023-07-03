@@ -27,4 +27,3 @@ public class Structure extends MappedEntity {
     @JoinColumn(name = "structure_category_id", nullable = false)
     private StructureCategory structureCategory;
 }
-
