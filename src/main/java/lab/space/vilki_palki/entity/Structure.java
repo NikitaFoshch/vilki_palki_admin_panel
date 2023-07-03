@@ -28,5 +28,10 @@ public class Structure extends MappedEntity {
     @JoinColumn(name = "structure_category_id", nullable = false)
     private StructureCategory structureCategory;
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @JoinTable(
+            name = "products_strucutres",
+            joinColumns = @JoinColumn(name = "structures_id"),
+            inverseJoinColumns = @JoinColumn(name = "products_id")
+    )
     private List<Product> product;
 }
