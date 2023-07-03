@@ -27,6 +27,6 @@ public class Structure extends MappedEntity {
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "structure_category_id", nullable = false)
     private StructureCategory structureCategory;
-    @ManyToMany(cascade = CascadeType.PERSIST,mappedBy = "structure")
+    @ManyToMany(cascade = CascadeType.PERSIST)
     private List<Product> product;
 }
