@@ -54,8 +54,8 @@
         itemsCount = Number(itemsCount);
 
         $(TABLE_PAGINATION_ROW).append(
-            $($(colDiv).addClass('pagination-info'))
-                .append('[[#{pages.table.entriesInfo}]]'
+            $($(colDiv).addClass('pagination-info').addClass('text-white'))
+                .append('Showing X-Y of entries Z'
                     .replace('X', ((pageIndex - 1) * 10 + 1))
                     .replace('Y', Math.min(pageIndex * 10, itemsCount))
                     .replace('Z', itemsCount))
