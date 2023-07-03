@@ -1,6 +1,5 @@
 package lab.space.vilki_palki.controller;
 
-import javax.validation.Valid;
 import lab.space.vilki_palki.model.structure_category.StructureCategoryRequest;
 import lab.space.vilki_palki.model.structure_category.StructureCategoryResponse;
 import lab.space.vilki_palki.model.structure_category.StructureCategorySaveRequest;
@@ -15,6 +14,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @Controller
 @RequestMapping("structure-details")
 @AllArgsConstructor
@@ -24,7 +25,7 @@ public class StructureDetailsController {
 
     @GetMapping({"/", ""})
     public String showStructureDetailsPage() {
-        return "/admin-panel/pages/product-structure/structure-details";
+        return "/admin-panel/pages/product-structure/structure-categories";
     }
 
     @DeleteMapping("delete-structure-category/{id}")
@@ -36,7 +37,7 @@ public class StructureDetailsController {
     @PostMapping("structure-category-save")
     @ResponseBody
     public ResponseEntity<?> saveStructureCategory(@Valid @RequestBody StructureCategorySaveRequest request,
-                                           BindingResult bindingResult) {
+                                                   BindingResult bindingResult) {
         structureCategoryValidation.isNameUniqueValidation(request.getName(), bindingResult);
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(ErrorMapper.mapErrors(bindingResult));
@@ -48,7 +49,7 @@ public class StructureDetailsController {
     @PutMapping("structure-category-update")
     @ResponseBody
     public ResponseEntity<?> updateStructureCategory(@Valid @RequestBody StructureCategoryUpdateRequest request,
-                                             BindingResult bindingResult) {
+                                                     BindingResult bindingResult) {
         structureCategoryValidation.isNameUniqueValidationWithId(request.getId(), request.getName(), bindingResult);
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(ErrorMapper.mapErrors(bindingResult));

@@ -138,28 +138,6 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="add-product-type">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content bg-warning">
-                <div class="modal-header">
-                    <h4 class="modal-title">Add Product Type</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="row d-flex justify-content-between align-items-center">
-                        <div class="mb-3 w-100">
-                            <label for="type-name">Name</label>
-                            <input type="text" class="form-control" id="type-name" placeholder="Enter name">
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancel</button>
-                    <button onclick="saveProductType();" type="button" class="btn btn-secondary">Save
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="modal fade" id="delete-product-details">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content bg-danger">
@@ -188,37 +166,27 @@
         let productCategoryRequest = {
             pageIndex: 0
         };
-        let productTypeRequest = {
-            pageIndex: 0
-        };
 
         let productCategoryId;
-        let productTypeId;
         let filterTimeout;
 
         const addProductCategoryModal = $('#add-product-category');
-        const addProductTypeModal = $('#add-product-type');
         const deleteProductModal = $('#delete-product-details');
 
         $(document).ready(function () {
             getAllProductCategories();
             bsCustomFileInput.init();
-            getAllProductType();
         });
 
         $(document).on('click', '.product-category', function () {
             productCategoryId = $(this).data('id');
             deleteProductModal.modal('show');
         });
-        $(document).on('click', '.product-type', function () {
-            productTypeId = $(this).data('id');
-            deleteProductModal.modal('show');
-        });
 
         function getAllProductCategories() {
             $.ajax({
                 method: "POST",
-                url: "/Vilki_Palki_Admin/product-details/get-all-product-categories",
+                url: "/Vilki_Palki_Admin/product-categories/get-all-product-categories",
                 dataType: 'json',
                 contentType: 'application/json',
                 data: JSON.stringify(productCategoryRequest),
@@ -243,70 +211,25 @@
             });
         }
 
-        function getAllProductType() {
-            $.ajax({
-                method: "POST",
-                url: "/Vilki_Palki_Admin/product-details/get-all-product-types",
-                dataType: 'json',
-                contentType: 'application/json',
-                data: JSON.stringify(productTypeRequest),
-            }).done(function (productTypeResponse) {
-                const TABLE_BODY = createTable('#product-type-table', productTypeResponse?.totalElements, productTypeResponse?.totalPages, productTypeRequest?.pageIndex);
-                $.each(productTypeResponse?.content, function (index, productType) {
-                    const $view = '' +
-                        '<button onclick="editTypeActionButton(' + productType?.id + ')" ' +
-                        'class="btn pb-0 pt-0 btn-secondary">Edit</button>';
-                    const $delete = '' +
-                        '<a class="btn pb-0 pt-0 btn-danger delete-button product-type" ' +
-                        'data-id="' + productType?.id + '" data-toggle="modal" data-target="#delete-product-details">Delete</a>';
-                    $(TABLE_BODY).append(
-                        '<tr>' +
-                        '    <td>' + ((index + 1) + (productTypeRequest.pageIndex * productTypeResponse?.size)) + '</td>' +
-                        '    <td>' + productType?.name + '</td>' +
-                        '    <td>' + $view + $delete + '</td>' +
-                        '</tr>'
-                    );
-                });
-            });
-        }
-
         //  Page click action
         $(document).on('click', 'a.page-link', function () {
             const pageBtn = $(this);
-            const whichTable = $(pageBtn).parents('div.card').find('table').attr('id');
-            if (whichTable === 'product-categories-table') {
-                if ($(this).parent('li.page-item').hasClass('prev')) {
-                    productCategoryRequest.pageIndex = --productCategoryRequest.pageIndex;
-                } else if ($(pageBtn).parent('li.page-item').hasClass('next')) {
-                    productCategoryRequest.pageIndex = ++productCategoryRequest.pageIndex;
-                } else {
-                    productCategoryRequest.pageIndex = Number($(pageBtn).text()) - 1;
-                }
-                getAllProductCategories();
-            } else if (whichTable === 'product-type-table'){
-                if ($(pageBtn).parent('li.page-item').hasClass('prev')) {
-                    productTypeRequest.pageIndex = --productTypeRequest.pageIndex;
-                } else if ($(pageBtn).parent('li.page-item').hasClass('next')) {
-                    productTypeRequest.pageIndex = ++productTypeRequest.pageIndex;
-                } else {
-                    productTypeRequest.pageIndex = Number($(pageBtn).text()) - 1;
-                }
-                getAllProductType();
+            if ($(this).parent('li.page-item').hasClass('prev')) {
+                productCategoryRequest.pageIndex = --productCategoryRequest.pageIndex;
+            } else if ($(pageBtn).parent('li.page-item').hasClass('next')) {
+                productCategoryRequest.pageIndex = ++productCategoryRequest.pageIndex;
+            } else {
+                productCategoryRequest.pageIndex = Number($(pageBtn).text()) - 1;
             }
+            getAllProductCategories();
         });
 
         function filterNameInput(input) {
             clearInterval(filterTimeout)
             filterTimeout = setTimeout(() => {
-                if ($(input).attr('id') === 'product-category-table-search') {
-                    productCategoryRequest.query = $(input).val();
-                    productCategoryRequest.pageIndex = 0;
-                    getAllProductCategories();
-                } else if ($(input).attr('id') === 'product-type-table-search') {
-                    productTypeRequest.query = $(input).val();
-                    productTypeRequest.pageIndex = 0;
-                    getAllProductType();
-                }
+                productCategoryRequest.query = $(input).val();
+                productCategoryRequest.pageIndex = 0;
+                getAllProductCategories();
             }, 1000)
         }
 
@@ -320,7 +243,8 @@
             }
             $.ajax({
                 method: productCategoryId ? 'PUT' : "POST",
-                url: productCategoryId ? '/Vilki_Palki_Admin/product-details/product-category-update' : '/Vilki_Palki_Admin/product-details/product-category-save',
+                url: productCategoryId ? '/Vilki_Palki_Admin/product-categories/product-category-update' :
+                    '/Vilki_Palki_Admin/product-categories/product-category-save',
                 contentType: false,
                 processData: false,
                 data: productCategorySaveRequest,
@@ -338,36 +262,11 @@
             })
         }
 
-        function saveProductType() {
-            let productTypeSaveRequest = {
-                id: undefined,
-                name: undefined
-            };
-            if (productTypeId) productTypeSaveRequest.id =  productTypeId;
-            productTypeSaveRequest.name =  $('#type-name').val();
-            $.ajax({
-                method: productTypeId ? 'PUT' : "POST",
-                url: productTypeId ? '/Vilki_Palki_Admin/product-details/product-type-update' : '/Vilki_Palki_Admin/product-details/product-type-save',
-                contentType: 'application/json',
-                data: JSON.stringify(productTypeSaveRequest),
-                beforeSend: function () {
-                    clearErrorMessages();
-                }
-            }).done(function () {
-                addProductTypeModal.modal('hide');
-                getAllProductType();
-            }).fail(function (response) {
-                console.error(response);
-                const errors = response.responseJSON;
-                if (errors.name) errorMessage($('#type-name'), errors.name)
-            })
-        }
-
         function editCategoryActionButton(id) {
             productCategoryId = id;
             $.ajax({
                 method: "GET",
-                url: "/Vilki_Palki_Admin/product-details/get-product-category/" + id,
+                url: "/Vilki_Palki_Admin/product-categories/get-product-category/" + id,
                 dataType: 'json'
             }).done(function (product) {
                 $('#category-name').val(product?.name);
@@ -375,51 +274,21 @@
             addProductCategoryModal.find('.modal-title').text('Edit Product Category');
             addProductCategoryModal.modal('show');
         }
-        
-        function editTypeActionButton(id) {
-            productTypeId = id;
-            $.ajax({
-                method: "GET",
-                url: "/Vilki_Palki_Admin/product-details/get-product-type/" + id,
-                dataType: 'json'
-            }).done(function (product) {
-                $('#type-name').val(product?.name);
-            });
-            addProductTypeModal.find('.modal-title').text('Edit Product Type');
-            addProductTypeModal.modal('show');
-        }
 
         function deleteEntityById() {
-            if (productCategoryId !== undefined){
-                $.ajax({
-                    method: "DELETE",
-                    url: '/Vilki_Palki_Admin/product-details/delete-product-category/' + productCategoryId,
-                    contentType: 'application/json',
-                }).done(function () {
-                    deleteProductModal.modal('hide');
-                    productCategoryId = undefined;
-                    getAllProductCategories();
+            $.ajax({
+                method: "DELETE",
+                url: '/Vilki_Palki_Admin/product-categories/delete-product-category/' + productCategoryId,
+                contentType: 'application/json',
+            }).done(function () {
+                deleteProductModal.modal('hide');
+                productCategoryId = undefined;
+                getAllProductCategories();
 
-                }).fail(function (response) {
-                    productCategoryId = undefined;
-                    console.error(response);
-                });
-            } else if (productTypeId !== undefined){
-                $.ajax({
-                    method: "DELETE",
-                    url: '/Vilki_Palki_Admin/product-details/delete-product-type/' + productTypeId,
-                    contentType: 'application/json',
-                }).done(function () {
-                    deleteProductModal.modal('hide');
-                    productTypeId = undefined;
-                    getAllProductType();
-
-                }).fail(function (response) {
-                    productTypeId = undefined;
-                    console.error(response);
-                });
-            }
-
+            }).fail(function (response) {
+                productCategoryId = undefined;
+                console.error(response);
+            });
         }
 
 
@@ -429,13 +298,6 @@
             $('#image').prev('label').text('');
             addProductCategoryModal.find('.modal-title').text('Add Product Category');
             productCategoryId = undefined;
-            clearErrorMessages();
-        });
-
-        addProductTypeModal.on('hidden.bs.modal', function () {
-            addProductTypeModal.find(' input').val('').trigger('change');
-            addProductTypeModal.find('.modal-title').text('Add Product Type');
-            productTypeId = undefined;
             clearErrorMessages();
         });
 
