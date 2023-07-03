@@ -1,9 +1,7 @@
 package lab.space.vilki_palki.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+
 import lab.space.vilki_palki.entity.common.MappedEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -25,6 +23,6 @@ public class Promotion extends MappedEntity {
     private BigDecimal totalPrice;
     @Column(length = 150, nullable = false)
     private String image;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.MERGE)
     private Product product;
 }

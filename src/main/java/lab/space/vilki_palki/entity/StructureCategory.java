@@ -7,6 +7,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import java.util.List;
+
+
 @Entity
 @Table(name = "structure_categories")
 @Data
@@ -15,6 +18,6 @@ import lombok.experimental.Accessors;
 public class StructureCategory extends MappedEntity {
     @Column(length = 20, nullable = false, unique = true)
     private String name;
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Structure structure;
+    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<Structure> structure;
 }
