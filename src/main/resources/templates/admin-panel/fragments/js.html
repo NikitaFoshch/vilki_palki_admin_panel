@@ -43,7 +43,6 @@
 
     function createPagination(pagesCount, pageIndex, TABLE_PAGINATION_ROW, itemsCount) {
         const colDiv = '<div class="col-sm-12 col-md-6"></div>';
-        if (pagesCount > 1){
             const paginationList =
                 '<ul class="pagination pagination-sm mb-0 justify-content-center justify-content-md-end align-items-center">' +
                 '</ul>';
@@ -51,7 +50,6 @@
                 '   <li class="page-item">' +
                 '       <a class="page-link disabled" role="button">...</a>' +
                 '   </li>';
-        }
         pagesCount = Number(pagesCount);
         pageIndex = Number(pageIndex) + 1;
         itemsCount = Number(itemsCount);
