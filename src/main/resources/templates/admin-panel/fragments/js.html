@@ -35,20 +35,23 @@
                 '    </td>' +
                 '</tr>'
             );
-        } else if (Number(pagesCount) > 1) createPagination(pagesCount, pageIndex, TABLE_PAGINATION_ROW, itemsCount);
+        }
+        createPagination(pagesCount, pageIndex, TABLE_PAGINATION_ROW, itemsCount);
+
         return TABLE_BODY;
     }
 
     function createPagination(pagesCount, pageIndex, TABLE_PAGINATION_ROW, itemsCount) {
         const colDiv = '<div class="col-sm-12 col-md-6"></div>';
-        const paginationList =
-            '<ul class="pagination pagination-sm mb-0 justify-content-center justify-content-md-end align-items-center">' +
-            '</ul>';
-        const collapsedPageBtn =
-            '   <li class="page-item">' +
-            '       <a class="page-link disabled" role="button">...</a>' +
-            '   </li>';
-
+        if (pagesCount > 1){
+            const paginationList =
+                '<ul class="pagination pagination-sm mb-0 justify-content-center justify-content-md-end align-items-center">' +
+                '</ul>';
+            const collapsedPageBtn =
+                '   <li class="page-item">' +
+                '       <a class="page-link disabled" role="button">...</a>' +
+                '   </li>';
+        }
         pagesCount = Number(pagesCount);
         pageIndex = Number(pageIndex) + 1;
         itemsCount = Number(itemsCount);
