@@ -31,7 +31,7 @@
                     </div>
                 </div>
                 <!-- /.card-header -->
-                <div class="card-body">
+                <div class="card-body table-responsive">
                     <table class="table table-bordered" id="users-table">
                         <thead>
                         <tr>
@@ -95,7 +95,7 @@
                 const TABLE_BODY = createTable('#users-table', usersResponse?.totalElements, usersResponse?.totalPages, userRequest?.pageIndex);
                 $.each(usersResponse?.content, function (index, user) {
                     const $view = '' +
-                        '<a th:href="/Vilki_Palki_Admin/users/user-details/' + user?.id + '" class="btn pb-0 pt-0 btn-secondary">Details</a>';
+                        '<a th:href="/Vilki_Palki_Admin/users/user-details/' + user?.id + '" class="btn pb-0 pt-0 btn-secondary nav-link">Details</a>';
                     $(TABLE_BODY).append(
                         '<tr>' +
                         '    <td>' + ((index + 1) + (userRequest.pageIndex * usersResponse?.size)) + '</td>' +
