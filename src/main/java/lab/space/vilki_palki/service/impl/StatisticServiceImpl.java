@@ -23,6 +23,7 @@ public class StatisticServiceImpl implements StatisticService {
     private final UserService userService;
     private final ProductCategoryService productCategoryService;
     private final StructureCategoryService structureCategoryService;
+    private final OrderService orderService;
 
     @Override
     public List<ProductResponse> getAllProducts() {
@@ -69,5 +70,25 @@ public class StatisticServiceImpl implements StatisticService {
             month.add(count);
         }
         return month;
+    }
+
+    @Override
+    public Integer getCountByOrdersWithDoneStatus() {
+        return orderService.getCountByOrdersWithDoneStatus();
+    }
+
+    @Override
+    public Integer getCountByOrdersWithCanceledStatus() {
+        return orderService.getCountByOrdersWithCanceledStatus();
+    }
+
+    @Override
+    public List<Integer> getCountByOrdersWithDoneStatusByMonth() {
+        return orderService.getCountByOrdersWithDoneStatusByMonth();
+    }
+
+    @Override
+    public List<Long> getTotalPriceByOrdersWithDoneStatusByMonth() {
+        return orderService.getTotalPriceByOrdersWithDoneStatusByMonth();
     }
 }

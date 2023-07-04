@@ -12,6 +12,8 @@ public interface OrderService {
 
     Order getOrderById(Long id);
 
+    List<Order> getAllOrders(OrderRequest request);
+
     OrderResponseByPage getOrdersByPageByUserId(OrderRequest orderRequest);
 
     List<OrderResponse> findAllOrdersByUserIdByOrderByCreateAt(Long id);
@@ -23,5 +25,10 @@ public interface OrderService {
     Page<OrderResponse> getCompletedOrders(OrderRequest orderRequest);
 
     Page<OrderResponse> getActiveOrders(OrderRequest orderRequest);
+
+    Integer getCountByOrdersWithDoneStatus();
+    Integer getCountByOrdersWithCanceledStatus();
+    List<Integer> getCountByOrdersWithDoneStatusByMonth();
+    List<Long> getTotalPriceByOrdersWithDoneStatusByMonth();
 
 }

@@ -22,6 +22,10 @@ public class StatisticsController {
         model.addAttribute("numberOfStructureCategories", statisticService.getCountOfStructureCategories());
         model.addAttribute("numberOfProductCategories", statisticService.getCountOfProductCategories());
         model.addAttribute("birthMonthData", statisticService.getAllBirthMonth());
+        model.addAttribute("countByOrdersWithDoneStatus", statisticService.getCountByOrdersWithDoneStatus());
+        model.addAttribute("countByOrdersWithCanceledStatus", statisticService.getCountByOrdersWithCanceledStatus());
+        model.addAttribute("countByOrdersWithDoneStatusByMonth", statisticService.getCountByOrdersWithDoneStatusByMonth());
+        model.addAttribute("totalPriceByOrdersWithDoneStatusByMonth", statisticService.getTotalPriceByOrdersWithDoneStatusByMonth());
         return "/admin-panel/pages/statistic/statistics";
     }
 }

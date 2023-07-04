@@ -20,4 +20,9 @@ public interface StatisticService {
     Integer getCountOfStructureCategories();
 
     List<Integer> getAllBirthMonth();
+
+    Integer getCountByOrdersWithDoneStatus();
+    Integer getCountByOrdersWithCanceledStatus();
+    List<Integer> getCountByOrdersWithDoneStatusByMonth();
+    List<Long> getTotalPriceByOrdersWithDoneStatusByMonth();
 }
