@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -42,13 +43,15 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Page<OrderResponse> getCompletedOrders(OrderRequest orderRequest) {
-        return orderRepository.findAllByCompletedDeliveryStatus(orderSpecification.getOrdersByRequest(orderRequest),
+        orderRequest.setDeliveryStatus(Order.DeliveryStatus.CANCELED);
+        return orderRepository.findAll(orderSpecification.getOrdersByRequest(orderRequest),
                 PageRequest.of(orderRequest.getPageIndex(), DEFAULT_PAGE_SIZE)).map(OrderMapper::toSimplifiedDto);
     }
 
     @Override
     public Page<OrderResponse> getActiveOrders(OrderRequest orderRequest) {
-        return orderRepository.findAllByActiveDeliveryStatus(orderSpecification.getOrdersByRequest(orderRequest),
+        orderRequest.setDeliveryStatus(Order.DeliveryStatus.ACCEPT);
+        return orderRepository.findAll(orderSpecification.getOrdersByRequest(orderRequest),
                 PageRequest.of(orderRequest.getPageIndex(), DEFAULT_PAGE_SIZE)).map(OrderMapper::toSimplifiedDto);
     }
 

@@ -1,11 +1,11 @@
 package lab.space.vilki_palki.service.impl;
 
-import javax.persistence.criteria.Predicate;
 import lab.space.vilki_palki.entity.Order;
 import lab.space.vilki_palki.model.order.OrderRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -25,6 +25,23 @@ public class OrderSpecification {
                         criteriaBuilder.like(criteriaBuilder.lower(root.get("address")), "%" + request.getQuery().toLowerCase() + "%")
                 ));
             }
+
+            if (nonNull(request.getDeliveryStatus())) {
+                if ((request.getDeliveryStatus().name().equalsIgnoreCase("ACCEPT"))
+                        || (request.getDeliveryStatus().name().equalsIgnoreCase("ON_WAY"))
+                        || (request.getDeliveryStatus().name().equalsIgnoreCase("IN_PROCESS"))) {
+                    predicates.add(criteriaBuilder.or(
+                            criteriaBuilder.equal(criteriaBuilder.lower(root.get("deliveryStatus")), Order.DeliveryStatus.ACCEPT),
+                            criteriaBuilder.equal(criteriaBuilder.lower(root.get("deliveryStatus")), Order.DeliveryStatus.ON_WAY),
+                            criteriaBuilder.equal(criteriaBuilder.lower(root.get("deliveryStatus")), Order.DeliveryStatus.IN_PROCESS)
+                    ));
+                } else {
+                    predicates.add(criteriaBuilder.or(
+                            criteriaBuilder.equal(criteriaBuilder.lower(root.get("deliveryStatus")), Order.DeliveryStatus.CANCELED),
+                            criteriaBuilder.equal(criteriaBuilder.lower(root.get("deliveryStatus")), Order.DeliveryStatus.DONE)
+                    ));
+                }
+            }
             if (nonNull(request.getUserId())) {
                 predicates.add(criteriaBuilder.equal(root.get("user").get("id"), request.getUserId()));
             }
@@ -32,4 +49,5 @@ public class OrderSpecification {
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
     }
+
 }

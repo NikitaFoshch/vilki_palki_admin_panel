@@ -156,9 +156,6 @@
                 url: '/Vilki_Palki_Admin/orders/get-active-orders-by-request',
                 contentType: 'application/json',
                 data: JSON.stringify(orderActiveRequest),
-                beforeSend : function () {
-                    console.log(orderActiveRequest);
-                }
             }).done(function (orderResponse) {
                 const TABLE_BODY = createTable('#active-orders', orderResponse?.totalElements, orderResponse?.totalPages, orderActiveRequest?.pageIndex);
                 $.each(orderResponse?.content, function (index, order) {

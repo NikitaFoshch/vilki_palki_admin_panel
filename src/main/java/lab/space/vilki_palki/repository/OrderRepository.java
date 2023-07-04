@@ -14,9 +14,9 @@ import java.util.List;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long>, JpaSpecificationExecutor<Order> {
     List<Order> findAllByUserIdOrderByCreateAt(Long id);
-    @Query("FROM Order o WHERE o.deliveryStatus IN ('ACCEPT', 'ON_WAY', 'IN_PROCESS')")
-    Page<Order> findAllByActiveDeliveryStatus(Specification<Order> specification, Pageable pageable);
+//    @Query("FROM Order o WHERE o.deliveryStatus IN ('ACCEPT', 'ON_WAY', 'IN_PROCESS')")
+//    Page<Order> findAllByActiveDeliveryStatus(Specification<Order> specification, Pageable pageable);
 
-    @Query("FROM Order o WHERE o.deliveryStatus IN ('DONE', 'CANCELED')")
-    Page<Order> findAllByCompletedDeliveryStatus(Specification<Order> specification, Pageable pageable);
+//    @Query("FROM Order o WHERE o.deliveryStatus IN ('DONE', 'CANCELED')")
+//    Page<Order> findAllByCompletedDeliveryStatus(Specification<Order> specification, Pageable pageable);
 }
