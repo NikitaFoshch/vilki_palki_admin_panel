@@ -67,7 +67,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-6">
             <div class="card card-warning card-outline">
                 <div class="card-header">
                     <h3 class="card-title">
@@ -84,7 +84,28 @@
                 <div class="card-body">
                     <div th:if="${numberOfStructureCategories==0&&numberOfProductCategories==0}" class="text-center"><h1>Недостаточно информации о
                         категориях</h1></div>
-                    <div th:if="${numberOfUsers!=0}" id="donut-chart" style="height: 300px;"></div>
+                    <div th:if="${numberOfStructureCategories!=0||numberOfProductCategories!=0}" id="donut-chart" style="height: 300px;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card card-warning card-outline">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="far fa-chart-bar"></i>
+                        Category
+                    </h3>
+
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div th:if="${numberOfStructureCategories==0&&numberOfProductCategories==0}" class="text-center"><h1>Недостаточно информации о
+                        категориях</h1></div>
+                    <div th:if="${numberOfStructureCategories!=0||numberOfProductCategories!=0}" id="donut-chart1" style="height: 300px;"></div>
                 </div>
             </div>
         </div>
@@ -108,6 +129,29 @@
                     <div th:if="${numberOfUsers==0}" class="text-center"><h1>Недостаточно информации о
                         пользователях</h1></div>
                     <div th:if="${numberOfUsers!=0}" id="bar-chart" style="height: 300px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card-warning card-outline">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="far fa-chart-bar"></i>
+                        Birthday Bar Chart
+                    </h3>
+
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div th:if="${numberOfUsers==0}" class="text-center"><h1>Недостаточно информации о
+                        пользователях</h1></div>
+                    <div th:if="${numberOfUsers!=0}" id="bar-chart1" style="height: 300px;"></div>
                 </div>
             </div>
         </div>
