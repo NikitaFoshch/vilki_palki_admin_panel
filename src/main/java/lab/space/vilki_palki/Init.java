@@ -81,7 +81,7 @@ public class Init implements CommandLineRunner {
             for (int i = 0; i < 3; i++) {
                 orderRepository.save(
                         new Order()
-                                .setOrderCode(String.valueOf((Math.random() * (999999 - 100000))))
+                                .setOrderCode(String.valueOf((int)(Math.random() * (999999 - 100000))))
                                 .setPrice(BigDecimal.valueOf((Math.random() * (9999 - 1000))))
                                 .setDeliveryStatus(Order.DeliveryStatus.CANCELED)
                                 .setDeliveryTime(Instant.now().minusSeconds(60 * 60 * 24 * 332))
@@ -97,7 +97,7 @@ public class Init implements CommandLineRunner {
                 );
                 orderRepository.save(
                         new Order()
-                                .setOrderCode(String.valueOf((Math.random() * (999999 - 100000))))
+                                .setOrderCode(String.valueOf((int)(Math.random() * (999999 - 100000))))
                                 .setPrice(BigDecimal.valueOf((Math.random() * (9999 - 1000))))
                                 .setDeliveryStatus(Order.DeliveryStatus.DONE)
                                 .setDeliveryTime(Instant.now().minusSeconds(60 * 60 * 24 * 300))
@@ -113,7 +113,7 @@ public class Init implements CommandLineRunner {
                 );
                 orderRepository.save(
                         new Order()
-                                .setOrderCode(String.valueOf((Math.random() * (999999 - 100000))))
+                                .setOrderCode(String.valueOf((int)(Math.random() * (999999 - 100000))))
                                 .setPrice(BigDecimal.valueOf((Math.random() * (9999 - 1000))))
                                 .setDeliveryStatus(Order.DeliveryStatus.DONE)
                                 .setDeliveryTime(Instant.now().minusSeconds(60 * 60 * 24 * 269))
@@ -129,7 +129,7 @@ public class Init implements CommandLineRunner {
                 );
                 orderRepository.save(
                         new Order()
-                                .setOrderCode(String.valueOf((Math.random() * (999999 - 100000))))
+                                .setOrderCode(String.valueOf((int)(Math.random() * (999999 - 100000))))
                                 .setPrice(BigDecimal.valueOf((Math.random() * (9999 - 1000))))
                                 .setDeliveryStatus(Order.DeliveryStatus.DONE)
                                 .setDeliveryTime(Instant.now().minusSeconds(60 * 60 * 24 * 238))
@@ -145,7 +145,7 @@ public class Init implements CommandLineRunner {
                 );
                 orderRepository.save(
                         new Order()
-                                .setOrderCode(String.valueOf((Math.random() * (999999 - 100000))))
+                                .setOrderCode(String.valueOf((int)(Math.random() * (999999 - 100000))))
                                 .setPrice(BigDecimal.valueOf((Math.random() * (9999 - 1000))))
                                 .setDeliveryStatus(Order.DeliveryStatus.CANCELED)
                                 .setDeliveryTime(Instant.now().minusSeconds(60 * 60 * 24 * 200))
@@ -161,7 +161,7 @@ public class Init implements CommandLineRunner {
                 );
                 orderRepository.save(
                         new Order()
-                                .setOrderCode(String.valueOf((Math.random() * (999999 - 100000))))
+                                .setOrderCode(String.valueOf((int)(Math.random() * (999999 - 100000))))
                                 .setPrice(BigDecimal.valueOf((Math.random() * (9999 - 1000))))
                                 .setDeliveryStatus(Order.DeliveryStatus.CANCELED)
                                 .setDeliveryTime(Instant.now().minusSeconds(60 * 60 * 24 * 168))
@@ -177,7 +177,7 @@ public class Init implements CommandLineRunner {
                 );
                 orderRepository.save(
                         new Order()
-                                .setOrderCode(String.valueOf((Math.random() * (999999 - 100000))))
+                                .setOrderCode(String.valueOf((int)(Math.random() * (999999 - 100000))))
                                 .setPrice(BigDecimal.valueOf((Math.random() * (9999 - 1000))))
                                 .setDeliveryStatus(Order.DeliveryStatus.CANCELED)
                                 .setDeliveryTime(Instant.now().minusSeconds(60 * 60 * 24 * 135))
@@ -193,7 +193,7 @@ public class Init implements CommandLineRunner {
                 );
                 orderRepository.save(
                         new Order()
-                                .setOrderCode(String.valueOf((Math.random() * (999999 - 100000))))
+                                .setOrderCode(String.valueOf((int)(Math.random() * (999999 - 100000))))
                                 .setPrice(BigDecimal.valueOf((Math.random() * (9999 - 1000))))
                                 .setDeliveryStatus(Order.DeliveryStatus.CANCELED)
                                 .setDeliveryTime(Instant.now().minusSeconds(60 * 60 * 24 * 100))
@@ -209,7 +209,7 @@ public class Init implements CommandLineRunner {
                 );
                 orderRepository.save(
                         new Order()
-                                .setOrderCode(String.valueOf((Math.random() * (999999 - 100000))))
+                                .setOrderCode(String.valueOf((int)(Math.random() * (999999 - 100000))))
                                 .setPrice(BigDecimal.valueOf((Math.random() * (9999 - 1000))))
                                 .setDeliveryStatus(Order.DeliveryStatus.DONE)
                                 .setDeliveryTime(Instant.now().minusSeconds(60 * 60 * 24 * 70))
@@ -225,7 +225,7 @@ public class Init implements CommandLineRunner {
                 );
                 orderRepository.save(
                         new Order()
-                                .setOrderCode(String.valueOf((Math.random() * (999999 - 100000))))
+                                .setOrderCode(String.valueOf((int)(Math.random() * (999999 - 100000))))
                                 .setPrice(BigDecimal.valueOf((Math.random() * (9999 - 1000))))
                                 .setDeliveryStatus(Order.DeliveryStatus.CANCELED)
                                 .setDeliveryTime(Instant.now().minusSeconds(60 * 60 * 24 * 35))
@@ -241,7 +241,7 @@ public class Init implements CommandLineRunner {
                 );
                 orderRepository.save(
                         new Order()
-                                .setOrderCode(String.valueOf((Math.random() * (999999 - 100000))))
+                                .setOrderCode(String.valueOf((int)(Math.random() * (999999 - 100000))))
                                 .setPrice(BigDecimal.valueOf((Math.random() * (9999 - 1000))))
                                 .setDeliveryStatus(Order.DeliveryStatus.DONE)
                                 .setDeliveryTime(Instant.now().minusSeconds(60 * 60 * 24 * 2))
@@ -257,7 +257,7 @@ public class Init implements CommandLineRunner {
                 );
                 orderRepository.save(
                         new Order()
-                                .setOrderCode(String.valueOf((Math.random() * (999999 - 100000))))
+                                .setOrderCode(String.valueOf((int) (Math.random() * (999999 - 100000))))
                                 .setPrice(BigDecimal.valueOf((Math.random() * (9999 - 1000))))
                                 .setDeliveryStatus(Order.DeliveryStatus.ACCEPT)
                                 .setDeliveryTime(Instant.now().plusSeconds(60 * 60))
@@ -273,7 +273,7 @@ public class Init implements CommandLineRunner {
                 );
                 orderRepository.save(
                         new Order()
-                                .setOrderCode(String.valueOf((Math.random() * (999999 - 100000))))
+                                .setOrderCode(String.valueOf((int)(Math.random() * (999999 - 100000))))
                                 .setPrice(BigDecimal.valueOf((Math.random() * (9999 - 1000))))
                                 .setDeliveryStatus(Order.DeliveryStatus.IN_PROCESS)
                                 .setDeliveryTime(Instant.now().plusSeconds(60 * 40))
@@ -282,14 +282,14 @@ public class Init implements CommandLineRunner {
                                 .setCommon_kit(10)
                                 .setCardPay(true)
                                 .setCashPay(false)
-                                .setProducts("Burger(24),Coca-Cola(4L),Peperoni(5)")
+                                .setProducts("Shawarma(24),Coca-Cola(4L),Elephant(5)")
                                 .setAddress("Odessa, str.Kievskaya 11, ap.15")
                                 .setUser(userRepository.findUserByEmail("bober_777king777@gmail.com"))
 
                 );
                 orderRepository.save(
                         new Order()
-                                .setOrderCode(String.valueOf((Math.random() * (999999 - 100000))))
+                                .setOrderCode(String.valueOf((int)(Math.random() * (999999 - 100000))))
                                 .setPrice(BigDecimal.valueOf((Math.random() * (9999 - 1000))))
                                 .setDeliveryStatus(Order.DeliveryStatus.ON_WAY)
                                 .setDeliveryTime(Instant.now().plusSeconds(60 * 20))
@@ -298,7 +298,7 @@ public class Init implements CommandLineRunner {
                                 .setCommon_kit(10)
                                 .setCardPay(true)
                                 .setCashPay(false)
-                                .setProducts("Burger(24),Coca-Cola(4L),Peperoni(5)")
+                                .setProducts("Lipeshka(24),Sprite(4L),Apple(5)")
                                 .setAddress("Odessa, str.Kievskaya 11, ap.15")
                                 .setUser(userRepository.findUserByEmail("bober_wizard@gmail.com"))
 
