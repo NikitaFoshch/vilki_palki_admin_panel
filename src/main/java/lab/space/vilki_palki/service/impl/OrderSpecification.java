@@ -31,14 +31,14 @@ public class OrderSpecification {
                         || (request.getDeliveryStatus().name().equalsIgnoreCase("ON_WAY"))
                         || (request.getDeliveryStatus().name().equalsIgnoreCase("IN_PROCESS"))) {
                     predicates.add(criteriaBuilder.or(
-                            criteriaBuilder.equal(criteriaBuilder.lower(root.get("deliveryStatus")), Order.DeliveryStatus.ACCEPT),
-                            criteriaBuilder.equal(criteriaBuilder.lower(root.get("deliveryStatus")), Order.DeliveryStatus.ON_WAY),
-                            criteriaBuilder.equal(criteriaBuilder.lower(root.get("deliveryStatus")), Order.DeliveryStatus.IN_PROCESS)
+                            criteriaBuilder.equal(root.get("deliveryStatus"), Order.DeliveryStatus.ACCEPT),
+                            criteriaBuilder.equal(root.get("deliveryStatus"), Order.DeliveryStatus.ON_WAY),
+                            criteriaBuilder.equal(root.get("deliveryStatus"), Order.DeliveryStatus.IN_PROCESS)
                     ));
                 } else {
                     predicates.add(criteriaBuilder.or(
-                            criteriaBuilder.equal(criteriaBuilder.lower(root.get("deliveryStatus")), Order.DeliveryStatus.CANCELED),
-                            criteriaBuilder.equal(criteriaBuilder.lower(root.get("deliveryStatus")), Order.DeliveryStatus.DONE)
+                            criteriaBuilder.equal(root.get("deliveryStatus"), Order.DeliveryStatus.CANCELED),
+                            criteriaBuilder.equal(root.get("deliveryStatus"), Order.DeliveryStatus.DONE)
                     ));
                 }
             }
