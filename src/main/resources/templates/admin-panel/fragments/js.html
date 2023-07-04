@@ -25,6 +25,13 @@
         const TABLE_BODY = $(TABLE_DIV).find('tbody');
         const TABLE_COLUMNS_COUNT = $(TABLE_HEAD).find('th').length;
         const TABLE_PAGINATION_ROW = $(TABLE_DIV).parents('div.card').find('div.card-footer').find('div.row');
+        $(TABLE_PAGINATION_ROW).append(
+            $($(colDiv).addClass('pagination-info').addClass('text-white'))
+                .append('Showing X-Y of entries Z'
+                    .replace('X', ((pageIndex - 1) * 10 + 1))
+                    .replace('Y', Math.min(pageIndex * 10, itemsCount))
+                    .replace('Z', itemsCount))
+        );
         $(TABLE_BODY).empty();
         $(TABLE_PAGINATION_ROW).empty();
         if (itemsCount <= 0) {
@@ -35,32 +42,24 @@
                 '    </td>' +
                 '</tr>'
             );
-        }
-        createPagination(pagesCount, pageIndex, TABLE_PAGINATION_ROW, itemsCount);
+        } else if (pagesCount > 1) createPagination(pagesCount, pageIndex, TABLE_PAGINATION_ROW, itemsCount);
 
         return TABLE_BODY;
     }
 
     function createPagination(pagesCount, pageIndex, TABLE_PAGINATION_ROW, itemsCount) {
         const colDiv = '<div class="col-sm-12 col-md-6"></div>';
-            const paginationList =
-                '<ul class="pagination pagination-sm mb-0 justify-content-center justify-content-md-end align-items-center">' +
-                '</ul>';
-            const collapsedPageBtn =
-                '   <li class="page-item">' +
-                '       <a class="page-link disabled" role="button">...</a>' +
-                '   </li>';
+        const paginationList =
+            '<ul class="pagination pagination-sm mb-0 justify-content-center justify-content-md-end align-items-center">' +
+            '</ul>';
+        const collapsedPageBtn =
+            '   <li class="page-item">' +
+            '       <a class="page-link disabled" role="button">...</a>' +
+            '   </li>';
         pagesCount = Number(pagesCount);
         pageIndex = Number(pageIndex) + 1;
         itemsCount = Number(itemsCount);
 
-        $(TABLE_PAGINATION_ROW).append(
-            $($(colDiv).addClass('pagination-info').addClass('text-white'))
-                .append('Showing X-Y of entries Z'
-                    .replace('X', ((pageIndex - 1) * 10 + 1))
-                    .replace('Y', Math.min(pageIndex * 10, itemsCount))
-                    .replace('Z', itemsCount))
-        );
 
         $(TABLE_PAGINATION_ROW).append($(colDiv).append(paginationList));
         const paginationListPath = $(TABLE_PAGINATION_ROW).find('ul.pagination');
