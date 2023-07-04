@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.Accessors;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -13,6 +14,7 @@ import java.time.Instant;
 @Entity
 @Table(name = "orders")
 @Data
+@Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
 public class Order extends MappedEntity {
     @Column(length = 30, nullable = false)
