@@ -47,11 +47,11 @@ public class Order extends MappedEntity {
     @Getter
     @RequiredArgsConstructor
     public enum DeliveryStatus {
-        IN_PROCESS("Готовиться"),
-        ON_WAY("В пути"),
-        ACCEPT("Принят"),
-        CANCELED("Отменен"),
-        DONE("Исполнен");
+        IN_PROCESS("In process"),
+        ON_WAY("On way"),
+        ACCEPT("Accept"),
+        CANCELED("Canceled"),
+        DONE("Completed");
         private final String value;
     }
 
