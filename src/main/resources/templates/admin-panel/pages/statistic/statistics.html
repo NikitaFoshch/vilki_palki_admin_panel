@@ -71,7 +71,7 @@
             <div class="card card-warning card-outline">
                 <div class="card-header">
                     <h3 class="card-title">
-                        <i class="far fa-chart-bar"></i>
+                        <i class="fa-solid fa-chart-pie"></i>
                         Category
                     </h3>
 
@@ -92,8 +92,8 @@
             <div class="card card-warning card-outline">
                 <div class="card-header">
                     <h3 class="card-title">
-                        <i class="far fa-chart-bar"></i>
-                        Category
+                        <i class="fa-solid fa-chart-pie"></i>
+                        Orders
                     </h3>
 
                     <div class="card-tools">
@@ -111,12 +111,12 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-12">
             <div class="card card-warning card-outline">
                 <div class="card-header">
                     <h3 class="card-title">
-                        <i class="far fa-chart-bar"></i>
-                        Birthday Bar Chart
+                        <i class="fa-solid fa-chart-column"></i>
+                        Completed Orders
                     </h3>
 
                     <div class="card-tools">
@@ -134,12 +134,12 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-12">
             <div class="card card-warning card-outline">
                 <div class="card-header">
                     <h3 class="card-title">
-                        <i class="far fa-chart-bar"></i>
-                        Birthday Bar Chart
+                        <i class="fa-solid fa-chart-column"></i>
+                        Total Price Orders
                     </h3>
 
                     <div class="card-tools">
@@ -208,6 +208,38 @@
                     show: false
                 }
             })
+
+            let donutData1 = [
+                {
+                    label: 'Struct',
+                    data: [[${numberOfStructureCategories}]],
+                    color: '#ffcb3b'
+                },
+                {
+                    label: 'Prod',
+                    data: [[${numberOfProductCategories}]],
+                    color: '#594300'
+                }
+            ];
+            $.plot('#donut-chart1', donutData1, {
+                series: {
+                    pie: {
+                        show: true,
+                        radius: 1,
+                        innerRadius: 0.5,
+                        label: {
+                            show: true,
+                            radius: 2 / 3,
+                            formatter: labelFormatter,
+                            threshold: 0.1
+                        }
+
+                    }
+                },
+                legend: {
+                    show: false
+                }
+            })
             /*
              * END DONUT CHART
              */
@@ -256,6 +288,65 @@
                     tickSize: 1
                 }
             })
+
+            let birthMonthData1 = [[${birthMonthData}]];
+            let data1=[];
+            data.push([1,birthMonthData1.at(0)], [2,birthMonthData1.at(1)],
+                [3,birthMonthData1.at(2)], [4,birthMonthData1.at(3)],
+                [5,birthMonthData1.at(4)], [6,birthMonthData1.at(5)],
+                [7,birthMonthData1.at(6)], [8,birthMonthData1.at(7)],
+                [9,birthMonthData1.at(8)], [10,birthMonthData1.at(9)],
+                [11,birthMonthData1.at(10)], [12,birthMonthData1.at(11)])
+
+            let dataMonth1=[];
+            dataMonth.push([1,'January'], [2,'February'],
+                [3,'March'], [4,'April'],
+                [5,'May'], [6,'June'],
+                [7,'July'], [8,'August'],
+                [9,'September'], [10,'October'],
+                [11,'November'], [12,'December'])
+
+            var bar_data1 = {
+                data : data1,
+                bars: { show: true }
+            }
+            $.plot('#bar-chart1', [bar_data1], {
+                grid  : {
+                    borderWidth: 1,
+                    borderColor: '#f3f3f3',
+                    tickColor  : '#f3f3f3'
+                },
+                series: {
+                    bars: {
+                        show: true, barWidth: 0.5, align: 'center',
+                    },
+                },
+                colors: ['#ffc000'],
+                xaxis : {
+                    ticks: dataMonth1
+                },
+                yaxis : {
+                    tickSize: 1
+                }
+            })
+            /* END BAR CHART */
+        })
+        $(function () {
+            /*
+             * DONUT CHART
+             * -----------
+             */
+
+
+            /*
+             * END DONUT CHART
+             */
+
+            /*
+         * BAR CHART
+         * ---------
+         */
+
             /* END BAR CHART */
         })
 
