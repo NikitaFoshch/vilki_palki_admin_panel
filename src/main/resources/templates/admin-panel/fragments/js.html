@@ -54,13 +54,15 @@
         pageIndex = Number(pageIndex) + 1;
         itemsCount = Number(itemsCount);
 
-        $(TABLE_PAGINATION_ROW).append(
-            $($(colDiv).addClass('pagination-info').addClass('text-white'))
-                .append('Showing X-Y of entries Z'
-                    .replace('X', ((pageIndex - 1) * 10 + 1))
-                    .replace('Y', Math.min(pageIndex * 10, itemsCount))
-                    .replace('Z', itemsCount))
-        );
+        if (itemsCount > 0){
+            $(TABLE_PAGINATION_ROW).append(
+                $($(colDiv).addClass('pagination-info').addClass('text-white'))
+                    .append('Showing X-Y of entries Z'
+                        .replace('X', ((pageIndex - 1) * 10 + 1))
+                        .replace('Y', Math.min(pageIndex * 10, itemsCount))
+                        .replace('Z', itemsCount))
+            );
+        }
 
         $(TABLE_PAGINATION_ROW).append($(colDiv).append(paginationList));
         const paginationListPath = $(TABLE_PAGINATION_ROW).find('ul.pagination');
