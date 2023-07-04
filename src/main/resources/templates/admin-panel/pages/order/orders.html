@@ -262,22 +262,18 @@
 
         });
 
-        $(document).on('change', '#orders-active-table-search', function () {
-            orderActiveRequest.query = $(this).val();
-            orderActiveRequest.pageIndex = 0;
-            getAllActiveOrders();
-        });
-
-        $(document).on('change', '#orders-complete-table-search', function () {
-            orderCompleteRequest.query = $(this).val();
-            orderCompleteRequest.pageIndex = 0;
-            getAllCompleteOrders();
-        });
-
         function filterNameInput(input) {
             clearInterval(filterTimeout)
             filterTimeout = setTimeout(() => {
-                $(input).trigger('change');
+                if ($(input).attr('id') === 'orders-active-table-search') {
+                    orderActiveRequest.query = $(input).val();
+                    orderActiveRequest.pageIndex = 0;
+                    getAllActiveOrders();
+                } else if ($(input).attr('id') === 'orders-complete-table-search') {
+                    orderCompleteRequest.query = $(input).val();
+                    orderCompleteRequest.pageIndex = 0;
+                    getAllCompleteOrders();
+                }
             }, 1000)
         };
 
