@@ -128,9 +128,9 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <div th:if="${countByOrdersWithDoneStatusByMonth.get(3)==0}" class="text-center"><h1>Not enough information
+                    <div th:if="${countByOrdersWithDoneStatusByMonth==0}" class="text-center"><h1>Not enough information
                         about orders</h1></div>
-                    <div th:if="${countByOrdersWithDoneStatusByMonth.get(3)!=0}" id="bar-chart" style="height: 300px;"></div>
+                    <div th:if="${countByOrdersWithDoneStatusByMonth!=0}" id="bar-chart" style="height: 300px;"></div>
                 </div>
             </div>
         </div>
@@ -151,9 +151,9 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <div th:if="${totalPriceByOrdersWithDoneStatusByMonth.get(3)==0}" class="text-center"><h1>Not enough
+                    <div th:if="${totalPriceByOrdersWithDoneStatusByMonth==0}" class="text-center"><h1>Not enough
                         information about orders</h1></div>
-                    <div th:if="${totalPriceByOrdersWithDoneStatusByMonth.get(3)!=0}" id="bar-chart1"
+                    <div th:if="${totalPriceByOrdersWithDoneStatusByMonth!=0}" id="bar-chart1"
                          style="height: 1000px;"></div>
                 </div>
             </div>
