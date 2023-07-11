@@ -6,15 +6,15 @@
 
 <head>
     <title layout:title-pattern="$LAYOUT_TITLE | $CONTENT_TITLE">Vilki-Palki</title>
-    <th:block th:insert="~{admin-panel/fragments/head}"></th:block>
+    <th:block th:insert="~{/admin-panel/fragments/head}"></th:block>
 </head>
 
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
 
-    <th:block th:replace="~{admin-panel/fragments/navbar}"></th:block>
+    <th:block th:replace="~{/admin-panel/fragments/navbar}"></th:block>
 
-    <th:block th:replace="~{admin-panel/fragments/sidebar}"></th:block>
+    <th:block th:replace="~{/admin-panel/fragments/sidebar}"></th:block>
 
     <div class="content-wrapper">
         <div class="content">
@@ -26,13 +26,13 @@
 </div>
 
 <!-- Logout Modal -->
-<th:block th:replace="~{admin-panel/fragments/logout-modal}"></th:block>
+<th:block th:replace="~{/admin-panel/fragments/logout-modal}"></th:block>
 
 <!-- Extra Modals -->
 <th:block layout:fragment="extra-modals"></th:block>
 
 <!-- Common JS -->
-<th:block th:replace="~{admin-panel/fragments/js}"></th:block>
+<th:block th:replace="~{/admin-panel/fragments/js}"></th:block>
 
 <!-- Extra JS-->
 <th:block layout:fragment="extra-js"></th:block>
