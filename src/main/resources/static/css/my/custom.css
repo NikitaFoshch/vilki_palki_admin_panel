@@ -41,7 +41,7 @@ a.nav-link:active{
     overflow: hidden;
 }
 .img-size {
-    min-width: 100%;
-    min-height: 100%;
-    flex-shrink: 0;
+    width: auto;
+    height: 100%;
+    margin: -60px 0 0 -240px;
 }
