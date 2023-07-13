@@ -39,6 +39,9 @@ a.nav-link:active{
  }
 .exmpl-img {
     overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .img-size {
     width: auto;
