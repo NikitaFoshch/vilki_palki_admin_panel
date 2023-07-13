@@ -138,12 +138,12 @@
                 $.each(productsResponse, function (index, product) {
                     const image = product?.image ? '/Vilki_Palki_Admin/files/' + product?.image : '/img/no-image.jpg';
                     $('#product-blocks').append(
-                        '<div class="col-md-3 col-form-label">' +
+                        '<div class="col-3 col-form-label">' +
                         '    <a class="delete " type="button"' +
                         ' data-id="' + product?.id + '" data-toggle="modal" data-target="#delete-product"><i class="fa-regular fa-circle-xmark fa-xl"></i></a>' +
                         '    <a type="button" onclick="editActionButton(' + product?.id + ')" >' +
                         '       <div class="row">' +
-                        '           <div class="col-md-12 text-center pr-4 pl-4">' +
+                        '           <div class="col-12 text-center pr-4 pl-4">' +
                         '               <img src="' + image + '" class="wrapper-img exmpl-img img-size"  alt="Product Image">' +
                         '           </div>' +
                         '       </div>' +
