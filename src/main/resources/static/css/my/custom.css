@@ -43,7 +43,7 @@ a.nav-link:active{
     justify-content: center;
     align-items: center;
 }
-.img-size {
+.exmpl-img img {
     min-width: 100%;
     min-height: 100%;
     flex-shrink: 0;
