@@ -84,7 +84,6 @@
                             <th>Status</th>
                             <th>Address</th>
                             <th>Total price, UAH</th>
-                            <th style="width: 100px">Actions</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -177,7 +176,6 @@
                         '    <td>' + (order?.deliveryStatus ? order?.deliveryStatus : '-') + '</td>' +
                         '    <td>' + (order?.address ? order?.address : '-') + '</td>' +
                         '    <td>' + (order?.price ? order?.price : '-') + '</td>' +
-                        '    <td>' + $delete + '</td>' +
                         '</tr>'
                     );
                 });

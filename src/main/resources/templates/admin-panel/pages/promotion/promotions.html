@@ -123,7 +123,7 @@
                 $.each(promotionsResponse, function (index, promotion) {
                     const image = promotion?.image ? '/files/' + promotion?.image : '/img/no-image.jpg';
                     $('#promotion-blocks').append(
-                        '<div class="col-md-3 col-form-label">' +
+                        '<div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 col-form-label">' +
                         '    <a class="delete " type="button"' +
                         ' data-id="' + promotion?.id + '" data-toggle="modal" data-target="#delete-promotion"><i class="fa-regular fa-circle-xmark fa-xl"></i></a>' +
                         '    <a type="button" onclick="editActionButton(' + promotion?.id + ')" >' +
