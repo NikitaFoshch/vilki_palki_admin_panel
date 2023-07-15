@@ -17,11 +17,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.domain.Sort;
 import org.springframework.mock.web.MockMultipartFile;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
@@ -46,11 +49,34 @@ class ProductServiceImplTest {
     private ProductServiceImpl productService;
 
     @Test
-    void getAllProductsSimpleDtoWithImageByOrderByCreateAt() {
+    void testGetAllProductsSimpleDtoWithImageByOrderByCreateAt_ReturnsProductResponsesOrderedByCreateAt() {
+        List<Product> products = Arrays.asList(new Product(), new Product(), new Product());
+
+        List<ProductResponse> expectedResponses = products.stream()
+                .map(productMapper::toSimpleDtoWithImage)
+                .collect(Collectors.toList());
+
+
+        when(productRepository.findAll(Sort.by(Sort.Direction.DESC, "createAt"))).thenReturn(products);
+
+        List<ProductResponse> result = productService.getAllProductsSimpleDtoWithImageByOrderByCreateAt();
+
+        assertEquals(expectedResponses, result);
     }
 
     @Test
-    void getAllProductsSimpleDtoByOrderByName() {
+    void testGetAllProductsSimpleDtoByOrderByName_ReturnsProductResponsesOrderedByName() {
+        List<Product> products = Arrays.asList(new Product(), new Product(), new Product());
+
+        List<ProductResponse> expectedResponses = products.stream()
+                .map(productMapper::toSimpleDto)
+                .collect(Collectors.toList());
+
+        when(productRepository.findAll(Sort.by(Sort.Direction.DESC, "name"))).thenReturn(products);
+
+        List<ProductResponse> result = productService.getAllProductsSimpleDtoByOrderByName();
+
+        assertEquals(expectedResponses, result);
     }
 
     @Test

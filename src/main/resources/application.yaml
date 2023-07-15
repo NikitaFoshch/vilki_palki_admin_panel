@@ -21,7 +21,9 @@ spring:
       mail.smtp.starttls.enable: true
       mail.smtp.starttls.required: true
     protocol: smtp
-
+  thymeleaf:
+    prefix: classpath:/templates
+    suffix: .html
   jpa:
     hibernate:
       ddl-auto: update
@@ -32,14 +34,14 @@ spring:
       max-file-size: 20MB
       max-request-size: 50MB
 
-logging:
-  file:
-    name: /home/avada/web/slj.avada-media-dev1.od.ua/slj/vp/admin.log
-  level:
-    org:
-      hibernate: info
-      springframework: info
-    root: info
-  logback:
-    rollingpolicy:
-      max-file-size: 10MB
+#logging:
+#  file:
+#    name: /home/avada/web/slj.avada-media-dev1.od.ua/slj/vp/admin.log
+#  level:
+#    org:
+#      hibernate: info
+#      springframework: info
+#    root: info
+#  logback:
+#    rollingpolicy:
+#      max-file-size: 10MB
