@@ -172,7 +172,7 @@
                 const errors = response.responseJSON;
                 if (errors.name) errorMessage($('#name'), errors.name)
                 if (errors.percent) errorMessage($('#percent'), errors.percent)
-                if (errors.productId) errorMessage($('#product'), errors.productId)
+                if (errors.productId) errorMessage($('#product'), errors.productId, 'div.form-group')
                 if (errors.image) errorMessage($('#image'), errors.image)
             })
         }
