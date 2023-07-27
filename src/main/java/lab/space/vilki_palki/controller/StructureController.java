@@ -1,6 +1,6 @@
 package lab.space.vilki_palki.controller;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import lab.space.vilki_palki.model.structure.StructureRequest;
 import lab.space.vilki_palki.model.structure.StructureResponse;
 import lab.space.vilki_palki.model.structure.StructureSaveRequest;

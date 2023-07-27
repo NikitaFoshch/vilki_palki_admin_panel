@@ -3,8 +3,8 @@ package lab.space.vilki_palki.model.product_category;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Data
 public class ProductCategoryUpdateRequest {

@@ -1,6 +1,6 @@
 package lab.space.vilki_palki.model.promotion;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;

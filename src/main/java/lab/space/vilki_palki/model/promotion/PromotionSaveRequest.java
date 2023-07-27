@@ -3,7 +3,7 @@ package lab.space.vilki_palki.model.promotion;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.constraints.*;
+import jakarta.validation.constraints.*;
 
 @Data
 public class PromotionSaveRequest {

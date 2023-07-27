@@ -1,6 +1,6 @@
 package lab.space.vilki_palki.entity;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 import lab.space.vilki_palki.entity.common.MappedEntity;
 import lombok.Data;

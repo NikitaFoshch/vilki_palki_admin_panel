@@ -1,6 +1,6 @@
 package lab.space.vilki_palki.controller;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import lab.space.vilki_palki.model.product.ProductResponse;
 import lab.space.vilki_palki.model.promotion.PromotionResponse;
 import lab.space.vilki_palki.model.promotion.PromotionSaveRequest;

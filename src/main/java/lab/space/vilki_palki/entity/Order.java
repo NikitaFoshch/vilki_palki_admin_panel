@@ -1,6 +1,6 @@
 package lab.space.vilki_palki.entity;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import lab.space.vilki_palki.entity.common.MappedEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -23,6 +23,7 @@ public class Order extends MappedEntity {
     @Column(nullable = false)
     private BigDecimal price;
     @Enumerated(EnumType.STRING)
+    
     private DeliveryStatus deliveryStatus;
     @Column(nullable = false)
     private Instant deliveryTime;

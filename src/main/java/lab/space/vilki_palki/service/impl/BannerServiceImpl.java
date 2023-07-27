@@ -1,6 +1,6 @@
 package lab.space.vilki_palki.service.impl;
 
-import javax.persistence.EntityNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import lab.space.vilki_palki.entity.Banner;
 import lab.space.vilki_palki.mapper.BannerMapper;
 import lab.space.vilki_palki.model.banner.BannerResponse;

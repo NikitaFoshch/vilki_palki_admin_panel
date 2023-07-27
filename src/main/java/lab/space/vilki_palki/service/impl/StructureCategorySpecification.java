@@ -1,6 +1,6 @@
 package lab.space.vilki_palki.service.impl;
 
-import javax.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Predicate;
 import lab.space.vilki_palki.entity.StructureCategory;
 import lab.space.vilki_palki.model.structure_category.StructureCategoryRequest;
 import org.springframework.data.jpa.domain.Specification;
