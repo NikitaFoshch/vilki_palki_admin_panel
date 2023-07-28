@@ -11,7 +11,7 @@ public class ResourceHandlersConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/files/**")
-                .addResourceLocations("file:///" + Paths.get("home/avada/web/slj.avada-media-dev1.od.ua/slj/vp/files").toFile().getAbsolutePath() + "/");
+                .addResourceLocations("file:///" + Paths.get("home/avada/web/slj.avada-media-dev1.od.ua/projects/vp/files").toFile().getAbsolutePath() + "/");
         registry.addResourceHandler("/static/**")
                 .addResourceLocations("classpath:/static/");
     }
