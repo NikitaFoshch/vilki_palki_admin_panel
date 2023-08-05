@@ -38,21 +38,21 @@ public class Init implements CommandLineRunner {
             adminRepository.save(
                     new Admin()
                             .setEmail("admin@gmail.com")
-                            .setPassword("$2a$12$75IrwcjJ19FF4XxE7P2mROGRME9LFsRax.muaQN7IafZ1m4/dcknO")
+                            .setPassword("$2a$12$ltMYSFmijVGzBuDXVxVRh.s2Z82aVhyuW4X1Jm9QP.tq0JAPys30K")
                             .setFirstname("Admin")
                             .setLastname("Adminto")
             );
             adminRepository.save(
                     new Admin()
                             .setEmail("admin1@gmail.com")
-                            .setPassword("$2a$12$75IrwcjJ19FF4XxE7P2mROGRME9LFsRax.muaQN7IafZ1m4/dcknO")
+                            .setPassword("$2a$12$ltMYSFmijVGzBuDXVxVRh.s2Z82aVhyuW4X1Jm9QP.tq0JAPys30K")
                             .setFirstname("Admin1")
                             .setLastname("Adminto1")
             );
             adminRepository.save(
                     new Admin()
                             .setEmail("admin2@gmail.com")
-                            .setPassword("$2a$12$75IrwcjJ19FF4XxE7P2mROGRME9LFsRax.muaQN7IafZ1m4/dcknO")
+                            .setPassword("$2a$12$ltMYSFmijVGzBuDXVxVRh.s2Z82aVhyuW4X1Jm9QP.tq0JAPys30K")
                             .setFirstname("Admin2")
                             .setLastname("Adminto2")
             );
