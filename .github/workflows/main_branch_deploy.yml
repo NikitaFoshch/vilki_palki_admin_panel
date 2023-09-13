@@ -27,8 +27,8 @@ jobs:
 
       - name: Step 4 - Deploy
         env:
-          LOGIN: ${{ secrets.TOMCAT_USERNAME }}
-          PASSWORD: ${{ secrets.TOMCAT_PASSWORD }}
+          LOGIN: robot
+          PASSWORD: K4QU@mJ!djX4D8X2
 
         run: |
           cd target
